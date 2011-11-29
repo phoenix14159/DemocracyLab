@@ -162,6 +162,7 @@ if ($token) {
     </header>
     <section id="get-started">
       <p>Welcome to your Facebook app, running on <span>heroku</span>!</p>
+	<p>This is my app, I can edit it.</p>
       <a href="http://devcenter.heroku.com/articles/facebook" class="button">Learn How to Edit This App</a>
     </section>
 
