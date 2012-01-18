@@ -89,7 +89,7 @@ class FBUtils {
         $httponly = true); 
       // Now form the login URL that you will use to authorize your app
       $authorize_url = "https://www.facebook.com/dialog/oauth?client_id=$app_id" .
-      "&redirect_uri=$redirect&state=" . $state . "&scope=$scope";
+      "&redirect_uri=$home&state=" . $state . "&scope=$scope";
       // Now we redirect the user to the login page
       echo("<script> top.location.href='" . $authorize_url . "'</script>");
       return false;
@@ -98,7 +98,7 @@ class FBUtils {
     } else if ($_REQUEST['state'] === $_COOKIE[AppInfo::appID() . '-fb-app']) {
       $ch = curl_init("https://graph.facebook.com/oauth/access_token");
       curl_setopt($ch, CURLOPT_POSTFIELDS,
-        "client_id=$app_id&redirect_uri=$redirect&client_secret=$app_secret" .
+        "client_id=$app_id&redirect_uri=$home&client_secret=$app_secret" .
         "&code=$code&scope=$scope");
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
