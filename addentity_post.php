@@ -30,5 +30,5 @@ $jdata = json_decode($data,true);
 
 //header('Location: http://local.democracylab.com/');
 //header("Location: https://morning-ocean-5589.herokuapp.com/?state={$_REQUEST['state']}&code={$_REQUEST['code']}");
-header("Location: " . ($_SERVER['HTTPS'] ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/entities.php?type={$_REQUEST['type']}&state={$_REQUEST['state']}&code={$_REQUEST['code']}")
+header("Location: " . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/entities.php?type={$_REQUEST['type']}&state={$_REQUEST['state']}&code={$_REQUEST['code']}")
 ?>
