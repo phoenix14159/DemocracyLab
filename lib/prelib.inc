@@ -18,6 +18,9 @@
  *		type is optional
  * dl_facebook_redirect_url($page,$type=0)
  *		return the full FB url for this page, including http: or https:
+ * dl_typestring($type,$idx=0)
+ *		return (singular lowercase, singular uppercase, capitalized lc, capitalized uc)
+ *		or, with $idx, the single string
  * 
  */
 // Enforce https on production
@@ -26,6 +29,22 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
   exit();
 }
 
+function dl_typestring($type,$idx=0) {
+	if($type == 1) {
+		$ar = array('lcs'=>'value','ucs'=>'Value','lcp'=>'values','ucp'=>'Values');
+	} else if($type == 2) {
+		$ar = array('lcs'=>'objective','ucs'=>'Objective','lcp'=>'objectives','ucp'=>'Objectives');
+	} else if($type == 3) {
+		$ar = array('lcs'=>'policy','ucs'=>'Policy','lcp'=>'policies','ucp'=>'Policies');
+	} else {
+		$ar = array('lcs'=>'?','ucs'=>'?','lcp'=>'?','ucp'=>'?');
+	}
+	if($idx) {
+		return $ar[$idx];
+	} else {
+		return $ar;
+	}
+}
 function dl_facebook_url($page,$type=0) {
 	if($type) {
 		return $page . "?type={$type}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";

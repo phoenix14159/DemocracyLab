@@ -3,19 +3,6 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
 $type = $_REQUEST['type'];
-$typestrings = '';
-if($type == 1) {
-	$typestrings = 'Values';
-	$typestring = 'Value';
-}
-if($type == 2) {
-	$typestrings = 'Objectives';
-	$typestring = 'Objective';
-}
-if($type == 3) {
-	$typestrings = 'Policies';
-	$typestring = 'Policy';
-}
 
 ?>
 <!DOCTYPE html>
@@ -51,19 +38,19 @@ if($type == 3) {
       <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
 
       <div>
-        <h1>Add <?= $typestring ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
+        <h1>Add <?= dl_typestring($type,'ucs') ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
       </div>
    </header>
 
     <section class="clearfix">
-	<a href="<?= dl_facebook_url('entities.php',$type) ?>">back to <?= $typestrings ?></a>
+	<a href="<?= dl_facebook_url('entities.php',$type) ?>">back to <?= dl_typestring($type,'ucp') ?></a>
 	
 	<form method="POST" action="addentity_post.php">
 		<input type="hidden" name="type" value="<?= $type ?>">
 		<?= dl_facebook_form_fields() ?>
 		Name: <input name="name"><br>
 		Description: <input name="description"><br>
-		<input type="submit" value="Add <?= $typestring ?>">
+		<input type="submit" value="Add <?= dl_typestring($type,'ucs') ?>">
 	</form>
 	
     </section>

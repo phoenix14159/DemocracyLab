@@ -3,19 +3,7 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
 $type = $_REQUEST['type'];
-$typestrings = '';
-if($type == 1) {
-	$typestrings = 'Values';
-	$typestring = 'Value';
-}
-if($type == 2) {
-	$typestrings = 'Objectives';
-	$typestring = 'Objective';
-}
-if($type == 3) {
-	$typestrings = 'Policies';
-	$typestring = 'Policy';
-}
+
 $postdata = http_build_query(
     array(
         'type' => $type,
@@ -71,7 +59,7 @@ if(!isset($jdata['ok'])) {
       <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
 
       <div>
-        <h1><?= $typestrings ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
+        <h1><?= dl_typestring($type,'ucp') ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
       </div>
    </header>
 
@@ -93,7 +81,7 @@ if(!isset($jdata['ok'])) {
 	<input type="submit" value="Change Rankings">
 	</form>
 
-	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">add <?= $typestring ?></a>
+	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">add <?= dl_typestring($type,'ucs') ?></a>
     </section>
     <section id="guides" class="clearfix">
 	</section>

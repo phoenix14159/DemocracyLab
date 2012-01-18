@@ -1,5 +1,4 @@
 _____IN_ORDER_____
-- type string function instead of hard-coded
 - change to using FB userid instead of name
 - basic page layout
 - use page layout and add text for home
