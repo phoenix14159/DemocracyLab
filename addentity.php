@@ -56,15 +56,16 @@ if($type == 3) {
    </header>
 
     <section class="clearfix">
-	<a href="entities.php?type=<?= $type ?>&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">back to <?= $typestrings ?></a>
+	<a href="<?= dl_facebook_url('entities.php',$type) ?>">back to <?= $typestrings ?></a>
+	
 	<form method="POST" action="addentity_post.php">
 		<input type="hidden" name="type" value="<?= $type ?>">
-		<input type="hidden" name="state" value="<?= $_REQUEST['state'] ?>">
-		<input type="hidden" name="code" value="<?= $_REQUEST['code'] ?>">
+		<?= dl_facebook_form_fields() ?>
 		Name: <input name="name"><br>
 		Description: <input name="description"><br>
 		<input type="submit" value="Add <?= $typestring ?>">
 	</form>
+	
     </section>
     <section id="guides" class="clearfix">
 	</section>

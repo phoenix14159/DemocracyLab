@@ -8,12 +8,37 @@
  * $opts_get = options for database api GET requests
  * $opts_post = options for database api POST requests
  * $baseurl = the database api url
+ *
+ * Functions:
+ * dl_facebook_url($page,$type=0)
+ *		return the FB url for this page, includes all the FB id parameters
+ *		type is optional
+ * dl_facebook_form_fields($type=0)
+ *		return the FB id parameters in hidden form fields
+ *		type is optional
+ * dl_facebook_redirect_url($page,$type=0)
+ *		return the full FB url for this page, including http: or https:
  * 
  */
 // Enforce https on production
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
   header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
   exit();
+}
+
+function dl_facebook_url($page,$type=0) {
+	if($type) {
+		return $page . "?type={$type}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+	} else {
+		return $page . "?state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+	}
+}
+function dl_facebook_redirect_url($page,$type=0) {
+	return ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/" . dl_facebook_url($page,$type);
+}
+function dl_facebook_form_fields($type=0) {
+	return "<input type='hidden' name='state' value='{$_REQUEST['state']}'>"
+		.  "<input type='hidden' name='code' value='{$_REQUEST['code']}'>";
 }
 
 //$baseurl = "http://localhost/~bjorn/bjornfreemanbenson.com/democracylab";

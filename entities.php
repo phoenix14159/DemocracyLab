@@ -76,12 +76,12 @@ if(!isset($jdata['ok'])) {
    </header>
 
     <section class="clearfix">
-	<a href="index.php?state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">back to Overview</a>
+	<a href="<?= dl_facebook_url('index.php') ?>">back to Overview</a>
+
 	<form method="POST" action="saveorder_post.php">
 	<input type="hidden" name="type" value="<?= $type ?>">
 	<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
-	<input type="hidden" name="state" value="<?= $_REQUEST['state'] ?>">
-	<input type="hidden" name="code" value="<?= $_REQUEST['code'] ?>">
+	<?= dl_facebook_form_fields() ?>
 	<ol>
 		<?php
 		foreach($jdata['entities'] as $erec) {
@@ -92,7 +92,8 @@ if(!isset($jdata['ok'])) {
 	</ol>
 	<input type="submit" value="Change Rankings">
 	</form>
-	<a href="addentity.php?type=<?= $type ?>&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">add <?= $typestring ?></a>
+
+	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">add <?= $typestring ?></a>
     </section>
     <section id="guides" class="clearfix">
 	</section>

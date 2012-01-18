@@ -14,5 +14,5 @@ $context_post = stream_context_create($opts_post);
 $data = file_get_contents( "${baseurl}/add_entity", false, $context_post );
 $jdata = json_decode($data,true);
 
-header("Location: " . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/entities.php?type={$_REQUEST['type']}&state={$_REQUEST['state']}&code={$_REQUEST['code']}")
+header("Location: " . dl_facebook_redirect_url('entities.php',$_REQUEST['type']) );
 ?>

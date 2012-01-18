@@ -1,5 +1,4 @@
 _____IN_ORDER_____
-- url generator function instead of hard-coded; forms too
 - type string function instead of hard-coded
 - change to using FB userid instead of name
 - basic page layout
@@ -22,6 +21,7 @@ _____ANY_ORDER_____
 - administrators can edit and delete any entities
 - administrators can add, edit, and delete issues
 - order the index page lists by highest average
+- hover to show description on all entities
 - post summary doc to wall?
 - show friends' rankings?
 - list of all docs with optional administrator delete
