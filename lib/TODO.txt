@@ -1,0 +1,29 @@
+_____IN_ORDER_____
+- url generator function instead of hard-coded; forms too
+- type string function instead of hard-coded
+- change to using FB userid instead of name
+- basic page layout
+- use page layout and add text for home
+- use page layout and add text for entities
+- use page layout and add text for addentity
+- use old V,O,P images and borders on all pages
+- switch to ordering instead of ranking
+- add mini-canvas to show the results
+- drag-n-drop ranking
+- edit entity
+- delete entity
+- summary doc creation, edit, and delete
+- add issues to database
+- add issue selection to home
+
+_____ANY_ORDER_____
+- user permission system (normal and administrator)
+- users can only edit and delete their own entities
+- administrators can edit and delete any entities
+- administrators can add, edit, and delete issues
+- order the index page lists by highest average
+- post summary doc to wall?
+- show friends' rankings?
+- list of all docs with optional administrator delete
+- email feed of entities and docs to the administrators
+- error handling for all remote-db calls

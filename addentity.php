@@ -1,91 +1,72 @@
 <?php
+define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
+require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
-// Enforce https on production
-if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
-  header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-  exit();
+$type = $_REQUEST['type'];
+$typestrings = '';
+if($type == 1) {
+	$typestrings = 'Values';
+	$typestring = 'Value';
+}
+if($type == 2) {
+	$typestrings = 'Objectives';
+	$typestring = 'Objective';
+}
+if($type == 3) {
+	$typestrings = 'Policies';
+	$typestring = 'Policy';
 }
 
-/**
- * This sample app is provided to kickstart your experience using Facebook's
- * resources for developers.  This sample app provides examples of several
- * key concepts, including authentication, the Graph API, and FQL (Facebook
- * Query Language). Please visit the docs at 'developers.facebook.com/docs'
- * to learn more about the resources available to you
- */
-
-// Provides access to Facebook specific utilities defined in 'FBUtils.php'
-require_once('FBUtils.php');
-// Provides access to app specific values such as your app id and app secret.
-// Defined in 'AppInfo.php'
-require_once('AppInfo.php');
-// This provides access to helper functions defined in 'utils.php'
-require_once('utils.php');
-
-/*****************************************************************************
- *
- * The content below provides examples of how to fetch Facebook data using the
- * Graph API and FQL.  It uses the helper functions defined in 'utils.php' to
- * do so.  You should change this section so that it prepares all of the
- * information that you want to display to the user.
- *
- ****************************************************************************/
-
-// Log the user in, and get their access token
-$token = FBUtils::login(AppInfo::getHome());
-if ($token) {
-
-  // Fetch the viewer's basic information, using the token just provided
-  $basic = FBUtils::fetchFromFBGraph("me?access_token=$token");
-  $my_id = assertNumeric(idx($basic, 'id'));
-
-  // Fetch the basic info of the app that they are using
-  $app_id = AppInfo::appID();
-  $app_info = FBUtils::fetchFromFBGraph("$app_id?access_token=$token");  
-
-  // This formats our home URL so that we can pass it as a web request
-  $encoded_home = urlencode(AppInfo::getHome());
-  $redirect_url = $encoded_home . 'close.php';
-
-//$baseurl = "http://localhost/~bjorn/bjornfreemanbenson.com/democracylab";
-$baseurl = "http://bjornfreemanbenson.com/democracylab";
-$opts_get = array(
-  'http'=>array(
-    'method'=>"GET",
-    'header'=>"X-BFB-API-KEY: 90A60668-8CCD-11E0-BD09-DE584824019B\r\n" .
-			  "X-BFB-API-VER: 1\r\n"
-  )
-);
-$opts_post = array(
-  'http'=>array(
-    'method'=>"POST",
-    'header'=> $opts_get['http']['header'] . "Content-type: application/x-www-form-urlencoded\r\n"
-  )
-);
-$postdata = http_build_query(
-    array(
-        'name' => idx($basic, 'name')
-    )
-);
-$opts_post['http']['content'] = $postdata;
-$context_post = stream_context_create($opts_post);
-$data = file_get_contents( "${baseurl}/get_user", false, $context_post );
-$jdata = json_decode($data,true);
-$democracylab_user_id = $jdata['user_id'];
-/*
-if(isset($jdata['error'])) {
-	echo "Error calling api/insert\n";
-	exit;
-}
-if(!isset($jdata['ok'])) {
-	echo "Remote site is down when calling api/insert\n";
-	exit;
-}
-*/
-require_once("pages/addentity.php");	
-
-} else {
-  // Stop running if we did not get a valid response from logging in
-  exit("Invalid credentials");
-}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <!-- We get the name of the app out of the information fetched -->
+    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+
+    <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+    <script>
+      function popup(pageURL, title,w,h) {
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        var targetWin = window.open(
+          pageURL,
+          title,
+          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
+          );
+      }
+    </script>
+    <!--[if IE]>
+      <script>
+        var tags = ['header', 'section'];
+        while(tags.length)
+          document.createElement(tags.pop());
+      </script>
+    <![endif]-->
+  </head>
+  <body>
+    <header class="clearfix">
+      <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
+
+      <div>
+        <h1>Add <?= $typestring ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
+      </div>
+   </header>
+
+    <section class="clearfix">
+	<a href="entities.php?type=<?= $type ?>&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">back to <?= $typestrings ?></a>
+	<form method="POST" action="addentity_post.php">
+		<input type="hidden" name="type" value="<?= $type ?>">
+		<input type="hidden" name="state" value="<?= $_REQUEST['state'] ?>">
+		<input type="hidden" name="code" value="<?= $_REQUEST['code'] ?>">
+		Name: <input name="name"><br>
+		Description: <input name="description"><br>
+		<input type="submit" value="Add <?= $typestring ?>">
+	</form>
+    </section>
+    <section id="guides" class="clearfix">
+	</section>
+  </body>
+</html>
