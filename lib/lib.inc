@@ -35,7 +35,7 @@ if ($token) {
 
 	$postdata = http_build_query(
 	    array(
-	        'name' => idx($basic, 'name')
+	        'fb_id' => $my_id
 	    )
 	);
 	$opts_post['http']['content'] = $postdata;

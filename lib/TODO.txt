@@ -1,5 +1,4 @@
 _____IN_ORDER_____
-- change to using FB userid instead of name
 - basic page layout
 - use page layout and add text for home
 - use page layout and add text for entities
