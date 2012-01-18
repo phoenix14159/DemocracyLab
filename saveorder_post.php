@@ -1,7 +1,4 @@
 <?php
-session_start();
-$_SESSION['page'] = 'entities';
-$_SESSION['type'] = $_REQUEST['type'];
 
 //$baseurl = "http://localhost/~bjorn/bjornfreemanbenson.com/democracylab";
 $baseurl = "http://bjornfreemanbenson.com/democracylab";
@@ -36,5 +33,6 @@ $jdata = json_decode($data,true);
 
 
 //header('Location: http://local.democracylab.com/');
-header('Location: https://morning-ocean-5589.herokuapp.com/');
+//header('Location: https://morning-ocean-5589.herokuapp.com/');
+header("Location: " . ($_SERVER['HTTPS'] ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/index.php?state={$_REQUEST['state']}&code={$_REQUEST['code']}")
 ?>

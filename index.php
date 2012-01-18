@@ -1,7 +1,7 @@
 <?php
 
 // Enforce https on production
-if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
   header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
   exit();
 }
@@ -14,7 +14,6 @@ if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && $_SERVER['REMOTE_ADDR'] != '
  * to learn more about the resources available to you
  */
 
-session_start();
 // Provides access to Facebook specific utilities defined in 'FBUtils.php'
 require_once('FBUtils.php');
 // Provides access to app specific values such as your app id and app secret.
@@ -83,11 +82,7 @@ if(!isset($jdata['ok'])) {
 	exit;
 }
 */
-if(!isset($_SESSION['page'])) {
-	require_once("pages/home.php");	
-} else {
-	require_once("pages/" . $_SESSION['page'] . ".php");
-}
+require_once("pages/home.php");	
 
 } else {
   // Stop running if we did not get a valid response from logging in

@@ -33,7 +33,7 @@ class AppInfo {
    * @return the home URL for this site
    */
   public static function getHome () {
-    return ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?: "http") . "://" . $_SERVER['HTTP_HOST'] . "/";
+    return ((isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO']) ?: "http") . "://" . $_SERVER['HTTP_HOST'] . "/";
   }
 
 }

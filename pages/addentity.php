@@ -1,5 +1,5 @@
 <?php
-$type = $_SESSION['type'];
+$type = $_REQUEST['type'];
 $typestrings = '';
 if($type == 1) {
 	$typestrings = 'Values';
@@ -53,9 +53,11 @@ if($type == 3) {
    </header>
 
     <section class="clearfix">
-	<a href="home.php">back to Overview</a>
+	<a href="entities.php?type=<?= $type ?>&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">back to <?= $typestrings ?></a>
 	<form method="POST" action="addentity_post.php">
 		<input type="hidden" name="type" value="<?= $type ?>">
+		<input type="hidden" name="state" value="<?= $_REQUEST['state'] ?>">
+		<input type="hidden" name="code" value="<?= $_REQUEST['code'] ?>">
 		Name: <input name="name"><br>
 		Description: <input name="description"><br>
 		<input type="submit" value="Add <?= $typestring ?>">

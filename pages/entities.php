@@ -1,5 +1,5 @@
 <?php
-$type = $_SESSION['type'];
+$type = $_REQUEST['type'];
 $typestrings = '';
 if($type == 1) {
 	$typestrings = 'Values';
@@ -73,10 +73,12 @@ if(!isset($jdata['ok'])) {
    </header>
 
     <section class="clearfix">
-	<a href="home.php">back to Overview</a>
+	<a href="index.php?state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">back to Overview</a>
 	<form method="POST" action="saveorder_post.php">
 	<input type="hidden" name="type" value="<?= $type ?>">
 	<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
+	<input type="hidden" name="state" value="<?= $_REQUEST['state'] ?>">
+	<input type="hidden" name="code" value="<?= $_REQUEST['code'] ?>">
 	<ol>
 		<?php
 		foreach($jdata['entities'] as $erec) {
@@ -87,7 +89,7 @@ if(!isset($jdata['ok'])) {
 	</ol>
 	<input type="submit" value="Change Rankings">
 	</form>
-	<a href="addentity.php?type=<?= $type ?>">add <?= $typestring ?></a>
+	<a href="addentity.php?type=<?= $type ?>&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">add <?= $typestring ?></a>
     </section>
     <section id="guides" class="clearfix">
 	</section>

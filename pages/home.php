@@ -55,41 +55,42 @@ $jdata = json_decode($data,true);
 	<ul>
 		<li><?php
 		if($jdata['values']) {
-			?><a href="entities.php?type=1">Explore Values</a><ol><?php
+			?><a href="entities.php?type=1&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Explore Values</a><ol><?php
 			foreach($jdata['values'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="entities.php?type=1">Please classify some Values</a><?php
+			?><a href="entities.php?type=1&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Please classify some Values</a><?php
 		}
 		?>
 		</li>
 		<li><?php
 		if($jdata['objectives']) {
-			?><a href="entities.php?type=2">Explore Objectives</a><ol><?php
+			?><a href="entities.php?type=2&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Explore Objectives</a><ol><?php
 			foreach($jdata['objectives'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="entities.php?type=2">Please classify some Objectives</a><?php
+			?><a href="entities.php?type=2&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Please classify some Objectives</a><?php
 		}
 		?>
 		</li>
 		<li><?php
 		if($jdata['policies']) {
-			?><a href="entities.php?type=3">Explore Policies</a><ol><?php
+			?><a href="entities.php?type=3&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Explore Policies</a><ol><?php
 			foreach($jdata['policies'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="entities.php?type=3">Please classify some Policies</a><?php
+			?><a href="entities.php?type=3&state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">Please classify some Policies</a><?php
 		}
 		?>
 		</li>
 	</ul>
+	<a href="temp.php?state=<?= $_REQUEST['state'] ?>&code=<?= $_REQUEST['code'] ?>">temp</a>
     </section>
     <section id="guides" class="clearfix">
 	</section>
