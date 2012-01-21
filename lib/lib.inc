@@ -4,11 +4,7 @@
  * DL_BASESCRIPT = absolute directory root
  *
  * Output Variables:
- *
- * $opts_get = options for database api GET requests
- * $opts_post = options for database api POST requests
- * $democracylab_user_id = (obvious)
- * $baseurl = the database api url
+ * $dbconn = Postgresql database connection [from preinc]
  *
  * $basic = some kind of Facebook data structure
  * $my_id = Facebook user id
@@ -31,28 +27,20 @@ if ($token) {
 
 	// Fetch the basic info of the app that they are using
 	$app_id = AppInfo::appID();
-	$app_info = FBUtils::fetchFromFBGraph("$app_id?access_token=$token");  
+	$app_info = FBUtils::fetchFromFBGraph("$app_id?access_token=$token");
+	
+	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE fb_id = $my_id");
+	$row = pg_fetch_object($result);
+	if($row) {
+		$democracylab_user_id = $row->user_id;
+	} else {
+		$rname = pg_escape_string(idx($basic,'name'));
+		$result = pg_query($dbconn, "INSERT INTO democracylab_users (fb_id,name) VALUES ($my_id,'$rname')");
+		$result = pg_query($dbconn, "SELECT LASTVAL()");
+		$row = pg_fetch_array($result);
+		$democracylab_user_id = $row[0];
+	}
 
-	$postdata = http_build_query(
-	    array(
-	        'fb_id' => $my_id
-	    )
-	);
-	$opts_post['http']['content'] = $postdata;
-	$context_post = stream_context_create($opts_post);
-	$data = file_get_contents( "${baseurl}/get_user", false, $context_post );
-	$jdata = json_decode($data,true);
-	$democracylab_user_id = $jdata['user_id'];
-/*
-	if(isset($jdata['error'])) {
-		echo "Error calling api\n";
-		exit;
-	}
-	if(!isset($jdata['ok'])) {
-		echo "Remote site is down when calling api\n";
-		exit;
-	}
-*/
 } else {
 	// Stop running if we did not get a valid response from logging in
 	exit("Invalid credentials");

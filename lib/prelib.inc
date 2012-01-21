@@ -4,10 +4,7 @@
  * DL_BASESCRIPT = absolute directory root
  *
  * Output Variables:
- *
- * $opts_get = options for database api GET requests
- * $opts_post = options for database api POST requests
- * $baseurl = the database api url
+ * $dbconn = Postgresql database connection
  *
  * Functions:
  * dl_facebook_url($page,$type=0)
@@ -60,20 +57,13 @@ function dl_facebook_form_fields($type=0) {
 		.  "<input type='hidden' name='code' value='{$_REQUEST['code']}'>";
 }
 
-//$baseurl = "http://localhost/~bjorn/bjornfreemanbenson.com/democracylab";
-$baseurl = "http://bjornfreemanbenson.com/democracylab";
-$opts_get = array(
-  'http'=>array(
-    'method'=>"GET",
-    'header'=>"X-BFB-API-KEY: 90A60668-8CCD-11E0-BD09-DE584824019B\r\n" .
-			  "X-BFB-API-VER: 1\r\n"
-  )
-);
-$opts_post = array(
-  'http'=>array(
-    'method'=>"POST",
-    'header'=> $opts_get['http']['header'] . "Content-type: application/x-www-form-urlencoded\r\n"
-  )
-);
+if(isset($_ENV["DATABASE_URL"])) {
+	extract(parse_url($_ENV["DATABASE_URL"]));
+	$dbconn = pg_connect("user=$user password=$pass host=$host dbname=" . substr($path, 1))
+	    or die('Could not connect: ' . pg_last_error());
+} else {
+	$dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=maui123")
+	    or die('Could not connect: ' . pg_last_error());
+}
 ?>
 

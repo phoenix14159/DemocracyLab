@@ -2,15 +2,41 @@
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
 require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
-$postdata = http_build_query(
-    array(
-        'user' => $democracylab_user_id
-    )
-);
-$opts_post['http']['content'] = $postdata;
-$context_post = stream_context_create($opts_post);
-$data = file_get_contents( "${baseurl}/get_summary", false, $context_post );
-$jdata = json_decode($data,true);
+// Get the rankings data
+$result = pg_query($dbconn, "SELECT type, COUNT(1) FROM democracylab_rankings WHERE user_id = $democracylab_user_id GROUP BY type");
+$rankings = array();
+$rankings['values'] = 0;
+$rankings['objectives'] = 0;
+$rankings['policies'] = 0;
+while($row = pg_fetch_array($result)) {
+	if($row[1] != 0) {
+		$idx = '?';
+		if($row[0] == 1) $idx = 'values';
+		if($row[0] == 2) $idx = 'objectives';
+		if($row[0] == 3) $idx = 'policies';
+		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(ranking), AVG(ranking), VARIANCE(ranking), MAX(ranking)
+								FROM democracylab_rankings
+								WHERE type = '{$row[0]}'
+								  AND ranking != 0
+								GROUP BY entity_id");
+		$a2 = array();
+		$ids = array();
+		while($row2 = pg_fetch_array($result2)) {
+			$a2[$row2[0]] = array( $row2[0], '?', $row2[1], $row2[2], $row2[3], $row2[4], 0);
+			$ids[] = $row2[0];
+		}
+		$ids = join(',',$ids);
+		$result3 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities WHERE entity_id IN ($ids)");
+		while($row3 = pg_fetch_array($result3)) {
+			$a2[$row3[0]][1] = $row3[1];
+		}
+		$result4 = pg_query($dbconn, "SELECT entity_id, ranking FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
+		while($row4 = pg_fetch_array($result4)) {
+			$a2[$row4[0]][6] = $row4[1];
+		}
+		$rankings[$idx] = $a2;
+	}
+}
 
 ?>
 <!DOCTYPE html>
@@ -57,9 +83,9 @@ $jdata = json_decode($data,true);
     <section class="clearfix">
 	<ul>
 		<li><?php
-		if($jdata['values']) {
+		if($rankings['values']) {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Explore Values</a><ol><?php
-			foreach($jdata['values'] as $rec) {
+			foreach($rankings['values'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php
@@ -69,9 +95,9 @@ $jdata = json_decode($data,true);
 		?>
 		</li>
 		<li><?php
-		if($jdata['objectives']) {
+		if($rankings['objectives']) {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Explore Objectives</a><ol><?php
-			foreach($jdata['objectives'] as $rec) {
+			foreach($rankings['objectives'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php
@@ -81,9 +107,9 @@ $jdata = json_decode($data,true);
 		?>
 		</li>
 		<li><?php
-		if($jdata['policies']) {
+		if($rankings['policies']) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol><?php
-			foreach($jdata['policies'] as $rec) {
+			foreach($rankings['policies'] as $rec) {
 				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
 			}
 			?></ol><?php

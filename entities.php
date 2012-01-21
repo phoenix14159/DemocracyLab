@@ -4,26 +4,19 @@ require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
 $type = $_REQUEST['type'];
 
-$postdata = http_build_query(
-    array(
-        'type' => $type,
-		'user' => $democracylab_user_id
-    )
-);
-$opts_post['http']['content'] = $postdata;
-$context_post = stream_context_create($opts_post);
-$data = file_get_contents( "${baseurl}/entities_and_order", false, $context_post );
-$jdata = json_decode($data,true);
-/*
-if(isset($jdata['error'])) {
-	echo "Error calling api/insert\n";
-	exit;
+$ptype = pg_escape_string($type);
+$result = pg_query($dbconn,"SELECT democracylab_entities.entity_id AS eid,
+							 democracylab_entities.title AS titl,
+							 dlr.ranking AS rnk
+	 					FROM democracylab_entities 
+						LEFT JOIN (SELECT * FROM democracylab_rankings WHERE democracylab_rankings.user_id = $democracylab_user_id) AS dlr
+						ON democracylab_entities.entity_id = dlr.entity_id
+						WHERE democracylab_entities.type = '$ptype'");
+$rtrn = array();
+$entities = array();
+while($row = pg_fetch_object($result)) { 
+	$entities[] = array( 'id' => $row->eid, 'title' => $row->titl, 'rank' => $row->rnk );
 }
-if(!isset($jdata['ok'])) {
-	echo "Remote site is down when calling api/insert\n";
-	exit;
-}
-*/
 
 ?>
 <!DOCTYPE html>
@@ -72,7 +65,7 @@ if(!isset($jdata['ok'])) {
 	<?= dl_facebook_form_fields() ?>
 	<ol>
 		<?php
-		foreach($jdata['entities'] as $erec) {
+		foreach($entities as $erec) {
 			?><li><input size="3" type="text" name="id<?= $erec['id'] ?>" value="<?= $erec['rank'] ? $erec['rank'] : 0 ?>"> <?= $erec['title'] ?></li>
 			<?php
 		}
