@@ -2,7 +2,7 @@
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')) . '/..');
 require_once(DL_BASESCRIPT . '/lib/prelib.inc');
 
-pg_query($dbconn, "CREATE TABLE IF NOT EXISTS migrations ( 
+pg_query($dbconn, "CREATE TABLE migrations ( 
 		name VARCHAR(512) PRIMARY KEY NOT NULL, 
 		ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP )" );
 function do_migration( $name ) {
@@ -22,16 +22,16 @@ function record_migration( $name ) {
 function add_democracylab_tables() {
 	global $dbconn;
 	if( !do_migration(__FUNCTION__) ) return;
-	pg_query($dbconn,  "CREATE TABLE IF NOT EXISTS democracylab_users (
+	pg_query($dbconn,  "CREATE TABLE democracylab_users (
 		user_id SERIAL PRIMARY KEY,
 		fb_id BIGINT NOT NULL,
 		name TEXT)" );
-	pg_query($dbconn, "CREATE TABLE IF NOT EXISTS democracylab_entities (
+	pg_query($dbconn, "CREATE TABLE democracylab_entities (
 		entity_id SERIAL PRIMARY KEY,
 		type INT,
 		title TEXT NOT NULL,
 		description TEXT NOT NULL)" );
-	pg_query($dbconn, "CREATE TABLE IF NOT EXISTS democracylab_rankings (
+	pg_query($dbconn, "CREATE TABLE democracylab_rankings (
 		ranking_id SERIAL PRIMARY KEY,
 		user_id INT,
 		entity_id INT,
