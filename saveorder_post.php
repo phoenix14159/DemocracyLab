@@ -14,5 +14,5 @@ foreach($_POST as $key => $value) {
 }
 $result = pg_query("INSERT INTO democracylab_rankings (user_id,type,entity_id,ranking) VALUES " . substr($sql,1));
 
-header("Location: " . dl_facebook_redirect_url('entities.php',$_REQUEST['type']) );
+header("Location: " . dl_facebook_redirect_url('index.php') );
 ?>

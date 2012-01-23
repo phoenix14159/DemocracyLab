@@ -66,7 +66,7 @@ while($row = pg_fetch_array($result)) {
 	<div class="icon"></div>
 	<div class="title">Our First Issue</div>
 </section>
-	
+
 <?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { ?>
 	<section id="how-it-works-section" class="clearfix">
 		<p>DemocracyLab helps facilitate a structured discussion about the issues.

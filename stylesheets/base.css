@@ -152,7 +152,12 @@ header .tagline {
 }
 /* ------------------------------------------ */
 
-#issue-section {
+#blank-header {
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+#issue-section, #value-section, #objective-section, #policy-section {
   border-left: 1px solid #b3b3b3;
   border-right: 1px solid #b3b3b3;
   padding: 0px 10px 20px 14px;
@@ -165,16 +170,53 @@ header .tagline {
   float: left;
   background-image: url(../images/issue-icon-lg.png);
 }
-#issue-section .title {
+#value-section .icon {
+  width: 35px;
+  height: 35px;
+  float: left;
+  background-image: url(../images/value-icon-lg.png);
+}
+#objective-section .icon {
+  width: 35px;
+  height: 35px;
+  float: left;
+  background-image: url(../images/objective-icon-lg.png);
+}
+#policy-section .icon {
+  width: 35px;
+  height: 35px;
+  float: left;
+  background-image: url(../images/policy-icon-lg.png);
+}
+#issue-section .title, #value-section .title, #objective-section .title, #policy-section .title {
   margin-left: 10px;
   padding-top: 10px;
   color: #6485a2; 
   font-size: 260%;
   float: left;
 }
+#value-section p, #objective-section p, #policy-section p {
+  color: black;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 
 
 #how-it-works-section {
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+  padding: 0px 10px 20px 14px;
+  color: black;
+}
+
+#sorting-section {
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+  padding: 0px 10px 20px 14px;
+  color: black;
+}
+
+#adding-section {
   border-left: 1px solid #b3b3b3;
   border-right: 1px solid #b3b3b3;
   padding: 0px 10px 20px 14px;
@@ -201,12 +243,12 @@ header .tagline {
   margin-bottom: 0.7em;
   margin-left: 5px;
 }
-#entities-summary-section .entity-list ol {
+.entity-list ol {
   display: block;
   margin: 0px 0 25px 0;
   text-align: left;
 }
-#entities-summary-section .entity-list li {
+.entity-list li {
   display: block;
   width: 195px;
   height: 16px;
@@ -219,15 +261,15 @@ header .tagline {
   overflow: hidden;
   white-space: nowrap;
 }
-#entities-summary-section .values-list li {
+.values-list li {
   border: 1px solid #619ed3;
   background: #fff url(../images/value-icon-sm.png) no-repeat 0px 0px;
 }
-#entities-summary-section .objectives-list li {
+.objectives-list li {
   border: 1px solid #ed9646;
   background: #fff url(../images/objective-icon-sm.png) no-repeat 0px 0px;
 }
-#entities-summary-section .policies-list li {
+.policies-list li {
   border: 1px solid #70c63c;
   background: #fff url(../images/policy-icon-sm.png) no-repeat 0px 0px;
 }

@@ -21,52 +21,89 @@ while($row = pg_fetch_object($result)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+	<title><?php echo(idx($app_info, 'name')) ?> <?= dl_typestring($type,'ucp') ?></title>
+	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+</head>
+<body>
+<header id="blank-header" class="clearfix">
+</header>
 
-    <!-- We get the name of the app out of the information fetched -->
-    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+<section id="issue-section" class="clearfix">
+	<div class="icon"></div>
+	<div class="title">Our First Issue</div>
+</section>
 
-    <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
-    <script>
-      function popup(pageURL, title,w,h) {
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        var targetWin = window.open(
-          pageURL,
-          title,
-          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
-          );
-      }
-    </script>
-    <!--[if IE]>
-      <script>
-        var tags = ['header', 'section'];
-        while(tags.length)
-          document.createElement(tags.pop());
-      </script>
-    <![endif]-->
-  </head>
-  <body>
-    <header class="clearfix">
-      <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
+<?php if($type == 1) { ?>
+	<section id="value-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Values</div>
+		<div style="clear: both"></div>
+		<p>Values are the beliefs and principles that form the basis of our decisions.
+		They are why we think about the world the way we do.</p>
+		<p>Below is a list of values. Please order the values you feel most strongly
+			about. Order at least one, but there is no need to order them all &mdash; just
+			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
+			strongest postive, third strongest, etc. For strongly negative feelings, use
+			-1, -2, -3, etc.</p>
+	</section>	
+<?php } else if($type == 2) { ?>
+	<section id="value-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Your Values</div>
+		<div style="clear: both"></div>
+		<p>(Soon this section will contain the values you chose.)</p>
+	</section>	
+	<section id="objective-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Objectives</div>
+		<div style="clear: both"></div>
+		<p>Objectives are statements of our goals and priorities. Objectives are based on
+		our values, and are statements of what we hope to achieve.</p>
+		<p>Below is a list of objectives. Please order the objectives you feel most strongly
+			about. Order at least one, but there is no need to order them all &mdash; just
+			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
+			strongest postive, third strongest, etc. For strongly negative feelings, use
+			-1, -2, -3, etc.</p>
+	</section>	
+<?php } else if($type == 3) { ?>
+	<section id="objective-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Your Objectives</div>
+		<div style="clear: both"></div>
+		<p>(Soon this section will contain the objectives you chose.)</p>
+	</section>	
+	<section id="policy-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Policies</div>
+		<div style="clear: both"></div>
+		<p>Policies are plans of action. They are detailed descriptions of how we
+		can achieve our objectives, including a prudent assessment of likely
+		costs and benefits.</p>
+		<p>Below is a list of policies. Please order the policies you feel most strongly
+			about. Order at least one, but there is no need to order them all &mdash; just
+			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
+			strongest postive, third strongest, etc. For strongly negative feelings, use
+			-1, -2, -3, etc.</p>
+	</section>	
+<?php } ?>
 
-      <div>
-        <h1><?= dl_typestring($type,'ucp') ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
-      </div>
-   </header>
-
-    <section class="clearfix">
-	<a href="<?= dl_facebook_url('index.php') ?>">back to Overview</a>
+<section id="sorting-section" class="clearfix">
 
 	<form method="POST" action="saveorder_post.php">
 	<input type="hidden" name="type" value="<?= $type ?>">
 	<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
 	<?= dl_facebook_form_fields() ?>
-	<ol>
+	<ol class="<?php
+	if($type == 1) { echo "values-list"; }
+	else if($type == 2) { echo "objectives-list"; }
+	else if($type == 3) { echo "policies-list"; }
+	?> entity-list">
 		<?php
 		foreach($entities as $erec) {
-			?><li><input size="3" type="text" name="id<?= $erec['id'] ?>" value="<?= $erec['rank'] ? $erec['rank'] : 0 ?>"> <?= $erec['title'] ?></li>
+			?><li><input style="float: right" size="3" type="text" name="id<?= $erec['id'] ?>" value="<?= $erec['rank'] ? $erec['rank'] : 0 ?>"> <?= $erec['title'] ?></li>
 			<?php
 		}
 		?>
@@ -74,9 +111,14 @@ while($row = pg_fetch_object($result)) {
 	<input type="submit" value="Change Rankings">
 	</form>
 
-	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">add <?= dl_typestring($type,'ucs') ?></a>
-    </section>
-    <section id="guides" class="clearfix">
-	</section>
-  </body>
+</section>
+
+<section id="adding-section" class="clearfix">
+	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
+	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
+</section>
+
+<section id="footer" class="clearfix">
+</section>
+</body>
 </html>

@@ -7,54 +7,54 @@ $type = $_REQUEST['type'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+	<title><?php echo(idx($app_info, 'name')) ?> Add New <?= dl_typestring($type,'ucs') ?></title>
+  <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+</head>
+<body>
+<header class="clearfix">
+</header>
 
-    <!-- We get the name of the app out of the information fetched -->
-    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+<?php if($type == 1) { ?>
+	<section id="value-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Add a New Value</div>
+		<div style="clear: both"></div>
+		<p>Values are the beliefs and principles that form the basis of our decisions.
+		They are why we think about the world the way we do.</p>
+<?php } else if($type == 2) { ?>
+	<section id="objective-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Add a New Objective</div>
+		<div style="clear: both"></div>
+		<p>Objectives are statements of our goals and priorities. Objectives are based on
+		our values, and are statements of what we hope to achieve.</p>
+<?php } else if($type == 3) { ?>
+	<section id="policy-section" class="clearfix">
+		<div class="icon"></div>
+		<div class="title">Add a New Policy</div>
+		<div style="clear: both"></div>
+		<p>Policies are plans of action. They are detailed descriptions of how we
+		can achieve our objectives, including a prudent assessment of likely
+		costs and benefits.</p>
+<?php } ?>
 
-    <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
-    <script>
-      function popup(pageURL, title,w,h) {
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        var targetWin = window.open(
-          pageURL,
-          title,
-          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
-          );
-      }
-    </script>
-    <!--[if IE]>
-      <script>
-        var tags = ['header', 'section'];
-        while(tags.length)
-          document.createElement(tags.pop());
-      </script>
-    <![endif]-->
-  </head>
-  <body>
-    <header class="clearfix">
-      <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
+<form method="POST" action="addentity_post.php">
+<input type="hidden" name="type" value="<?= $type ?>">
+<?= dl_facebook_form_fields() ?>
+<div class="field-legend">Name: </div><div class="field-contents"><input name="name"></div>
+<div class="clearfix"></div>
+<div class="field-legend">Description: </div><div class="field-contents"><textarea name="description" rows=3 cols=50></textarea></div>
+<div class="clearfix"></div>
+<input type="submit" value="Add <?= dl_typestring($type,'ucs') ?>">
+</form>
 
-      <div>
-        <h1>Add <?= dl_typestring($type,'ucs') ?>, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
-      </div>
-   </header>
+<a href="<?= dl_facebook_url('entities.php',$type) ?>">Go back to the <?= dl_typestring($type,'ucp') ?> page</a>
+</section>
 
-    <section class="clearfix">
-	<a href="<?= dl_facebook_url('entities.php',$type) ?>">back to <?= dl_typestring($type,'ucp') ?></a>
-	
-	<form method="POST" action="addentity_post.php">
-		<input type="hidden" name="type" value="<?= $type ?>">
-		<?= dl_facebook_form_fields() ?>
-		Name: <input name="name"><br>
-		Description: <input name="description"><br>
-		<input type="submit" value="Add <?= dl_typestring($type,'ucs') ?>">
-	</form>
-	
-    </section>
-    <section id="guides" class="clearfix">
-	</section>
-  </body>
+<section id="footer" class="clearfix">
+</section>
+</body>
 </html>

@@ -1,9 +1,6 @@
 _____IN_ORDER_____
-- basic page layout
-- use page layout and add text for home
-- use page layout and add text for entities
-- use page layout and add text for addentity
-- use old V,O,P images and borders on all pages
+- add the "here are your values" to the objectives page, handle not yet specified
+- add the "here are your objectives" to the policies page, handle not yet specified
 - switch to ordering instead of ranking
 - add mini-canvas to show the results
 - drag-n-drop ranking
