@@ -24,4 +24,4 @@ _____ANY_ORDER_____
 - show friends' rankings?
 - list of all docs with optional administrator delete
 - email feed of entities and docs to the administrators
-- error handling for all remote-db calls
+

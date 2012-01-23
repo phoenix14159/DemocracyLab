@@ -41,86 +41,112 @@ while($row = pg_fetch_array($result)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
+	<title><?php echo(idx($app_info, 'name')) ?></title>
+	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+</head>
+<body>
+<header class="clearfix">
+	<div style="margin-left: -5px; background-image: url(images/dl.png); width: 293px; height: 102px; float: left; margin-right: 20px;"></div>
+	<div style="float: left; width: 395px;">
+		<h1 style="color: #6485a2; font-size: 220%;">Welcome to DemocracyLab</h1>
+		<p style="color: black;
+		line-height: 1;
+		font: 14px/1.5em 'Lucida Grande',Arial,sans-serif">Welcome to our Facebook application. 
+		We're creating new tools to help people,
+		communities, and organizations make better collective decisions.
+		Learn more at <a href="http://democracylab.org">democracylab.org</a>.
+		</p>
+	</div>
+</header>
 
-    <!-- We get the name of the app out of the information fetched -->
-    <title><?php echo(idx($app_info, 'name')) ?></title>
-    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-
-    <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
-    <script>
-      function popup(pageURL, title,w,h) {
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        var targetWin = window.open(
-          pageURL,
-          title,
-          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
-          );
-      }
-    </script>
-    <!--[if IE]>
-      <script>
-        var tags = ['header', 'section'];
-        while(tags.length)
-          document.createElement(tags.pop());
-      </script>
-    <![endif]-->
-  </head>
-  <body>
-    <header class="clearfix">
-      <!-- By passing a valid access token here, we are able to display -->
-      <!-- the user's images without having to download or prepare -->
-      <!-- them ahead of time -->
-      <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<?php echoEntity($token) ?>)"></p>
-
-      <div>
-        <h1>Welcome, <strong><?php echo idx($basic, 'name'); ?></strong></h1>
-      </div>
-   </header>
-
-    <section class="clearfix">
-	<ul>
-		<li><?php
+<section id="issue-section" class="clearfix">
+	<div class="icon"></div>
+	<div class="title">Our First Issue</div>
+</section>
+	
+<?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { ?>
+	<section id="how-it-works-section" class="clearfix">
+		<p>DemocracyLab helps facilitate a structured discussion about the issues.
+			Each participant ranks the values, objectives, and policies that are
+			personally important. (More explanation needed.)
+		</p>
+	</section>	
+<?php }?>
+    <section id="entities-summary-section" class="clearfix">
+	<div class="entity-list">
+		<?php
 		if($rankings['values']) {
-			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Explore Values</a><ol><?php
+			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Explore Values</a><ol class="values-list"><?php
 			foreach($rankings['values'] as $rec) {
-				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
+				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Please classify some Values</a><?php
+			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Please classify some Values</a>
+			<p class="description">
+				Values are the beliefs and principles that form the basis of our decisions.
+				They are why we think about the world the way we do.
+			</p>
+			<p class="description">
+				To participate in the structured discussion, you will need to rank 
+				the values about which you feel most strongly.
+			</p><?php
 		}
 		?>
-		</li>
-		<li><?php
+	</div>
+	<div class="entity-list">
+		<?php
 		if($rankings['objectives']) {
-			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Explore Objectives</a><ol><?php
+			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Explore Objectives</a><ol class="objectives-list"><?php
 			foreach($rankings['objectives'] as $rec) {
-				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
+				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please classify some Objectives</a><?php
+			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please classify some Objectives</a>
+			<p class="description">
+				Objectives are statements of our goals and priorities. Objectives are based on
+				our values, and are statements of what we hope to achieve.
+			</p>
+			<p class="description">
+				To participate in the structured discussion, you will need to rank the
+				objectives that the best statements of your goals for this issue.
+			</p><?php
 		}
 		?>
-		</li>
-		<li><?php
+	</div>
+	<div class="entity-list">
+		<?php
 		if($rankings['policies']) {
-			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol><?php
+			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol class="policies-list"><?php
 			foreach($rankings['policies'] as $rec) {
-				?><li><?= $rec[1] ?> = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?></li><?php
+				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
 			}
 			?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Please classify some Policies</a><?php
+			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Please classify some Policies</a>
+			<p class="description">
+				Policies are plans of action. They are detailed descriptions of how we
+				can achieve our objectives, including a prudent assessment of likely
+				costs and benefits.
+			</p>
+			<p class="description">
+				To participate in the structured discussion, you will need to rank the
+				policies that you believe are the best for this issue.
+			</p><?php
 		}
 		?>
-		</li>
-	</ul>
+	</div>
     </section>
-    <section id="guides" class="clearfix">
+    <section id="footer" class="clearfix">
+	<p>DemocracyLab is a 501(c)(3) nonprofit organization aspiring to revolutionize the nature of political
+		dialogue. We believe privacy is important, especially when talking about politics. We treat your
+		personal information with the care and respect you deserve, and will never share any details about you
+		or your political views without your permission.
+		<!-- Please reference our privacy policy and terms of use for more information --></p>
 	</section>
   </body>
 </html>
