@@ -9,8 +9,10 @@ _____IN_ORDER_____
 - summary doc creation, edit, and delete
 - add issues to database
 - add issue selection to home
+- publish the DemocracyLab app on Facebook
 
 _____ANY_ORDER_____
+- change Heroku url to democracylab.herokuapp.com
 - user permission system (normal and administrator)
 - users can only edit and delete their own entities
 - administrators can edit and delete any entities

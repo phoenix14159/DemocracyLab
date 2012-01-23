@@ -49,11 +49,11 @@ header h1 {
   padding: 2px 0 8px;
 }
 
-header #picture + div {
+.unused header #picture + div {
   margin-left: 82px;
 }
 
-header #picture {
+.unused header #picture {
   background-position: center 25%;
   background-repeat: no-repeat;
   float: left;
@@ -63,7 +63,7 @@ header #picture {
   overflow: hidden;
 }
 
-header .tagline {
+.unused header .tagline {
   float: left;
 }
 
@@ -232,7 +232,7 @@ header .tagline {
 }
 #entities-summary-section .entity-list {
   float: left;
-  width: 230px;
+  width: 238px;
   text-align: center;
 }
 #entities-summary-section .description {
@@ -250,7 +250,7 @@ header .tagline {
 }
 .entity-list li {
   display: block;
-  width: 195px;
+  width: 205px;
   height: 16px;
   padding: 1px 0 0 24px;
   margin-bottom: 5px;
