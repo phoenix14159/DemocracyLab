@@ -3,7 +3,6 @@ _____IN_ORDER_____
 - add the "here are your objectives" to the policies page, handle not yet specified
 - switch to ordering instead of ranking
 - add mini-canvas to show the results
-- drag-n-drop ranking
 - edit entity
 - delete entity
 - summary doc creation, edit, and delete

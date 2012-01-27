@@ -26,6 +26,9 @@ while($row = pg_fetch_object($result)) {
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<title><?php echo(idx($app_info, 'name')) ?> <?= dl_typestring($type,'ucp') ?></title>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 </head>
 <body>
 <header id="blank-header" class="clearfix">
@@ -85,32 +88,114 @@ while($row = pg_fetch_object($result)) {
 		<p>Below is a list of policies. Please order the policies you feel most strongly
 			about. Order at least one, but there is no need to order them all &mdash; just
 			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
-			strongest postive, third strongest, etc. For strongly negative feelings, use
+			strongest positive, third strongest, etc. For strongly negative feelings, use
 			-1, -2, -3, etc.</p>
 	</section>	
 <?php } ?>
 
 <section id="sorting-section" class="clearfix">
 
-	<form method="POST" action="saveorder_post.php">
-	<input type="hidden" name="type" value="<?= $type ?>">
-	<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
 	<?= dl_facebook_form_fields() ?>
-	<ol class="<?php
-	if($type == 1) { echo "values-list"; }
-	else if($type == 2) { echo "objectives-list"; }
-	else if($type == 3) { echo "policies-list"; }
-	?> entity-list">
+	
+	<div style="width: 300px; float: left; padding: 10px;">
+		<p style="padding-left: 8px; color: gray"><?= dl_typestring($type,'ucp') ?>:</p>
+	<ol style="min-height: 133px; border: thin solid gray; padding: 10px; border-radius: 10px;"
+		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="passive-list">
 		<?php
 		foreach($entities as $erec) {
-			?><li><input style="float: right" size="3" type="text" name="id<?= $erec['id'] ?>" value="<?= $erec['rank'] ? $erec['rank'] : 0 ?>"> <?= $erec['title'] ?></li>
-			<?php
+			if($erec['rank'] == 0) {
+				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+			<?php }
 		}
 		?>
 	</ol>
-	<input type="submit" value="Change Rankings">
-	</form>
+	</div>
 
+	<div style="width: 300px; float: left; padding: 10px;">
+		<div>
+			<p style="padding-left: 8px; color: gray">You feel positive about:</p>
+	<ol style="border: thin solid gray; min-height: 40px; padding: 10px; border-radius: 10px;" 
+		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-positive-list">
+		<?php
+		foreach($entities as $erec) {
+			if($erec['rank'] > 0) {
+				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+			<?php }
+		}
+		?>
+	</ol>
+		</div>
+	<p style="padding-left: 8px; color: gray; margin-top: 10px;">You feel negative about:</p>
+		<div>
+	<ol style="border: thin solid gray; min-height: 40px; padding: 10px; border-radius: 10px;" 
+		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-negative-list">
+		<?php
+		foreach($entities as $erec) {
+			if($erec['rank'] < 0) {
+				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+			<?php }
+		}
+		?>
+	</ol>
+		</div>
+	</div>
+<script language="javascript">
+$(function () {
+	$("#passive-list").sortable({
+		connectWith: '.connectedSortable',
+           dropOnEmpty: true,
+           update: function () { 
+	
+	} }).disableSelection();
+
+	$("#active-positive-list").sortable({
+		connectWith: '.connectedSortable',
+           dropOnEmpty: true,
+           update: function () { 
+	
+			var data = {};
+			$("#active-positive-list li").each(function(i) {
+				data[this.id] = (i+1);
+			});
+			data['type'] = <?= $type ?>;
+			data['user'] = <?= $democracylab_user_id ?>;
+			data['list'] = 'positive';
+			
+			$.ajax({
+				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',
+				context: document.body,
+				data: data,
+				type: "POST",
+				global: false
+			})
+	
+	} }).disableSelection();
+
+	$("#active-negative-list").sortable({
+		connectWith: '.connectedSortable',
+           dropOnEmpty: true,
+           update: function () { 
+	
+			var data = {};
+			$("#active-negative-list li").each(function(i) {
+				data[this.id] = -(i+1);
+			});
+			data['type'] = <?= $type ?>;
+			data['user'] = <?= $democracylab_user_id ?>;
+			data['list'] = 'negative';
+			
+			$.ajax({
+				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',
+				context: document.body,
+				data: data,
+				type: "POST",
+				global: false
+			})
+	
+	} }).disableSelection();
+
+	});
+</script>
 </section>
 
 <section id="adding-section" class="clearfix">
