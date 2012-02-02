@@ -48,9 +48,10 @@ while($row = pg_fetch_object($result)) {
 		They are why we think about the world the way we do.</p>
 		<p>Below is a list of values. Please order the values you feel most strongly
 			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
-			strongest postive, third strongest, etc. For strongly negative feelings, use
-			-1, -2, -3, etc.</p>
+			the ones you feel strongly about. Put the value you feel most strongly positive
+			about at the top of the positive box, the value you feel second most strongly
+			positive about next, etc. For values you feel strongly negative about, use
+			the negative box in the same way.</p>
 	</section>	
 <?php } else if($type == 2) { ?>
 	<section id="value-section" class="clearfix">
@@ -67,9 +68,10 @@ while($row = pg_fetch_object($result)) {
 		our values, and are statements of what we hope to achieve.</p>
 		<p>Below is a list of objectives. Please order the objectives you feel most strongly
 			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
-			strongest postive, third strongest, etc. For strongly negative feelings, use
-			-1, -2, -3, etc.</p>
+			the ones you feel strongly about. Put the objective you feel most strongly positive
+			about at the top of the positive box, the objective you feel second most strongly
+			positive about next, etc. For objectives you feel strongly negative about, use
+			the negative box in the same way.</p>
 	</section>	
 <?php } else if($type == 3) { ?>
 	<section id="objective-section" class="clearfix">
@@ -87,9 +89,10 @@ while($row = pg_fetch_object($result)) {
 		costs and benefits.</p>
 		<p>Below is a list of policies. Please order the policies you feel most strongly
 			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Use 1, 2, 3, etc for your strongest positive, second
-			strongest positive, third strongest, etc. For strongly negative feelings, use
-			-1, -2, -3, etc.</p>
+			the ones you feel strongly about. Put the policy you feel most strongly positive
+			about at the top of the positive box, the policy you feel second most strongly
+			positive about next, etc. For policies you feel strongly negative about, use
+			the negative box in the same way.</p>
 	</section>	
 <?php } ?>
 

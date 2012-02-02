@@ -1,17 +1,17 @@
 _____IN_ORDER_____
+- "next" links from values -> objectives, objectives -> policies if not yet ranked
 - add the "here are your values" to the objectives page, handle not yet specified
 - add the "here are your objectives" to the policies page, handle not yet specified
-- switch to ordering instead of ranking
 - add mini-canvas to show the results
 - edit entity
 - delete entity
+- many from the 'any order' list
 - summary doc creation, edit, and delete
 - add issues to database
 - add issue selection to home
 - publish the DemocracyLab app on Facebook
 
 _____ANY_ORDER_____
-- change Heroku url to democracylab.herokuapp.com
 - user permission system (normal and administrator)
 - users can only edit and delete their own entities
 - administrators can edit and delete any entities

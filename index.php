@@ -8,13 +8,18 @@ $rankings = array();
 $rankings['values'] = 0;
 $rankings['objectives'] = 0;
 $rankings['policies'] = 0;
+function rating_cmp($a,$b) {
+	if($a[2] > $b[2]) return -1;
+	if($a[2] < $b[2]) return 1;
+	return 0;
+}
 while($row = pg_fetch_array($result)) {
 	if($row[1] != 0) {
 		$idx = '?';
 		if($row[0] == 1) $idx = 'values';
 		if($row[0] == 2) $idx = 'objectives';
 		if($row[0] == 3) $idx = 'policies';
-		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(ranking), AVG(ranking), VARIANCE(ranking), MAX(ranking)
+		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(rating), AVG(rating), VARIANCE(rating), MAX(rating)
 								FROM democracylab_rankings
 								WHERE type = '{$row[0]}'
 								  AND ranking != 0
@@ -30,10 +35,11 @@ while($row = pg_fetch_array($result)) {
 		while($row3 = pg_fetch_array($result3)) {
 			$a2[$row3[0]][1] = $row3[1];
 		}
-		$result4 = pg_query($dbconn, "SELECT entity_id, ranking FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
+		$result4 = pg_query($dbconn, "SELECT entity_id, rating FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
 		while($row4 = pg_fetch_array($result4)) {
 			$a2[$row4[0]][6] = $row4[1];
 		}
+		uasort($a2,'rating_cmp');
 		$rankings[$idx] = $a2;
 	}
 }
@@ -123,7 +129,9 @@ while($row = pg_fetch_array($result)) {
 		if($rankings['policies']) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol class="policies-list"><?php
 			foreach($rankings['policies'] as $rec) {
-				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
+				?><li><?= $rec[1] ?> <?php
+				/* (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */ ?>
+				</li><?php
 			}
 			?></ol><?php
 		} else {
