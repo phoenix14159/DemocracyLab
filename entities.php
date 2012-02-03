@@ -100,42 +100,39 @@ while($row = pg_fetch_object($result)) {
 
 	<?= dl_facebook_form_fields() ?>
 	
-	<div style="width: 300px; float: left; padding: 10px;">
-		<p style="padding-left: 8px; color: gray"><?= dl_typestring($type,'ucp') ?>:</p>
-	<ol style="min-height: 133px; border: thin solid gray; padding: 10px; border-radius: 10px;"
-		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="passive-list">
+	<div id="left-sorting-box">
+		<p class="sorting-box-legend"><?= dl_typestring($type,'ucp') ?>:</p>
+	<ol class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="passive-list">
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] == 0) {
-				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>
 	</ol>
 	</div>
 
-	<div style="width: 300px; float: left; padding: 10px;">
+	<div id="right-sorting-box">
 		<div>
-			<p style="padding-left: 8px; color: gray">You feel positive about:</p>
-	<ol style="border: thin solid gray; min-height: 40px; padding: 10px; border-radius: 10px;" 
-		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-positive-list">
+			<p class="sorting-box-legend">You feel positive about:</p>
+	<ol class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-positive-list">
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] > 0) {
-				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>
 	</ol>
 		</div>
-	<p style="padding-left: 8px; color: gray; margin-top: 10px;">You feel negative about:</p>
+	<p class="sorting-box-legend second-sorting-box">You feel negative about:</p>
 		<div>
-	<ol style="border: thin solid gray; min-height: 40px; padding: 10px; border-radius: 10px;" 
-		class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-negative-list">
+	<ol class="<?= dl_typestring($type,'lcp') ?>-list entity-list connectedSortable" id="active-negative-list">
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] < 0) {
-				?><li id="entity-<?= $erec['id']?>"><?= $erec['title'] ?></li>
+				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>

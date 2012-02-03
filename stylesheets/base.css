@@ -261,6 +261,7 @@ header h1 {
 .entity-name {
   display: block;
   text-overflow: ellipsis;
+  height: 16px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -269,7 +270,7 @@ header h1 {
 }
 .boxplot {
   float: left; 
-  margin-top: 5px;
+  margin-top: 2px;
 }
 .values-list li {
   border: 1px solid #619ed3;
@@ -283,6 +284,38 @@ header h1 {
   border: 1px solid #70c63c;
   background: #fff url(../images/policy-icon-sm.png) no-repeat 0px 0px;
 }
+
+#left-sorting-box, #right-sorting-box {
+  width: 300px; 
+  float: left; 
+  padding: 10px;
+}
+.sorting-box-legend {
+  padding-left: 8px; 
+  color: gray;
+}
+.second-sorting-box {
+  padding-top: 10px;
+}
+#passive-list {
+  min-height: 133px; 
+  border: thin solid gray; 
+  padding: 10px; 
+  border-radius: 10px;
+}
+#active-positive-list {
+  border: thin solid gray; 
+  min-height: 40px; 
+  padding: 10px; 
+  border-radius: 10px;
+}
+#active-negative-list {
+  border: thin solid gray; 
+  min-height: 40px; 
+  padding: 10px; 
+  border-radius: 10px;
+}
+
 
 #footer {
   border-bottom: 1px solid #b3b3b3;
