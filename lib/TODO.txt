@@ -2,7 +2,6 @@ _____IN_ORDER_____
 - "next" links from values -> objectives, objectives -> policies if not yet ranked
 - add the "here are your values" to the objectives page, handle not yet specified
 - add the "here are your objectives" to the policies page, handle not yet specified
-- add mini-canvas to show the results
 - edit entity
 - delete entity
 - many from the 'any order' list

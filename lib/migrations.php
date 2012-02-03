@@ -2,11 +2,12 @@
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')) . '/..');
 require_once(DL_BASESCRIPT . '/lib/prelib.inc');
 
-/*
-pg_query($dbconn, "CREATE TABLE migrations ( 
-		name VARCHAR(512) PRIMARY KEY NOT NULL, 
-		ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP )" );
-*/
+$result = @pg_query("SELECT COUNT(1) FROM migrations");
+if(!$result) {
+	pg_query($dbconn, "CREATE TABLE migrations ( 
+			name VARCHAR(512) PRIMARY KEY NOT NULL, 
+			ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP )" );
+}
 function do_migration( $name ) {
 	global $dbconn;
 	$result = pg_query($dbconn, "SELECT * FROM migrations WHERE name = '$name'" );

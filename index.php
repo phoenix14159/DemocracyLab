@@ -9,8 +9,8 @@ $rankings['values'] = 0;
 $rankings['objectives'] = 0;
 $rankings['policies'] = 0;
 function rating_cmp($a,$b) {
-	if($a[2] > $b[2]) return -1;
-	if($a[2] < $b[2]) return 1;
+	if($a->avg > $b->avg) return -1;
+	if($a->avg < $b->avg) return 1;
 	return 0;
 }
 while($row = pg_fetch_array($result)) {
@@ -19,7 +19,7 @@ while($row = pg_fetch_array($result)) {
 		if($row[0] == 1) $idx = 'values';
 		if($row[0] == 2) $idx = 'objectives';
 		if($row[0] == 3) $idx = 'policies';
-		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(rating), AVG(rating), VARIANCE(rating), MAX(rating)
+		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(rating), AVG(rating), STDDEV(rating), MAX(rating), COUNT(1)
 								FROM democracylab_rankings
 								WHERE type = '{$row[0]}'
 								  AND ranking != 0
@@ -27,20 +27,42 @@ while($row = pg_fetch_array($result)) {
 		$a2 = array();
 		$ids = array();
 		while($row2 = pg_fetch_array($result2)) {
-			$a2[$row2[0]] = array( $row2[0], '?', $row2[1], $row2[2], $row2[3], $row2[4], 0);
-			$ids[] = $row2[0];
+			$obj = new stdClass();
+			$obj->id = $row2[0];
+			$obj->title = '?';
+			$obj->min = $row2[1];
+			$obj->avg = $row2[2];
+			$obj->std = $row2[3];
+			$obj->max = $row2[4];
+			$obj->userval = 0;
+			$obj->count = $row2[5];
+			$a2[$obj->id] = $obj;
+			$ids[] = $obj->id;
 		}
 		$ids = join(',',$ids);
 		$result3 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities WHERE entity_id IN ($ids)");
 		while($row3 = pg_fetch_array($result3)) {
-			$a2[$row3[0]][1] = $row3[1];
+			$a2[$row3[0]]->title = $row3[1];
 		}
 		$result4 = pg_query($dbconn, "SELECT entity_id, rating FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
 		while($row4 = pg_fetch_array($result4)) {
-			$a2[$row4[0]][6] = $row4[1];
+			$a2[$row4[0]]->userval = $row4[1];
 		}
 		uasort($a2,'rating_cmp');
 		$rankings[$idx] = $a2;
+	}
+}
+
+function list_with_boxplots($items) {
+	foreach($items as $rec) {
+		?><li class="entity-with-boxplot"><div class="entity-name"><?= $rec->title ?></div>
+			<canvas class="boxplot" width="200" height="15"
+		        dl_count="<?= $rec->count ?>"
+		        dl_min="<?= $rec->min ?>"
+		        dl_max="<?= $rec->max ?>"
+		        dl_avg="<?= $rec->avg ?>"
+		        dl_std="<?= $rec->std ?>"
+		        dl_value="<?= $rec->userval ?>"></canvas></li><?php
 	}
 }
 
@@ -51,6 +73,7 @@ while($row = pg_fetch_array($result)) {
 	<meta charset="utf-8">
 	<title><?php echo(idx($app_info, 'name')) ?></title>
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>
@@ -86,10 +109,7 @@ while($row = pg_fetch_array($result)) {
 		<?php
 		if($rankings['values']) {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Explore Values</a><ol class="values-list"><?php
-			foreach($rankings['values'] as $rec) {
-				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
-			}
-			?></ol><?php
+			list_with_boxplots($rankings['values']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Please classify some Values</a>
 			<p class="description">
@@ -107,10 +127,7 @@ while($row = pg_fetch_array($result)) {
 		<?php
 		if($rankings['objectives']) {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Explore Objectives</a><ol class="objectives-list"><?php
-			foreach($rankings['objectives'] as $rec) {
-				?><li><?= $rec[1] ?> <?php /* = (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */?></li><?php
-			}
-			?></ol><?php
+			list_with_boxplots($rankings['objectives']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please classify some Objectives</a>
 			<p class="description">
@@ -128,12 +145,7 @@ while($row = pg_fetch_array($result)) {
 		<?php
 		if($rankings['policies']) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol class="policies-list"><?php
-			foreach($rankings['policies'] as $rec) {
-				?><li><?= $rec[1] ?> <?php
-				/* (<?= $rec[6] ?>) <?= $rec[2] ?> .. <?= $rec[3] ?> .. <?= $rec[4] ?> .. <?= $rec[5] ?> */ ?>
-				</li><?php
-			}
-			?></ol><?php
+			list_with_boxplots($rankings['policies']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Please classify some Policies</a>
 			<p class="description">
@@ -156,5 +168,80 @@ while($row = pg_fetch_array($result)) {
 		or your political views without your permission.
 		<!-- Please reference our privacy policy and terms of use for more information --></p>
 	</section>
+<script>
+function create_a_boxplot(elem) {
+	var node = $(elem);
+	var count = node.attr("dl_count");
+	if( count > 0 ) {
+		var min = parseInt(node.attr("dl_min"));
+		var max = parseInt(node.attr("dl_max"));
+		var std = parseInt(node.attr("dl_std"));
+		var avg = parseInt(node.attr("dl_avg"));
+		var value = parseInt(node.attr("dl_value"));
+		// get the canvas size
+		var width = node.width() - 12;
+		var height = node.height();
+		// compute the coordinates
+		var midy = Math.floor(height / 2) - 1; // y-axis midpoint
+		var zerox = Math.floor((width / 15) * 5) + 10; // x-axis zero point
+		var minx = Math.floor((width / 15) * (min + 5)) + 10; // x-axis min point
+		var maxx = Math.floor((width / 15) * (max + 5)) + 10; // x-axis max point
+		var stdx1 = Math.floor((width / 15) * (avg - std + 5)) + 10; // x-axis lower stddev point
+		var stdx2 = Math.floor((width / 15) * (avg + std + 5)) + 10; // x-axis upper stddev point
+		var stdy1 = 3; // y-axis of stddev rect top
+		var stdy2 = height - 3; // y-axis of stddev rect bottom (actually, the height of the stddev rect)
+		// leave enough room to draw something
+		if( minx == maxx ) {
+			if( max == 10 ) minx = minx - 2;
+			else if( min == -5 ) maxx = maxx + 2;
+			else { minx = minx - 1; maxx = maxx + 1; }
+		}
+		if( stdx1 > stdx2 - 4 ) {
+			if( (avg + std) >= 9 ) { stdx1 = stdx1 - 4; }
+			else if( (avg - std) <= -4 ) { stdx2 = stdx2 + 4; }
+			else { stdx1 = stdx1 - 3; stdx2 = stdx2 + 1; }
+		}
+		// draw the min-max line
+		var ctx = elem.getContext("2d");
+		if( ctx ) {
+			// draw the zero line
+			ctx.fillStyle = "rgb(0,0,0)";
+			ctx.fillRect( zerox, 1, 1, height-2 );
+			// draw the count of users
+			ctx.fillStyle = "rgb(150,150,150)";
+			if( !$.browser.msie ) {
+				ctx.fillText( count, 0, height - 4 );
+			}
+			// draw the min-max line
+			ctx.fillRect( minx, midy, maxx-minx, 3 );
+			// draw the std dev box
+			ctx.fillRect( stdx1, stdy1, stdx2-stdx1+1, stdy2-stdy1);
+			ctx.fillStyle = "rgb(230,230,230)";
+			ctx.fillRect( stdx1+2, stdy1+2, stdx2-stdx1-3, stdy2-stdy1-4);
+			if( value ) {
+				var vx = Math.floor((width / 15) * (value + 5)) + 10; // x-axis value point
+				if( value == 10 ) vx = vx - 2;
+				if( value == -5) vx = vx + 2;
+				ctx.fillStyle = "rgb(0,0,0)";
+				if( $.browser.msie ){
+					ctx.fillRect( vx-2, midy-3, 5, 9 );
+				} else {
+					ctx.beginPath();
+					ctx.arc(vx,midy+1,4,0,6.3,0);
+					ctx.closePath();
+					ctx.fill();
+				}
+			}
+		} else {
+			//backup for no canvas
+		}
+	}
+}
+$(function () {
+	$(".boxplot").each( function (index,elem) {
+		create_a_boxplot(elem);
+	});
+} );
+</script>
   </body>
 </html>
