@@ -79,7 +79,7 @@ skip_your_query:
 		<div class="title">Your Values</div>
 		<div style="clear: both"></div>
 		<?php if(count($yourentities) == 0) { ?>
-			<p>Objectives are based on our values, so we encourage you
+			<p class="encourage">Objectives are based on our values, so we encourage you
 				to <a href="<?= dl_facebook_url('entities.php',1) ?>">explore and rank values</a> before ranking objectives.</p>
 		<?php } else { ?>
 		<ol class="<?= dl_typestring($yourtype,'lcp') ?>-list entity-list connectedSortable">
@@ -110,7 +110,7 @@ skip_your_query:
 		<div class="title">Your Objectives</div>
 		<div style="clear: both"></div>
 		<?php if(count($yourentities) == 0) { ?>
-			<p>Policies are based on our objectives, so we encourage you
+			<p class="encourage">Policies are based on our objectives, so we encourage you
 				to <a href="<?= dl_facebook_url('entities.php',2) ?>">explore and rank objectives</a> before ranking policies.</p>
 		<?php } else { ?>
 		<ol class="<?= dl_typestring($yourtype,'lcp') ?>-list entity-list connectedSortable">
