@@ -11,12 +11,32 @@ $result = pg_query($dbconn,"SELECT democracylab_entities.entity_id AS eid,
 	 					FROM democracylab_entities 
 						LEFT JOIN (SELECT * FROM democracylab_rankings WHERE democracylab_rankings.user_id = $democracylab_user_id) AS dlr
 						ON democracylab_entities.entity_id = dlr.entity_id
-						WHERE democracylab_entities.type = '$ptype'");
-$rtrn = array();
+						WHERE democracylab_entities.type = '$ptype'
+						ORDER BY dlr.ranking");
 $entities = array();
 while($row = pg_fetch_object($result)) { 
 	$entities[] = array( 'id' => $row->eid, 'title' => $row->titl, 'rank' => $row->rnk );
 }
+
+switch($type) {
+	case 1: goto skip_your_query;
+	case 2: $yourtype = 1; break;
+	case 3: $yourtype = 2; break;
+}
+$result = pg_query($dbconn,"SELECT democracylab_entities.entity_id AS eid,
+							 democracylab_entities.title AS titl,
+							 dlr.ranking AS rnk
+	 					FROM democracylab_entities 
+						LEFT JOIN (SELECT * FROM democracylab_rankings WHERE democracylab_rankings.user_id = $democracylab_user_id) AS dlr
+						ON democracylab_entities.entity_id = dlr.entity_id
+						WHERE democracylab_entities.type = '$yourtype'
+						  AND dlr.ranking > 0
+						ORDER BY dlr.ranking");
+$yourentities = array();
+while($row = pg_fetch_object($result)) { 
+	$yourentities[] = array( 'id' => $row->eid, 'title' => $row->titl, 'rank' => $row->rnk );
+}
+skip_your_query:
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +78,18 @@ while($row = pg_fetch_object($result)) {
 		<div class="icon"></div>
 		<div class="title">Your Values</div>
 		<div style="clear: both"></div>
-		<p>(Soon this section will contain the values you chose.)</p>
+		<?php if(count($yourentities) == 0) { ?>
+			<p>Objectives are based on our values, so we encourage you
+				to <a href="<?= dl_facebook_url('entities.php',1) ?>">explore and rank values</a> before ranking objectives.</p>
+		<?php } else { ?>
+		<ol class="<?= dl_typestring($yourtype,'lcp') ?>-list entity-list connectedSortable">
+			<?php
+			foreach($yourentities as $erec) {
+				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li><?php
+			}
+			?>
+		</ol>
+		<?php } ?>
 	</section>	
 	<section id="objective-section" class="clearfix">
 		<div class="icon"></div>
@@ -78,7 +109,18 @@ while($row = pg_fetch_object($result)) {
 		<div class="icon"></div>
 		<div class="title">Your Objectives</div>
 		<div style="clear: both"></div>
-		<p>(Soon this section will contain the objectives you chose.)</p>
+		<?php if(count($yourentities) == 0) { ?>
+			<p>Policies are based on our objectives, so we encourage you
+				to <a href="<?= dl_facebook_url('entities.php',2) ?>">explore and rank objectives</a> before ranking policies.</p>
+		<?php } else { ?>
+		<ol class="<?= dl_typestring($yourtype,'lcp') ?>-list entity-list connectedSortable">
+			<?php
+			foreach($yourentities as $erec) {
+				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li><?php
+			}
+			?>
+		</ol>
+		<?php } ?>
 	</section>	
 	<section id="policy-section" class="clearfix">
 		<div class="icon"></div>

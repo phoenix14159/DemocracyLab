@@ -195,6 +195,13 @@ header h1 {
   font-size: 260%;
   float: left;
 }
+#value-section ol, #objective-section ol, #policy-section ol {
+  margin-left: 16px;
+}
+#value-section li div, #objective-section li div, #policy-section li div {
+  color: black;
+  font-size: 12.6px;
+}
 #value-section p, #objective-section p, #policy-section p {
   color: black;
   margin-top: 1em;
