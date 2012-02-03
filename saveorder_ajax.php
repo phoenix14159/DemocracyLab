@@ -53,6 +53,7 @@ if($_POST['list'] == 'positive') {
 } else {
 	$result = pg_query("DELETE FROM democracylab_rankings WHERE type = '$type' AND user_id = $user_id AND ranking < 0");	
 }
-$result = pg_query("INSERT INTO democracylab_rankings (user_id,type,entity_id,ranking,rating) VALUES " . substr($sql,1));
-
+if($sql) {
+	$result = pg_query("INSERT INTO democracylab_rankings (user_id,type,entity_id,ranking,rating) VALUES " . substr($sql,1));
+}
 ?>
