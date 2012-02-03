@@ -19,35 +19,44 @@ while($row = pg_fetch_array($result)) {
 		if($row[0] == 1) $idx = 'values';
 		if($row[0] == 2) $idx = 'objectives';
 		if($row[0] == 3) $idx = 'policies';
-		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(rating), AVG(rating), STDDEV(rating), MAX(rating), COUNT(1)
-								FROM democracylab_rankings
-								WHERE type = '{$row[0]}'
-								  AND ranking != 0
-								GROUP BY entity_id");
+
 		$a2 = array();
 		$ids = array();
-		while($row2 = pg_fetch_array($result2)) {
+		$result2 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities WHERE type = {$row[0]}");
+		while($row2 = pg_fetch_object($result2)) {
 			$obj = new stdClass();
-			$obj->id = $row2[0];
-			$obj->title = '?';
-			$obj->min = $row2[1];
-			$obj->avg = $row2[2];
-			$obj->std = $row2[3];
-			$obj->max = $row2[4];
+			$obj->id = $row2->entity_id;
+			$obj->title = $row2->title;
+			$obj->count = 0;
+			$obj->min = 0;
+			$obj->max = 0;
+			$obj->std = 0;
+			$obj->avg = -5;
 			$obj->userval = 0;
-			$obj->count = $row2[5];
 			$a2[$obj->id] = $obj;
 			$ids[] = $obj->id;
 		}
+		
 		$ids = join(',',$ids);
-		$result3 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities WHERE entity_id IN ($ids)");
-		while($row3 = pg_fetch_array($result3)) {
-			$a2[$row3[0]]->title = $row3[1];
+		$result2 = pg_query($dbconn, "SELECT entity_id, MIN(rating), AVG(rating), STDDEV(rating), MAX(rating), COUNT(1)
+								FROM democracylab_rankings
+								WHERE entity_id in ({$ids})
+								  AND ranking != 0
+								GROUP BY entity_id");
+		while($row2 = pg_fetch_array($result2)) {
+			$a2[$row2[0]]->min = $row2[1];
+			$a2[$row2[0]]->avg = $row2[2];
+			$a2[$row2[0]]->std = $row2[3];
+			$a2[$row2[0]]->max = $row2[4];
+			$a2[$row2[0]]->userval = 0;
+			$a2[$row2[0]]->count = $row2[5];
 		}
+
 		$result4 = pg_query($dbconn, "SELECT entity_id, rating FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
 		while($row4 = pg_fetch_array($result4)) {
 			$a2[$row4[0]]->userval = $row4[1];
 		}
+
 		uasort($a2,'rating_cmp');
 		$rankings[$idx] = $a2;
 	}
