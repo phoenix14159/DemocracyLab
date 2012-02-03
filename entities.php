@@ -36,7 +36,7 @@ while($row = pg_fetch_object($result)) {
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Our First Issue</div>
+	<div class="title">Oregon's Budget</div>
 </section>
 
 <?php if($type == 1) { ?>
