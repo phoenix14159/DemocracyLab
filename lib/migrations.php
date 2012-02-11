@@ -118,6 +118,18 @@ function add_rating_column() {
 }
 add_rating_column();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_user_permissions() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_users 
+		ADD COLUMN role INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities 
+		ADD COLUMN user_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "UPDATE democracylab_users SET role = 1");
+	record_migration(__FUNCTION__);
+}
+add_democracylab_tables();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 

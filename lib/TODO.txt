@@ -1,5 +1,4 @@
 _____IN_ORDER_____
-- "next" links from values -> objectives, objectives -> policies if not yet ranked
 - edit entity
 - delete entity
 - (items from the list below)
@@ -9,6 +8,7 @@ _____IN_ORDER_____
 - publish the DemocracyLab app on Facebook
 
 _____ANY_ORDER_____
+- "next" links from values -> objectives, objectives -> policies if not yet ranked
 - user permission system (normal and administrator)
 - users can only edit and delete their own entities
 - administrators can edit and delete any entities

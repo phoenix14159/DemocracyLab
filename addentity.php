@@ -43,6 +43,7 @@ $type = $_REQUEST['type'];
 
 <form method="POST" action="addentity_post.php">
 <input type="hidden" name="type" value="<?= $type ?>">
+<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
 <?= dl_facebook_form_fields() ?>
 <div class="field-legend">Name: </div><div class="field-contents"><input name="name"></div>
 <div class="clearfix"></div>
