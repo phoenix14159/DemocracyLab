@@ -62,7 +62,8 @@ if(isset($_ENV["DATABASE_URL"])) {
 	$dbconn = pg_connect("user=$user password=$pass host=$host dbname=" . substr($path, 1))
 	    or die('Could not connect: ' . pg_last_error());
 } else {
-	$dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=maui123")
+	$pwd = file_get_contents('.database_password');
+	$dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=$pwd")
 	    or die('Could not connect: ' . pg_last_error());
 }
 ?>

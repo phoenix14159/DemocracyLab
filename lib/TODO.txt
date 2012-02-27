@@ -40,3 +40,19 @@ _____ANY_ORDER_____
 - list of all docs with optional administrator delete
 - email feed of entities and docs to the administrators
 
+___COMMANDS___
+git push origin master <-- push to Github
+git pull origin master <-- pull from Github
+git push heroku master <-- deploy to Heroku
+
+the app is live at http://democracylab.herokuapp.com/
+
+___DEV SETUP___
+on my dev mac, add to /private/etc/apache2/httpd.conf
+<VirtualHost local.democracylab.com:80>
+    DocumentRoot /Users/bjorn/Sites/morning-ocean-5589/
+    ServerName local.democracylab.com
+    SetEnv FACEBOOK_APP_ID xxx
+    SetEnv FACEBOOK_SECRET zzz
+</VirtualHost>
+and also create a .database_password text file
