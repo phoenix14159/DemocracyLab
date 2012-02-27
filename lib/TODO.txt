@@ -15,6 +15,26 @@ _____ANY_ORDER_____
 - administrators can add, edit, and delete issues
 - order the index page lists by highest average
 - hover to show description on all entities
+	hs = 0
+	if over entity
+		if hs != entity
+			hs = entity
+			clear timer
+			hover window = visible
+			move hover window to above entity
+			ajax call to fill window
+	if leave entity
+		if hs == entity
+			set timer = 5
+	if over hover window
+		clear timer
+	if leave hover window
+		set timer = 5
+	if timeout
+		hs = 0
+		clear timer
+		hover window = invisible
+	
 - post summary doc to wall?
 - show friends' rankings?
 - list of all docs with optional administrator delete
