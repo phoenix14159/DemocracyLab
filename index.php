@@ -176,6 +176,11 @@ function list_with_boxplots($items) {
 		personal information with the care and respect you deserve, and will never share any details about you
 		or your political views without your permission.
 		<!-- Please reference our privacy policy and terms of use for more information --></p>
+	<?php
+	if($democracylab_user_role > 0) {
+		?><p style="text-align: center; color: black; border-top: thin dotted red; margin-top: 1em;">admin: <a href="<?= dl_facebook_url('users.php') ?>">users</a><?php
+	}
+	?>
 	</section>
 <script>
 function create_a_boxplot(elem) {
