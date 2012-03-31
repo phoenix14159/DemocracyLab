@@ -1,39 +1,57 @@
-Facebook/Heroku sample app -- PHP
-=================================
+DemocracyLab app on Heroku
+==========================
 
-This is a sample app showing use of the Facebook Graph API, written in PHP, designed for deployment to [Heroku](http://www.heroku.com/).
+This is the [DemocracyLab](http://democracylab.org/) application. It's a PHP application
+using various Facebook APIs running on Heroku. 
 
-Run locally
+Source Code
 -----------
+The source code is both on Github and (because
+of the way Heroku works) on Heroku. Set up your .git/config with
+multiple remotes so that you can push and pull from both:
 
-Configure Apache with a `VirtualHost` that points to the location of this code checkout on your system.
+* push to Github: git push origin master
+* pull from Github: git pull origin master
+* deploy to Heroku: git push heroku master
 
-[Create an app on Facebook](https://developers.facebook.com/apps) and set the Website URL to your local VirtualHost.
+The [Github issues system](https://github.com/bnfb/DemocracyLab/issues) is used to keep
+track of the planned enhancements and any bugs.
 
-Copy the App ID and Secret from the Facebook app settings page into your `VirtualHost` config, something like:
+Facebook Integration
+--------------------
+The [Facebook application](https://developers.facebook.com/apps/152864681481200) defines the 
+appid and application secret: these are stored as environment variables in the Heroku application
+and are picked up by AppInfo.php.
 
-    <VirtualHost *:80>
-        DocumentRoot /Users/adam/Sites/myapp
-        ServerName myapp.localhost
-        SetEnv FACEBOOK_APP_ID 12345
-        SetEnv FACEBOOK_SECRET abcde
+Currently the only Facebook integration is using the Facebook login.
+
+Run Locally
+-----------
+To run the app locally, you must set up your local web server, your local database, and set up a Facebook
+application to point to your local server. On my development Mac, I added this to /private/etc/apache2/httpd.conf:
+
+    <VirtualHost local.democracylab.com:80>
+        DocumentRoot /Users/bjorn/Sites/morning-ocean-5589/
+        ServerName local.democracylab.com
+        SetEnv FACEBOOK_APP_ID xxx
+        SetEnv FACEBOOK_SECRET zzz
     </VirtualHost>
 
-Restart Apache, and you should be able to visit your app at its local URL.
+The local database is a PostgreSQL instance with the user and database name "postgres" and the
+password stored in a local .database_password file. When new database migrations are created in
+the lib/migrations.php file, they are applied by running "php lib/migrations.php".
 
-Deploy to Heroku via Facebook integration
------------------------------------------
+I added "127.0.0.1 local.democracylab.com" to my /etc/hosts and set up a run-locally Facebook
+application named "DemocracyLab-dev" whose Site URL and Site Domain is "http://local.democracylab.com/".
+Then I can run the site locally as "http://local.democracylab.com/" complete with Facebook
+integration.
 
-The easiest way to deploy is to create an app on Facebook and click Cloud Services -> Get Started, then choose PHP from the dropdown.  You can then `git clone` the resulting app from Heroku.
+Run on Heroku
+-------------
+Deploying to Heroku automatically runs the latest code as well. The one caveat is how I set up the 
+database migrations: I suppose I could have used some framework to do that but instead I just 
+add the migrations to the lib/migrations.php file. This means that after each git push to Heroku
+for a deploy, you must use [https://democracylab.herokuapp.com/lib/migrations.php](https://democracylab.herokuapp.com/lib/migrations.php)
+to run the migrations before the database will be consistent for the new code.
 
-Deploy to Heroku directly
--------------------------
-
-If you prefer to deploy yourself, push this code to a new Heroku app on the Cedar stack, then copy the App ID and Secret into your config vars:
-
-    heroku create --stack cedar
-    git push heroku master
-    heroku config:add FACEBOOK_APP_ID=12345 FACEBOOK_SECRET=abcde
-
-Enter the URL for your Heroku app into the Website URL section of the Facebook app settings page, hen you can visit your app on the web.
 
