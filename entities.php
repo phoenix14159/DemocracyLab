@@ -56,7 +56,7 @@ skip_your_query:
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Oregon's Budget</div>
+	<div class="title">Collective Improvement Fund</div>
 </section>
 
 <?php if($type == 1) { ?>

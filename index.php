@@ -102,7 +102,7 @@ function list_with_boxplots($items) {
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Oregon's Budget</div>
+	<div class="title">Collective Improvement Fund</div>
 </section>
 
 <?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { ?>
