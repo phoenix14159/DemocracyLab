@@ -10,6 +10,8 @@
  * $my_id = Facebook user id
  * $app_id = Facebook application id
  * $app_info = Facebook application info
+ * $democracylab_user_id = DemocracyLab user id
+ * $democracylab_user_role = DemocracyLab user role (0=normal, 1=superuser)
  * 
  */
 require_once(DL_BASESCRIPT . '/lib/prelib.inc');
@@ -33,12 +35,14 @@ if ($token) {
 	$row = pg_fetch_object($result);
 	if($row) {
 		$democracylab_user_id = $row->user_id;
+		$democracylab_user_role = $row->role;
 	} else {
 		$rname = pg_escape_string(idx($basic,'name'));
 		$result = pg_query($dbconn, "INSERT INTO democracylab_users (fb_id,name) VALUES ($my_id,'$rname')");
 		$result = pg_query($dbconn, "SELECT LASTVAL()");
 		$row = pg_fetch_array($result);
 		$democracylab_user_id = $row[0];
+		$democracylab_user_role = 0;
 	}
 
 } else {

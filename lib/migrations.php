@@ -128,7 +128,7 @@ function add_user_permissions() {
 	pg_query($dbconn, "UPDATE democracylab_users SET role = 1");
 	record_migration(__FUNCTION__);
 }
-add_democracylab_tables();
+add_user_permissions();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
