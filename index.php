@@ -44,6 +44,7 @@ while($row = pg_fetch_array($result)) {
 								  AND ranking != 0
 								GROUP BY entity_id");
 		while($row2 = pg_fetch_array($result2)) {
+			$a2[$row2[0]]->id  = $row2[0];
 			$a2[$row2[0]]->min = $row2[1];
 			$a2[$row2[0]]->avg = $row2[2];
 			$a2[$row2[0]]->std = $row2[3];
@@ -64,7 +65,7 @@ while($row = pg_fetch_array($result)) {
 
 function list_with_boxplots($items) {
 	foreach($items as $rec) {
-		?><li class="entity-with-boxplot"><div class="entity-name"><?= $rec->title ?></div>
+		?><li class="entity-with-boxplot hover-describe" dl_id="<?= $rec->id ?>"><div class="entity-name"><?= $rec->title ?></div>
 			<canvas class="boxplot" width="200" height="15"
 		        dl_count="<?= $rec->count ?>"
 		        dl_min="<?= $rec->min ?>"
@@ -103,6 +104,11 @@ function list_with_boxplots($items) {
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
 	<div class="title">Collective Improvement Fund</div>
+</section>
+
+<section id="description-section" class="clearfix">
+	<div id="description-block" dl_id=0><span class="instructions">See a description by
+		hovering over a value, objective or policy.</span></div>
 </section>
 
 <?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { ?>
@@ -257,5 +263,6 @@ $(function () {
 	});
 } );
 </script>
+<?php democracylab_hover_javascript(); ?>
   </body>
 </html>

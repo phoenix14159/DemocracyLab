@@ -49,5 +49,46 @@ if ($token) {
 	// Stop running if we did not get a valid response from logging in
 	exit("Invalid credentials");
 }
+
+function democracylab_hover_javascript() {
+	?>
+<script>
+$(function () {
+	$(".hover-describe").each( function (index,elem) {
+		$(elem).mouseenter( function() {
+			var newid = $(elem).attr('dl_id');
+			var oldid = $("#description-block").attr('dl_id');
+			if(newid != oldid) {
+				$("#description-block").attr('dl_id',newid);
+				var newdata = $("#description-block").data('dl_' + newid);
+				if(newdata) {
+					$("#description-block").html(newdata);
+				} else {
+					$("#description-block").html('<span class="instructions">(fetching description...)</span>');
+					var data = {};
+					data['entityid'] = newid;
+					$.ajax({
+						url: '<?= dl_facebook_url("getdescription_ajax.php") ?>',
+						context: document.body,
+						data: data,
+						type: "GET",
+						dataType: 'html',
+						success: function (data) {
+							var rtrnid = $("#description-block").attr('dl_id');
+							$("#description-block").data('dl_' + newid,data);
+							if(newid == rtrnid) {
+								$("#description-block").html(data).data('dl_' + newid,data);
+							}
+						},
+						global: false
+					})
+				}
+			}
+		});
+	});
+});
+</script>
+<?php
+}
 ?>
 

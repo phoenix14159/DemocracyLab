@@ -138,6 +138,11 @@ skip_your_query:
 	</section>	
 <?php } ?>
 
+<section id="description-section" class="clearfix">
+	<div id="description-block" dl_id=0><span class="instructions">See a description by
+		hovering over one of the <?= dl_typestring($type,'lcp') ?>.</span></div>
+</section>
+
 <section id="sorting-section" class="clearfix">
 
 	<?= dl_facebook_form_fields() ?>
@@ -148,7 +153,7 @@ skip_your_query:
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] == 0) {
-				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
+				?><li id="entity-<?= $erec['id']?>" class="hover-describe" dl_id="<?= $erec['id'] ?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>
@@ -162,7 +167,7 @@ skip_your_query:
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] > 0) {
-				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
+				?><li id="entity-<?= $erec['id']?>" class="hover-describe" dl_id="<?= $erec['id'] ?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>
@@ -174,7 +179,7 @@ skip_your_query:
 		<?php
 		foreach($entities as $erec) {
 			if($erec['rank'] < 0) {
-				?><li id="entity-<?= $erec['id']?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
+				?><li id="entity-<?= $erec['id']?>" class="hover-describe" dl_id="<?= $erec['id'] ?>"><div class="entity-name"><?= $erec['title'] ?></div></li>
 			<?php }
 		}
 		?>
@@ -258,5 +263,6 @@ $(function () {
 
 <section id="footer" class="clearfix">
 </section>
+<?php democracylab_hover_javascript(); ?>
 </body>
 </html>
