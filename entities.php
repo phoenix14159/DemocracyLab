@@ -200,7 +200,8 @@ $(function () {
 				data[this.id] = (i+1);
 			});
 			data['type'] = <?= $type ?>;
-			data['user'] = <?= $democracylab_user_id ?>;
+			data['state'] = "<?= $_REQUEST['state'] ?>";
+			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'positive';
 			
 			$.ajax({
@@ -223,7 +224,8 @@ $(function () {
 				data[this.id] = -(i+1);
 			});
 			data['type'] = <?= $type ?>;
-			data['user'] = <?= $democracylab_user_id ?>;
+			data['state'] = "<?= $_REQUEST['state'] ?>";
+			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'negative';
 			
 			$.ajax({
