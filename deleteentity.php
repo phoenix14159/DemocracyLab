@@ -16,7 +16,7 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<title><?php echo(idx($app_info, 'name')) ?> Edit Existing <?= dl_typestring($type,'ucs') ?></title>
+	<title><?php echo(idx($app_info, 'name')) ?> Delete Existing <?= dl_typestring($type,'ucs') ?></title>
   <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>
@@ -27,19 +27,19 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 	if($type == 1) { ?>
 		<section id="value-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit an Existing Value</div>
+			<div class="title">Delete an Existing Value</div>
 			<div style="clear: both"></div>
 			<p>Choose a value:</p>
 	<?php } else if($type == 2) { ?>
 		<section id="objective-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit an Existing Objective</div>
+			<div class="title">Delete an Existing Objective</div>
 			<div style="clear: both"></div>
 			<p>Choose an objective:</p>
 	<?php } else if($type == 3) { ?>
 		<section id="policy-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit an Existing Policy</div>
+			<div class="title">Delete an Existing Policy</div>
 			<div style="clear: both"></div>
 			<p>Choose a policy:</p>
 	<?php } 
@@ -68,31 +68,28 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 	if($type == 1) { ?>
 		<section id="value-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
+			<div class="title"><span style="color: red">Delete: </span><?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
 			<p></p>
 	<?php } else if($type == 2) { ?>
 		<section id="objective-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
+			<div class="title"><span style="color: red">Delete: </span><?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
 			<p></p>
 	<?php } else if($type == 3) { ?>
 		<section id="policy-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
+			<div class="title"><span style="color: red">Delete: </span><?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
 			<p></p>
 	<?php } ?>
 
-	<form method="POST" action="editentity_post.php">
+	<form method="POST" action="deleteentity_post.php">
 	<input type="hidden" name="entityid" value="<?= $entityid ?>">
 	<?= dl_facebook_form_fields($type) ?>
-	<div class="field-legend">Name: </div><div class="field-contents"><input name="name" value="<?= htmlspecialchars($row->title) ?>"></div>
-	<div class="clearfix"></div>
-	<div class="field-legend">Description: </div><div class="field-contents"><textarea name="description" rows=3 cols=50><?= htmlspecialchars($row->description) ?></textarea></div>
-	<div class="clearfix"></div>
-	<input type="submit" value="Update">
+	<p>Do you really want to delete "<?= htmlspecialchars($row->title) ?>"?</p>
+	<input type="submit" value="Yes, delete it">
 	</form>
 	<p></p>
 <?php
