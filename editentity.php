@@ -106,7 +106,9 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 	<div class="clearfix"></div>
 	<div class="field-legend">Description: </div><div class="field-contents"><textarea name="description" rows=3 cols=50><?= htmlspecialchars($row->description) ?></textarea></div>
 	<div class="clearfix"></div>
-	<input type="submit" value="Update">
+	<input type="submit" value="Update this <?= dl_typestring($type,'lcs') ?>">
+	&mdash; or
+	<a href="<?= dl_facebook_url('deleteentity.php',$type,$entityid) ?>">delete this <?= dl_typestring($type,'lcs') ?></a>
 	</form>
 	<p></p>
 <?php

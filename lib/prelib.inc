@@ -42,9 +42,13 @@ function dl_typestring($type,$idx=0) {
 		return $ar;
 	}
 }
-function dl_facebook_url($page,$type=0) {
+function dl_facebook_url($page,$type=0,$entityid=0) {
 	if($type) {
-		return $page . "?type={$type}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+		if($entityid) {
+			return $page . "?type={$type}&entityid={$entityid}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+		} else {
+			return $page . "?type={$type}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+		}
 	} else {
 		return $page . "?state={$_REQUEST['state']}&code={$_REQUEST['code']}";
 	}
