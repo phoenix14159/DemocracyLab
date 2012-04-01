@@ -29,19 +29,31 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 			<div class="icon"></div>
 			<div class="title">Delete an Existing Value</div>
 			<div style="clear: both"></div>
-			<p>Choose a value:</p>
+			<?php if($democracylab_user_role == 0) { ?>
+				<p>Choose one of the values you've entered:</p>
+			<?php } else { ?>
+				<p>Choose a value:</p>
+			<?php } ?>
 	<?php } else if($type == 2) { ?>
 		<section id="objective-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Delete an Existing Objective</div>
 			<div style="clear: both"></div>
-			<p>Choose an objective:</p>
+			<?php if($democracylab_user_role == 0) { ?>
+				<p>Choose one of the objectives you've entered:</p>
+			<?php } else { ?>
+				<p>Choose an objective:</p>
+			<?php } ?>
 	<?php } else if($type == 3) { ?>
 		<section id="policy-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Delete an Existing Policy</div>
 			<div style="clear: both"></div>
-			<p>Choose a policy:</p>
+			<?php if($democracylab_user_role == 0) { ?>
+				<p>Choose one of the policies you've entered:</p>
+			<?php } else { ?>
+				<p>Choose a policy:</p>
+			<?php } ?>
 	<?php } 
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_entities WHERE type = {$type} ORDER BY title");
 	?>
@@ -57,8 +69,10 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 			<option value="0">-- choose one</option>
 			<?php
 			while($row = pg_fetch_object($result)) {
-				?><option value="<?= $row->entity_id ?>"><?= htmlspecialchars($row->title) ?></option>
-<?php  		} ?>
+				if($democracylab_user_role > 0 || $row->user_id == $democracylab_user_id) {
+					?><option value="<?= $row->entity_id ?>"><?= htmlspecialchars($row->title) ?></option>
+				<?php }
+			} ?>
 		</select> 
 	</form><p></p>
 	<?php

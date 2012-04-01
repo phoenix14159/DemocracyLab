@@ -246,11 +246,14 @@ $(function () {
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
 	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
 	<?php
-	if($democracylab_user_role > 0) {
-		?><br><a href="<?= dl_facebook_url('editentity.php',$type) ?>">Edit an existing <?= dl_typestring($type,'ucs') ?></a>
-		<br><a href="<?= dl_facebook_url('deleteentity.php',$type) ?>">Delete an existing <?= dl_typestring($type,'ucs') ?></a><?php
-	}
-	?>
+	$result3 = pg_query($dbconn,"SELECT COUNT(1) FROM democracylab_entities WHERE user_id = $democracylab_user_id");
+	$count3 = pg_fetch_array($result3);
+	if($democracylab_user_role > 0 || $count3 > 0) { ?>
+		&mdash;
+		<a style="color: #768BB7" href="<?= dl_facebook_url('editentity.php',$type) ?>">Edit an existing <?= dl_typestring($type,'lcs') ?></a>
+		&mdash;
+		<a style="color: #768BB7" href="<?= dl_facebook_url('deleteentity.php',$type) ?>">Delete an existing <?= dl_typestring($type,'lcs') ?></a>
+	<?php } ?>
 </section>
 
 <section id="footer" class="clearfix">
