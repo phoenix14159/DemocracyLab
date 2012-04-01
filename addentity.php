@@ -2,7 +2,7 @@
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
 require_once(DL_BASESCRIPT . '/lib/lib.inc');
 
-$type = $_REQUEST['type'];
+$type = intval($_REQUEST['type']);
 
 ?>
 <!DOCTYPE html>
@@ -42,9 +42,7 @@ $type = $_REQUEST['type'];
 <?php } ?>
 
 <form method="POST" action="addentity_post.php">
-<input type="hidden" name="type" value="<?= $type ?>">
-<input type="hidden" name="user" value="<?= $democracylab_user_id ?>">
-<?= dl_facebook_form_fields() ?>
+<?= dl_facebook_form_fields($type) ?>
 <div class="field-legend">Name: </div><div class="field-contents"><input name="name"></div>
 <div class="clearfix"></div>
 <div class="field-legend">Description: </div><div class="field-contents"><textarea name="description" rows=3 cols=50></textarea></div>

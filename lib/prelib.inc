@@ -53,8 +53,12 @@ function dl_facebook_redirect_url($page,$type=0) {
 	return ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER["HTTP_HOST"] . "/" . dl_facebook_url($page,$type);
 }
 function dl_facebook_form_fields($type=0) {
+	global $democracylab_user_id;
 	return "<input type='hidden' name='state' value='{$_REQUEST['state']}'>"
-		.  "<input type='hidden' name='code' value='{$_REQUEST['code']}'>";
+		.  "<input type='hidden' name='code' value='{$_REQUEST['code']}'>"
+		.  "<input type='hidden' name='user' value='{$democracylab_user_id}'>"
+		.  (($type) ? "<input type='hidden' name='type' value='{$type}'>" : '')
+		;
 }
 
 if(isset($_ENV["DATABASE_URL"])) {

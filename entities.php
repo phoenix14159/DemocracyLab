@@ -243,6 +243,11 @@ $(function () {
 <section id="adding-section" class="clearfix">
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
 	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
+	<?php
+	if($democracylab_user_role > 0) {
+		?><br><a href="<?= dl_facebook_url('editentity.php',$type) ?>">Edit an existing <?= dl_typestring($type,'ucs') ?></a><?php
+	}
+	?>
 </section>
 
 <section id="footer" class="clearfix">
