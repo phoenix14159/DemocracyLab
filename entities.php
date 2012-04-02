@@ -56,7 +56,7 @@ skip_your_query:
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Collective Improvement Fund</div>
+	<div class="title">Capital Improvement Fund</div>
 </section>
 
 <?php if($type == 1) { ?>

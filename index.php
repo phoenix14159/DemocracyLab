@@ -103,7 +103,7 @@ function list_with_boxplots($items) {
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Collective Improvement Fund</div>
+	<div class="title">Capital Improvement Fund</div>
 </section>
 
 <section id="description-section" class="clearfix">
