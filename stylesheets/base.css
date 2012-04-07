@@ -224,7 +224,7 @@ header h1 {
   color: black;
   font-size: 12.6px;
 }
-#value-section p, #objective-section p, #policy-section p {
+#value-section p, #objective-section p, #policy-section p, #issue-section p {
   color: black;
   margin-top: 1em;
   margin-bottom: 1em;

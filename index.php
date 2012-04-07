@@ -3,7 +3,11 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 // Get the rankings data
-$result = pg_query($dbconn, "SELECT type, COUNT(1) FROM democracylab_rankings WHERE user_id = $democracylab_user_id GROUP BY type");
+$result = pg_query($dbconn, "SELECT type, COUNT(1) FROM democracylab_rankings 
+							  WHERE user_id = {$democracylab_user_id} 
+							    AND community_id = {$democracylab_community_id}
+							    AND issue_id = {$democracylab_issue_id}
+							  GROUP BY type");
 $rankings = array();
 $rankings['values'] = 0;
 $rankings['objectives'] = 0;
@@ -22,7 +26,10 @@ while($row = pg_fetch_array($result)) {
 
 		$a2 = array();
 		$ids = array();
-		$result2 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities WHERE type = {$row[0]}");
+		$result2 = pg_query($dbconn, "SELECT entity_id, title FROM democracylab_entities 
+			WHERE type = {$row[0]} 
+		    AND community_id = {$democracylab_community_id}
+		    AND issue_id = {$democracylab_issue_id}");
 		while($row2 = pg_fetch_object($result2)) {
 			$obj = new stdClass();
 			$obj->id = $row2->entity_id;
@@ -103,7 +110,9 @@ function list_with_boxplots($items) {
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Capital Improvement Fund</div>
+	<?php $result = pg_query($dbconn,"SELECT title FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
+	$row = pg_fetch_object($result); ?>
+	<div class="title"><?= $row->title ?> <a href="<?= dl_facebook_url('chooseissue.php') ?>" style="font-size: 8pt;">(change issue)</a></div>
 </section>
 
 <section id="description-section" class="clearfix">
@@ -184,7 +193,8 @@ function list_with_boxplots($items) {
 		<!-- Please reference our privacy policy and terms of use for more information --></p>
 	<?php
 	if($democracylab_user_role > 0) {
-		?><p style="text-align: center; color: black; border-top: thin dotted red; margin-top: 1em;">admin: <a href="<?= dl_facebook_url('users.php') ?>">users</a><?php
+		?><p style="text-align: center; color: black; border-top: thin dotted red; margin-top: 1em;">admin: <a href="<?= dl_facebook_url('users.php') ?>">users</a>,
+		<a href="<?= dl_facebook_url('communities.php') ?>">communities</a><?php
 	}
 	?>
 	</section>

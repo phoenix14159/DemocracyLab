@@ -130,6 +130,43 @@ function add_user_permissions() {
 }
 add_user_permissions();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_communities_and_issues() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "CREATE TABLE democracylab_communities (
+		community_id SERIAL PRIMARY KEY,
+		title TEXT NOT NULL,
+		description TEXT NOT NULL)" );
+	pg_query($dbconn, "CREATE TABLE democracylab_issues (
+		issue_id SERIAL PRIMARY KEY,
+		community_id INT NOT NULL,
+		title TEXT NOT NULL,
+		description TEXT NOT NULL)" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities 
+		ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities 
+		ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "INSERT INTO democracylab_communities (title,description) VALUES ('DemocracyLab Demo','')");
+	pg_query($dbconn, "INSERT INTO democracylab_communities (title,description) VALUES ('University of Portland CST 491','')");
+	pg_query($dbconn, "INSERT INTO democracylab_issues (community_id,title,description) VALUES (1,'Oregon''s Budget','')");
+	pg_query($dbconn, "INSERT INTO democracylab_issues (community_id,title,description) VALUES (2,'Capital Improvement Fund','')");
+	pg_query($dbconn, "UPDATE democracylab_entities SET community_id = 2, issue_id = 2");
+	record_migration(__FUNCTION__);
+}
+add_communities_and_issues();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_communities_and_issues2() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_rankings
+		ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_rankings
+		ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "UPDATE democracylab_rankings SET community_id = 2, issue_id = 2");
+	record_migration(__FUNCTION__);
+}
+add_communities_and_issues2();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 

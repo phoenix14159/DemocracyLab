@@ -50,6 +50,9 @@ if ($token) {
 	exit("Invalid credentials");
 }
 
+$democracylab_community_id = isset($_REQUEST['community']) ? intval($_REQUEST['community']) : 1;
+$democracylab_issue_id = isset($_REQUEST['issue']) ? intval($_REQUEST['issue']) : 1;
+
 function democracylab_hover_javascript() {
 	?>
 <script>

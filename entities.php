@@ -12,6 +12,8 @@ $result = pg_query($dbconn,"SELECT democracylab_entities.entity_id AS eid,
 						LEFT JOIN (SELECT * FROM democracylab_rankings WHERE democracylab_rankings.user_id = $democracylab_user_id) AS dlr
 						ON democracylab_entities.entity_id = dlr.entity_id
 						WHERE democracylab_entities.type = '$ptype'
+						  AND democracylab_entities.community_id = {$democracylab_community_id}
+						  AND democracylab_entities.issue_id = {$democracylab_issue_id}
 						ORDER BY dlr.ranking");
 $entities = array();
 while($row = pg_fetch_object($result)) { 
@@ -30,6 +32,8 @@ $result = pg_query($dbconn,"SELECT democracylab_entities.entity_id AS eid,
 						LEFT JOIN (SELECT * FROM democracylab_rankings WHERE democracylab_rankings.user_id = $democracylab_user_id) AS dlr
 						ON democracylab_entities.entity_id = dlr.entity_id
 						WHERE democracylab_entities.type = '$yourtype'
+						  AND democracylab_entities.community_id = {$democracylab_community_id}
+						  AND democracylab_entities.issue_id = {$democracylab_issue_id}
 						  AND dlr.ranking > 0
 						ORDER BY dlr.ranking");
 $yourentities = array();
@@ -56,7 +60,9 @@ skip_your_query:
 
 <section id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<div class="title">Capital Improvement Fund</div>
+	<?php $result = pg_query($dbconn,"SELECT title FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
+	$row = pg_fetch_object($result); ?>
+	<div class="title"><?= $row->title ?></div>
 </section>
 
 <?php if($type == 1) { ?>
@@ -208,6 +214,8 @@ $(function () {
 			data['state'] = "<?= $_REQUEST['state'] ?>";
 			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'positive';
+			data['community'] = <?= $democracylab_community_id ?>;
+			data['issue'] = <?= $democracylab_community_id ?>;
 			
 			$.ajax({
 				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',
@@ -232,6 +240,8 @@ $(function () {
 			data['state'] = "<?= $_REQUEST['state'] ?>";
 			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'negative';
+			data['community'] = <?= $democracylab_community_id ?>;
+			data['issue'] = <?= $democracylab_community_id ?>;
 			
 			$.ajax({
 				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',

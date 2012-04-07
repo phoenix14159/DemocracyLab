@@ -43,16 +43,27 @@ if($_POST['list'] == 'positive') {
 }
 $sql = '';
 foreach($data as $key) {
-	$sql = $sql . ",($democracylab_user_id,$type,$key,$idx," . ranking_conv($idx) . ")";
+	$sql = $sql . ",($democracylab_user_id,$type,$key,$idx," . ranking_conv($idx) . ",$democracylab_community_id,$democracylab_issue_id)";
 	$idx += $inc;
 }
 
 if($_POST['list'] == 'positive') {
-	$result = pg_query("DELETE FROM democracylab_rankings WHERE type = '$type' AND user_id = $democracylab_user_id AND ranking > 0");
+	$result = pg_query("DELETE FROM democracylab_rankings 
+						 WHERE type = '$type' 
+						   AND community_id = {$democracylab_community_id}
+						   AND issue_id = {$democracylab_issue_id}
+						   AND user_id = $democracylab_user_id 
+						   AND ranking > 0");
 } else {
-	$result = pg_query("DELETE FROM democracylab_rankings WHERE type = '$type' AND user_id = $democracylab_user_id AND ranking < 0");	
+	$result = pg_query("DELETE FROM democracylab_rankings 
+						 WHERE type = '$type' 
+						   AND community_id = {$democracylab_community_id}
+						   AND issue_id = {$democracylab_issue_id}
+						   AND user_id = $democracylab_user_id 
+						   AND ranking < 0");	
 }
 if($sql) {
-	$result = pg_query("INSERT INTO democracylab_rankings (user_id,type,entity_id,ranking,rating) VALUES " . substr($sql,1));
+	$result = pg_query("INSERT INTO democracylab_rankings (user_id,type,entity_id,ranking,rating,community_id,issue_id) 
+						VALUES " . substr($sql,1));
 }
 ?>

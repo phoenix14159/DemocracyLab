@@ -55,7 +55,11 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 				<p>Choose a policy:</p>
 			<?php } ?>
 	<?php } 
-	$result = pg_query($dbconn, "SELECT * FROM democracylab_entities WHERE type = {$type} ORDER BY title");
+	$result = pg_query($dbconn, "SELECT * FROM democracylab_entities 
+								  WHERE type = {$type} 
+								    AND community_id = {$democracylab_community_id}
+								    AND issue_id = {$democracylab_issue_id}
+								  ORDER BY title");
 	?>
 	<script type="text/javascript">
 	function submitform()
