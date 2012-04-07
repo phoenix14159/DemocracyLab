@@ -1,6 +1,6 @@
 <?php
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
-require_once(DL_BASESCRIPT . '/lib/lib.inc');
+require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 $type = pg_escape_string($_REQUEST['type']);
 $name = pg_escape_string($_REQUEST['name']);

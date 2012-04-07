@@ -1,6 +1,6 @@
 <?php
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
-require_once(DL_BASESCRIPT . '/lib/lib.inc');
+require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 // Get the rankings data
 $result = pg_query($dbconn, "SELECT type, COUNT(1) FROM democracylab_rankings WHERE user_id = $democracylab_user_id GROUP BY type");

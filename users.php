@@ -1,6 +1,6 @@
 <?php
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
-require_once(DL_BASESCRIPT . '/lib/lib.inc');
+require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 if($democracylab_user_role == 0) {
 	header('Location: ' . dl_facebook_url('index.php') );

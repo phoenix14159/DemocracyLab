@@ -14,7 +14,7 @@
  * $democracylab_user_role = DemocracyLab user role (0=normal, 1=superuser)
  * 
  */
-require_once(DL_BASESCRIPT . '/lib/prelib.inc');
+require_once(DL_BASESCRIPT . '/lib/prelib.php');
 
 require_once(DL_BASESCRIPT . '/FBUtils.php');
 require_once(DL_BASESCRIPT . '/AppInfo.php');

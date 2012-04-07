@@ -1,6 +1,6 @@
 <?php
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')) . '/..');
-require_once(DL_BASESCRIPT . '/lib/prelib.inc');
+require_once(DL_BASESCRIPT . '/lib/prelib.php');
 
 $result = @pg_query("SELECT COUNT(1) FROM migrations");
 if(!$result) {
