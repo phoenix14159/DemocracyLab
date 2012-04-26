@@ -115,19 +115,30 @@ function list_with_boxplots($items) {
 	<div class="title"><?= $row->title ?> <a href="<?= dl_facebook_url('chooseissue.php') ?>" style="font-size: 8pt;">(change issue)</a></div>
 </section>
 
-<section id="description-section" class="clearfix">
-	<div id="description-block" dl_id=0><span class="instructions">See a description by
-		hovering over a value, objective or policy.</span></div>
-</section>
 
-<?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { ?>
+<?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { 
+	if($democracylab_issue_id == 2) { ?>
+		<section id="how-it-works-section" class="clearfix">
+			<p>The aim of this tool is to identify issues, stimulate ideas, and create a
+			dialogue around the UP Capital Improvement Fund (CIF), also known as the
+			Major Project Fund. Please use this application to express and group the
+			values, objectives, and policies related to the CIF. Thank you for input!
+			</p>
+		</section>	
+	<?php } else { ?>
 	<section id="how-it-works-section" class="clearfix">
 		<p>DemocracyLab helps facilitate a structured discussion about the issues.
 			Each participant ranks the values, objectives, and policies that are
 			personally important. (More explanation needed.)
 		</p>
 	</section>	
-<?php }?>
+	<?php } ?>
+<?php } else { ?>
+	<section id="description-section" class="clearfix">
+		<div id="description-block" dl_id=0><span class="instructions">See a description by
+			hovering over a value, objective or policy.</span></div>
+	</section>
+<?php } ?>
     <section id="entities-summary-section" class="clearfix">
 	<div class="entity-list">
 		<?php
