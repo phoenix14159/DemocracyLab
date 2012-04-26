@@ -15,21 +15,42 @@
  * 
  */
 require_once(DL_BASESCRIPT . '/lib/prelib.php');
+$now2_time = microtime(true);//TIMING
+error_log(__FILE__ . " loaded prelib.php in " . ($now2_time - $now_time));//TIMING
+$now_time = $now2_time; //TIMING
 
 require_once(DL_BASESCRIPT . '/FBUtils.php');
+$now2_time = microtime(true);//TIMING
+error_log(__FILE__ . " loaded FBUtils.php in " . ($now2_time - $now_time));//TIMING
+$now_time = $now2_time; //TIMING
 require_once(DL_BASESCRIPT . '/AppInfo.php');
+$now2_time = microtime(true);//TIMING
+error_log(__FILE__ . " loaded AppInfo.php in " . ($now2_time - $now_time));//TIMING
+$now_time = $now2_time; //TIMING
 require_once(DL_BASESCRIPT . '/utils.php');
+$now2_time = microtime(true);//TIMING
+error_log(__FILE__ . " loaded utils.php in " . ($now2_time - $now_time));//TIMING
+$now_time = $now2_time; //TIMING
 
 $token = FBUtils::login(AppInfo::getHome());
+$now2_time = microtime(true);//TIMING
+error_log(__FILE__ . " FBUtils::login in " . ($now2_time - $now_time));//TIMING
+$now_time = $now2_time; //TIMING
 if ($token) {
 
 	// Fetch the viewer's basic information, using the token just provided
 	$basic = FBUtils::fetchFromFBGraph("me?access_token=$token");
+	$now2_time = microtime(true);//TIMING
+	error_log(__FILE__ . " FBUtils::fetchFromFBGraph in " . ($now2_time - $now_time));//TIMING
+	$now_time = $now2_time; //TIMING
 	$my_id = assertNumeric(idx($basic, 'id'));
 
 	// Fetch the basic info of the app that they are using
 	$app_id = AppInfo::appID();
 	$app_info = FBUtils::fetchFromFBGraph("$app_id?access_token=$token");
+	$now2_time = microtime(true);//TIMING
+	error_log(__FILE__ . " FBUtils::fetchFromFBGraph in " . ($now2_time - $now_time));//TIMING
+	$now_time = $now2_time; //TIMING
 	
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE fb_id = $my_id");
 	$row = pg_fetch_object($result);
