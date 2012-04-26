@@ -167,6 +167,17 @@ function add_communities_and_issues2() {
 }
 add_communities_and_issues2();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_additional_indicies_1() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "CREATE INDEX democracylab_entities_itci ON democracylab_entities (entity_id,type,community_id,issue_id)" );
+	pg_query($dbconn, "CREATE INDEX democracylab_entities_tci  ON democracylab_entities (type,community_id,issue_id)" );
+	pg_query($dbconn, "CREATE INDEX democracylab_rankings_u ON democracylab_rankings (user_id)" );
+	pg_query($dbconn, "CREATE INDEX democracylab_rankings_tciu ON democracylab_rankings (type,community_id,issue_id,user_id)" );
+	record_migration(__FUNCTION__);
+}
+add_additional_indicies_1();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 
