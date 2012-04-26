@@ -47,12 +47,12 @@ function dl_facebook_url($page,$type=0,$entityid=0) {
 	global $democracylab_community_id;
 	if($type) {
 		if($entityid) {
-			return $page . "?type={$type}&entityid={$entityid}&community={$democracylab_community_id}&issue={$democracylab_issue_id}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+			return $page . "?type={$type}&entityid={$entityid}&community={$democracylab_community_id}&issue={$democracylab_issue_id}";
 		} else {
-			return $page . "?type={$type}&community={$democracylab_community_id}&issue={$democracylab_issue_id}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+			return $page . "?type={$type}&community={$democracylab_community_id}&issue={$democracylab_issue_id}";
 		}
 	} else {
-		return $page . "?community={$democracylab_community_id}&issue={$democracylab_issue_id}&state={$_REQUEST['state']}&code={$_REQUEST['code']}";
+		return $page . "?community={$democracylab_community_id}&issue={$democracylab_issue_id}";
 	}
 }
 function dl_facebook_redirect_url($page,$type=0) {
@@ -62,9 +62,7 @@ function dl_facebook_form_fields($type=0) {
 	global $democracylab_user_id;
 	global $democracylab_issue_id;
 	global $democracylab_community_id;
-	return "<input type='hidden' name='state' value='{$_REQUEST['state']}'>"
-		.  "<input type='hidden' name='code' value='{$_REQUEST['code']}'>"
-		.  "<input type='hidden' name='community' value='{$democracylab_community_id}'>"
+	return "<input type='hidden' name='community' value='{$democracylab_community_id}'>"
 		.  "<input type='hidden' name='issue' value='{$democracylab_issue_id}'>"
 		.  (($type) ? "<input type='hidden' name='type' value='{$type}'>" : '')
 		;

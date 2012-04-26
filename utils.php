@@ -1,19 +1,4 @@
 <?php
-
-/*****************************************************************************
- *
- * This script provides non Facebook specific utility functions that you may
- * wish to use in your app.  These functions involve 'sanitizing' output to
- * prevent XSS (Cross-site scripting) vulnerabilities.  By using these
- * functions, you remove a certain type of malicious content that could
- * be displayed to your users.  For a more robust and comprehensive solution,
- * Facebook has open sourced XHP.  XHP is a PHP extension which makes your
- * front-end code easier to understand and help you avoid cross-site
- * scripting attacks.  Learn more at 'https://github.com/facebook/xhp/wiki/'.
- *
- ****************************************************************************/
-
-
 /**
  * @return the value at $index in $array or $default if $index is not set.
  *         By default, the value returned will be sanitized to prevent

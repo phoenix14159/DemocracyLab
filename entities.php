@@ -211,8 +211,6 @@ $(function () {
 				data[this.id] = (i+1);
 			});
 			data['type'] = <?= $type ?>;
-			data['state'] = "<?= $_REQUEST['state'] ?>";
-			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'positive';
 			data['community'] = <?= $democracylab_community_id ?>;
 			data['issue'] = <?= $democracylab_community_id ?>;
@@ -237,8 +235,6 @@ $(function () {
 				data[this.id] = -(i+1);
 			});
 			data['type'] = <?= $type ?>;
-			data['state'] = "<?= $_REQUEST['state'] ?>";
-			data['code'] = "<?= $_REQUEST['code'] ?>";
 			data['list'] = 'negative';
 			data['community'] = <?= $democracylab_community_id ?>;
 			data['issue'] = <?= $democracylab_community_id ?>;
