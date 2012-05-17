@@ -162,7 +162,13 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid gray;}
 </table></center>
 		</p>
 	</section>	
-<?php } ?>
+<?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
+	<section id="description-section" class="clearfix">
+		<div id="description-block" dl_id=0><span class="instructions">See a description by
+			hovering over a value, objective or policy.</span></div>
+	</section>
+<?php } 
+} ?>
     <section id="entities-summary-section" class="clearfix">
 	<div class="entity-list">
 		<?php
