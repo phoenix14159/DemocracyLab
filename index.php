@@ -97,13 +97,19 @@ function list_with_boxplots($items) {
 <header class="clearfix">
 	<div style="margin-left: -5px; background-image: url(images/dl.png); width: 293px; height: 102px; float: left; margin-right: 20px;"></div>
 	<div style="float: left; width: 395px;">
-		<h1 style="color: #6485a2; font-size: 220%;">Welcome to DemocracyLab</h1>
+		<h1 style="color: #6485a2; font-size: 210%;">Welcome to our engagement platform</h1>
 		<p style="color: black;
 		line-height: 1;
-		font: 14px/1.5em 'Lucida Grande',Arial,sans-serif">Welcome to our Facebook application. 
-		We're creating new tools to help people,
-		communities, and organizations make better collective decisions.
-		Learn more at <a href="http://democracylab.org">democracylab.org</a>.
+		font: 14px/1.5em 'Lucida Grande',Arial,sans-serif;
+		margin-bottom: 5px;">We're creating new tools to help communities make better
+		decisions. You can learn more about us at <a href="http://democracylab.org/">democracylab.org</a>.
+		</p>
+		<p style="color: black;
+		line-height: 1;
+		font: 14px/1.5em 'Lucida Grande',Arial,sans-serif">To participate, 
+		we'll ask you to share the values, objectives, and
+		policies that most closely reflect your thinking on the current
+		issue. Email your feedback to <a href="mailto:info@democracylab.org">info@democracylab.org</a>.
 		</p>
 	</div>
 </header>
@@ -116,8 +122,9 @@ function list_with_boxplots($items) {
 </section>
 
 
-<?php if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) { 
-	if($democracylab_issue_id == 2) { ?>
+<?php 
+	if($democracylab_issue_id == 2) { 
+		if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
 		<section id="how-it-works-section" class="clearfix">
 			<p>The aim of this tool is to identify issues, stimulate ideas, and create a
 			dialogue around the UP Capital Improvement Fund (CIF), also known as the
@@ -126,18 +133,35 @@ function list_with_boxplots($items) {
 			</p>
 		</section>	
 	<?php } else { ?>
+		<section id="description-section" class="clearfix">
+			<div id="description-block" dl_id=0><span class="instructions">See a description by
+				hovering over a value, objective or policy.</span></div>
+		</section>
+	<?php } }
+	else { ?>
 	<section id="how-it-works-section" class="clearfix">
-		<p>DemocracyLab helps facilitate a structured discussion about the issues.
-			Each participant ranks the values, objectives, and policies that are
-			personally important. (More explanation needed.)
+		<p>OREGON'S TAX SYSTEM*</p>
+		<p>
+		A recent <a href="http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf">research report</a> 
+		by Oregon's Legislative Revenue Office included the following table and
+		comments comparing Oregon's tax system to other states across the country:
+<style>
+table { border: thin solid gray;}
+th { font-weight: bold; text-align: left; padding-left: 10px; padding-right: 10px; border: thin solid gray;}
+td { padding-left: 10px; padding-right: 10px; border: thin solid gray;}
+</style>
+<center><table>
+	<tr><th>REVENUE CATEGORIES</th><th>$ PER PERSON</th><th>RANK AMONG THE STATES</th></tr>
+	<tr><th>TOTAL TAXES</th><td>$3,275</td><td>39th</td></tr>
+	<tr><th>PERSONAL INCOME TAX</th><td>$1,356</td><td>5th</td></tr>
+	<tr><th>CORPORATE INCOME TAX</th><td>$75</th><td>38th</td></tr>
+	<tr><th>PROPERTY TAX</th><td>$1,166</th><td>28th</td></tr>
+	<tr><th>GENERAL SALES TAX</th><td>0</th><td>50th</td></tr>
+	<tr><th>SELECTIVE SALES TAXES</th><td>$319</th><td>44th</td></tr>
+	<tr><th>OTHER TAXES</th><td>$359</th><td>12th</td></tr>
+</table></center>
 		</p>
 	</section>	
-	<?php } ?>
-<?php } else { ?>
-	<section id="description-section" class="clearfix">
-		<div id="description-block" dl_id=0><span class="instructions">See a description by
-			hovering over a value, objective or policy.</span></div>
-	</section>
 <?php } ?>
     <section id="entities-summary-section" class="clearfix">
 	<div class="entity-list">
@@ -146,14 +170,13 @@ function list_with_boxplots($items) {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Explore Values</a><ol class="values-list"><?php
 			list_with_boxplots($rankings['values']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Please classify some Values</a>
+			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Please share your Values</a>
 			<p class="description">
-				Values are the beliefs and principles that form the basis of our decisions.
-				They are why we think about the world the way we do.
-			</p>
-			<p class="description">
-				To participate in the structured discussion, you will need to rank 
-				the values about which you feel most strongly.
+				Values are the beliefs and principles that form the basis of our decisions. They are why we think about
+				the world the way we do.
+				</p>
+				<p class="description">
+				To participate, you'll rank the values you feel most strongly about.
 			</p><?php
 		}
 		?>
@@ -164,14 +187,14 @@ function list_with_boxplots($items) {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Explore Objectives</a><ol class="objectives-list"><?php
 			list_with_boxplots($rankings['objectives']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please classify some Objectives</a>
+			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please prioritize your Objectives</a>
 			<p class="description">
-				Objectives are statements of our goals and priorities. Objectives are based on
-				our values, and are statements of what we hope to achieve.
+				Objectives are statements of our goals relating to an issue. <br>Objectives are based on our values, and
+				are statements of what we hope to achieve. 
 			</p>
 			<p class="description">
-				To participate in the structured discussion, you will need to rank the
-				objectives that the best statements of your goals for this issue.
+				To participate, you'll rank the objectives that are most
+				important <br>to you.
 			</p><?php
 		}
 		?>
@@ -182,21 +205,32 @@ function list_with_boxplots($items) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Explore Policies</a><ol class="policies-list"><?php
 			list_with_boxplots($rankings['policies']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Please classify some Policies</a>
+			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Please evaluate Policies</a>
 			<p class="description">
-				Policies are plans of action. They are detailed descriptions of how we
-				can achieve our objectives, including a prudent assessment of likely
-				costs and benefits.
+				Policies are plans of action. They are detailed descriptions of how we can achieve our objectives. 
 			</p>
 			<p class="description">
-				To participate in the structured discussion, you will need to rank the
-				policies that you believe are the best for this issue.
+				To participate, you'll rank the <br>policies that you believe are best <br>for this issue.
 			</p><?php
 		}
 		?>
 	</div>
     </section>
     <section id="footer" class="clearfix">
+	<?php if($democracylab_issue_id == 2) { } else { ?>
+		<p>* Oregon's overall state and local tax burden ranks 39th on a per person basis. However, the state
+		personal income tax burden is among the highest in the nation at $1,356 per person. The ranking for
+		corporate income taxes is relatively low at #38, but this is prior to the imposition of higher corporate tax
+		rates and a new corporate minimum called for in Measure 67. Property taxes are near the middle of
+		the states, ranking # 28. The state tax burden on consumption (general sales plus selective sales) is
+		the lowest in the country. In addition to being one of five states without a general sales tax, Oregon
+		ranks 44th in selective sales tax collections per person. Selective sales taxes include gasoline taxes,
+		tobacco taxes, alcoholic beverage taxes, real estate transfer taxes and other excise taxes on specific
+		purchases. It also includes health provider taxes which have risen in Oregon and other states in recent
+		years. The other tax category includes severance taxes and estate taxes.<br><br>
+		</p>
+	<?php } ?>
+	
 	<p>DemocracyLab is a 501(c)(3) nonprofit organization aspiring to revolutionize the nature of political
 		dialogue. We believe privacy is important, especially when talking about politics. We treat your
 		personal information with the care and respect you deserve, and will never share any details about you

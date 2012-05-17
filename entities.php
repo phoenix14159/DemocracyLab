@@ -70,14 +70,15 @@ skip_your_query:
 		<div class="icon"></div>
 		<div class="title">Values</div>
 		<div style="clear: both"></div>
-		<p>Values are the beliefs and principles that form the basis of our decisions.
-		They are why we think about the world the way we do.</p>
-		<p>Below is a list of values. Please order the values you feel most strongly
-			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Put the value you feel most strongly positive
-			about at the top of the positive box, the value you feel second most strongly
-			positive about next, etc. For values you feel strongly negative about, use
-			the negative box in the same way.</p>
+		<p>Values are the beliefs and principles that form the basis of our decisions. They are why we think about
+		the world the way we do.</p>
+		<p>
+		Below is a list of values. Please order the values you feel most strongly about by dragging a value icon
+		on the left to one of the boxes on the right. Order at least one, but there is no need to order them all &mdash;
+		just move the ones you feel strongly about. Put the value you feel most positively about at the top of
+		the positive box, the value you feel second most strongly about next, etc. Drag the value you feel most
+		negatively about to the bottom of the negative box.
+		</p>
 	</section>	
 <?php } else if($type == 2) { ?>
 	<section id="value-section" class="clearfix">
@@ -101,14 +102,13 @@ skip_your_query:
 		<div class="icon"></div>
 		<div class="title">Objectives</div>
 		<div style="clear: both"></div>
-		<p>Objectives are statements of our goals and priorities. Objectives are based on
-		our values, and are statements of what we hope to achieve.</p>
-		<p>Below is a list of objectives. Please order the objectives you feel most strongly
-			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Put the objective you feel most strongly positive
-			about at the top of the positive box, the objective you feel second most strongly
-			positive about next, etc. For objectives you feel strongly negative about, use
-			the negative box in the same way.</p>
+		<p>Objectives are statements of our goals relating to an issue. Objectives are based on our values, and are
+		statements of what we hope to achieve.</p>
+		<p>Below is a list of objectives. Please order the objectives you feel most strongly about by dragging an
+		objective icon on the left to one of the boxes on the right. Order at least one, but there is no need to
+		order them all &mdash; just move the ones you feel strongly about. Put the objectives you feel most positively
+		about at the top of the positive box, the objective you feel second most strongly about next, etc. Drag
+		the objective you feel most negatively about to the bottom of the negative box.</p>
 	</section>	
 <?php } else if($type == 3) { ?>
 	<section id="objective-section" class="clearfix">
@@ -132,15 +132,13 @@ skip_your_query:
 		<div class="icon"></div>
 		<div class="title">Policies</div>
 		<div style="clear: both"></div>
-		<p>Policies are plans of action. They are detailed descriptions of how we
-		can achieve our objectives, including a prudent assessment of likely
-		costs and benefits.</p>
-		<p>Below is a list of policies. Please order the policies you feel most strongly
-			about. Order at least one, but there is no need to order them all &mdash; just
-			the ones you feel strongly about. Put the policy you feel most strongly positive
-			about at the top of the positive box, the policy you feel second most strongly
-			positive about next, etc. For policies you feel strongly negative about, use
-			the negative box in the same way.</p>
+		<p>Policies are plans of action. They are detailed descriptions of how we can achieve our objectives,
+		including a prudent assessment of likely costs and benefits.</p>
+		<p>Below is a list of policies. Please order the policies you feel most strongly about by dragging a policy icon
+		on the left to one of the boxes on the right. Order at least one, but there is no need to order them all &mdash;
+		just move the ones you feel strongly about. Put the policy you feel most positively about at the top of
+		the positive box, the policy you feel second most strongly about next, etc. Drag the policy you feel most
+		negatively about to the bottom of the negative box.</p>
 	</section>	
 <?php } ?>
 
