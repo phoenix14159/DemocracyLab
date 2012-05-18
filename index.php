@@ -195,7 +195,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a>
 			<p class="description">
 				Objectives are statements of our goals relating to an issue. They are based on our values, and
-				are statements of what we hope <br>to achieve. 
+				are statements of what we hope to achieve. 
 			</p>
 			<p class="description">
 				To participate, you'll rank the objectives that are most
