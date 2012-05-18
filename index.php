@@ -140,15 +140,14 @@ function list_with_boxplots($items) {
 	<?php } }
 	else { ?>
 	<section id="how-it-works-section" class="clearfix">
-		<p>OREGON'S TAX SYSTEM*</p>
 		<p>
-		A recent <a href="http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf">research report</a> 
+		A recent <a href="http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf" target="_new">research report</a> 
 		by Oregon's Legislative Revenue Office included the following table and
-		comments comparing Oregon's tax system to other states across the country:
+		comments* comparing Oregon's tax system to other states across the country:
 <style>
-table { border: thin solid gray;}
-th { font-weight: bold; text-align: left; padding-left: 10px; padding-right: 10px; border: thin solid gray;}
-td { padding-left: 10px; padding-right: 10px; border: thin solid gray;}
+table { border: thin solid #CCC;}
+th { font-weight: bold; text-align: left; padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
+td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 </style>
 <center><table>
 	<tr><th>REVENUE CATEGORIES</th><th>$ PER PERSON</th><th>RANK AMONG THE STATES</th></tr>
@@ -195,8 +194,8 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid gray;}
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Please prioritize your Objectives</a>
 			<p class="description">
-				Objectives are statements of our goals relating to an issue. <br>Objectives are based on our values, and
-				are statements of what we hope to achieve. 
+				Objectives are statements of our goals relating to an issue. They are based on our values, and
+				are statements of what we hope <br>to achieve. 
 			</p>
 			<p class="description">
 				To participate, you'll rank the objectives that are most
@@ -223,8 +222,12 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid gray;}
 	</div>
     </section>
     <section id="footer" class="clearfix">
+<?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
+	<p style="text-align: center; color: #444;"><a style="font-size: 90%; font-style: italic;" href="http://stattrek.com/statistics/charts/boxplot.aspx">How do I read box plot diagrams?</a><br><br></p>
+<?php } ?>	
+
 	<?php if($democracylab_issue_id == 2) { } else { ?>
-		<p>* Oregon's overall state and local tax burden ranks 39th on a per person basis. However, the state
+		<p style="color: #444;">* Oregon's overall state and local tax burden ranks 39th on a per person basis. However, the state
 		personal income tax burden is among the highest in the nation at $1,356 per person. The ranking for
 		corporate income taxes is relatively low at #38, but this is prior to the imposition of higher corporate tax
 		rates and a new corporate minimum called for in Measure 67. Property taxes are near the middle of

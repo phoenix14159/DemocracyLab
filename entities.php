@@ -73,7 +73,8 @@ skip_your_query:
 		<p>Values are the beliefs and principles that form the basis of our decisions. They are why we think about
 		the world the way we do.</p>
 		<p>
-		Below is a list of values. Please order the values you feel most strongly about by dragging a value icon
+		Below is a list of values. Please order the values you feel most strongly about (as they relate to this issue)
+		by dragging a value icon
 		on the left to one of the boxes on the right. Order at least one, but there is no need to order them all &mdash;
 		just move the ones you feel strongly about. Put the value you feel most positively about at the top of
 		the positive box, the value you feel second most strongly about next, etc. Drag the value you feel most
@@ -106,7 +107,7 @@ skip_your_query:
 		statements of what we hope to achieve.</p>
 		<p>Below is a list of objectives. Please order the objectives you feel most strongly about by dragging an
 		objective icon on the left to one of the boxes on the right. Order at least one, but there is no need to
-		order them all &mdash; just move the ones you feel strongly about. Put the objectives you feel most positively
+		order them all &mdash; just move the ones you feel strongly about. Put the objective you feel most positively
 		about at the top of the positive box, the objective you feel second most strongly about next, etc. Drag
 		the objective you feel most negatively about to the bottom of the negative box.</p>
 	</section>	
@@ -132,8 +133,7 @@ skip_your_query:
 		<div class="icon"></div>
 		<div class="title">Policies</div>
 		<div style="clear: both"></div>
-		<p>Policies are plans of action. They are detailed descriptions of how we can achieve our objectives,
-		including a prudent assessment of likely costs and benefits.</p>
+		<p>Policies are plans of action. They are detailed descriptions of how we can achieve our objectives.</p>
 		<p>Below is a list of policies. Please order the policies you feel most strongly about by dragging a policy icon
 		on the left to one of the boxes on the right. Order at least one, but there is no need to order them all &mdash;
 		just move the ones you feel strongly about. Put the policy you feel most positively about at the top of
@@ -252,12 +252,22 @@ $(function () {
 </section>
 
 <section id="adding-section" class="clearfix">
+<?php if($type == 1) { ?>
+	<a href="<?= dl_facebook_url('entities.php',2) ?>">Go to step 2 &ndash; Objectives</a><br>
+	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page and view my results</a><br>
+<?php } else if($type == 2) { ?>
+	<a href="<?= dl_facebook_url('entities.php',3) ?>">Go to step 3 &ndash; Policies</a><br>
+	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page and view my results</a><br>
+<?php } else if($type == 3) { ?>
+	<a href="<?= dl_facebook_url('index.php') ?>">I'm finished! Return to the overview page and view my results</a><br>
+<?php } else { ?>
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
-	<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
+<?php } ?>
 	<?php
 	$result3 = pg_query($dbconn,"SELECT COUNT(1) FROM democracylab_entities WHERE user_id = $democracylab_user_id");
 	$count3 = pg_fetch_array($result3);
 	if($democracylab_user_role > 0 || $count3 > 0) { ?>
+		<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
 		&mdash;
 		<a style="color: #768BB7" href="<?= dl_facebook_url('editentity.php',$type) ?>">Edit an existing <?= dl_typestring($type,'lcs') ?></a>
 		&mdash;
