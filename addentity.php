@@ -18,21 +18,21 @@ $type = intval($_REQUEST['type']);
 </header>
 
 <?php if($type == 1) { ?>
-	<section id="value-section" class="clearfix">
+	<div id="value-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Add a New Value</div>
 		<div style="clear: both"></div>
 		<p>Values are the beliefs and principles that form the basis of our decisions.
 		They are why we think about the world the way we do.</p>
 <?php } else if($type == 2) { ?>
-	<section id="objective-section" class="clearfix">
+	<div id="objective-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Add a New Objective</div>
 		<div style="clear: both"></div>
 		<p>Objectives are statements of our goals and priorities. Objectives are based on
 		our values, and are statements of what we hope to achieve.</p>
 <?php } else if($type == 3) { ?>
-	<section id="policy-section" class="clearfix">
+	<div id="policy-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Add a New Policy</div>
 		<div style="clear: both"></div>
@@ -51,9 +51,9 @@ $type = intval($_REQUEST['type']);
 </form>
 
 <a href="<?= dl_facebook_url('entities.php',$type) ?>">Go back to the <?= dl_typestring($type,'ucp') ?> page</a>
-</section>
+</div>
 
-<section id="footer" class="clearfix">
-</section>
+<div id="footer" class="clearfix">
+</div>
 </body>
 </html>

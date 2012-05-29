@@ -37,7 +37,7 @@ function change_admin(userid,node) {
 	});
 }
 </script>
-<section id="issue-section" class="clearfix">
+<div id="issue-section" class="clearfix">
 	<table style="color: black;">
 	<?php
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users ORDER BY name");
@@ -51,10 +51,10 @@ function change_admin(userid,node) {
 	}
 	?>
 	</table>
-</section>
+</div>
 
-    <section id="footer" class="clearfix">
+    <div id="footer" class="clearfix">
 	<p><a href="<?= dl_facebook_url('index.php') ?>">back to main page</a></p>
-	</section>
+	</div>
   </body>
 </html>

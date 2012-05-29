@@ -92,6 +92,7 @@ function list_with_boxplots($items) {
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+	<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
 </head>
 <body>
 <header class="clearfix">
@@ -114,32 +115,32 @@ function list_with_boxplots($items) {
 	</div>
 </header>
 
-<section id="issue-section" class="clearfix">
+<div id="issue-section" class="clearfix">
 	<div class="icon"></div>
 	<?php $result = pg_query($dbconn,"SELECT title FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
 	$row = pg_fetch_object($result); ?>
 	<div class="title"><?= $row->title ?> <a href="<?= dl_facebook_url('chooseissue.php') ?>" style="font-size: 8pt;">(change issue)</a></div>
-</section>
+</div>
 
 
 <?php 
 	if($democracylab_issue_id == 2) { 
 		if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
-		<section id="how-it-works-section" class="clearfix">
+		<div id="how-it-works-section" class="clearfix">
 			<p>The aim of this tool is to identify issues, stimulate ideas, and create a
 			dialogue around the UP Capital Improvement Fund (CIF), also known as the
 			Major Project Fund. Please use this application to express and group the
 			values, objectives, and policies related to the CIF. Thank you for input!
 			</p>
-		</section>	
+		</div>	
 	<?php } else { ?>
-		<section id="description-section" class="clearfix">
+		<div id="description-section" class="clearfix">
 			<div id="description-block" dl_id=0><span class="instructions">See a description by
 				hovering over a value, objective or policy.</span></div>
-		</section>
+		</div>
 	<?php } }
 	else { ?>
-	<section id="how-it-works-section" class="clearfix">
+	<div id="how-it-works-section" class="clearfix">
 		<p>
 		A recent <a href="http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf" target="_new">research report</a> 
 		by Oregon's Legislative Revenue Office included the following table and
@@ -160,16 +161,16 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 	<tr><th>OTHER TAXES</th><td>$359</th><td>12th</td></tr>
 </table></center>
 		</p>
-	</section>	
+	</div>	
 <?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
-	<section id="description-section" class="clearfix">
+	<div id="description-section" class="clearfix">
 		<div id="description-block" dl_id=0><span class="instructions">See a description by
 			hovering over a value, objective or policy.</span></div>
-	</section>
+	</div>
 <?php } 
 } ?>
-    <section id="entities-summary-section" class="clearfix">
-	<div class="entity-list">
+    <div id="entities-summary" class="clearfix">
+	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['values']) {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 1 - Share Your Values</a><ol class="values-list"><?php
@@ -186,7 +187,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		}
 		?>
 	</div>
-	<div class="entity-list">
+	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['objectives']) {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a><ol class="objectives-list"><?php
@@ -204,7 +205,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		}
 		?>
 	</div>
-	<div class="entity-list">
+	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['policies']) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 3 - Evaluate Policies</a><ol class="policies-list"><?php
@@ -220,8 +221,9 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		}
 		?>
 	</div>
-    </section>
-    <section id="footer" class="clearfix">
+	<div class="clearfix"></div>
+    </div>
+    <div id="footer" class="clearfix">
 <?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
 	<p style="text-align: center; color: #444;"><a style="font-size: 90%; font-style: italic;" target="_new" href="http://stattrek.com/statistics/charts/boxplot.aspx">How do I read box plot diagrams?</a><br><br></p>
 <?php } ?>	
@@ -251,8 +253,9 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		<a href="<?= dl_facebook_url('communities.php') ?>">communities</a><?php
 	}
 	?>
-	</section>
+	</div>
 <script>
+var G_vmlCanvasManager;
 function create_a_boxplot(elem) {
 	var node = $(elem);
 	var count = node.attr("dl_count");
@@ -286,6 +289,9 @@ function create_a_boxplot(elem) {
 			else { stdx1 = stdx1 - 3; stdx2 = stdx2 + 1; }
 		}
 		// draw the min-max line
+        if (G_vmlCanvasManager != undefined) { // ie IE
+                G_vmlCanvasManager.initElement(elem);
+        }
 		var ctx = elem.getContext("2d");
 		if( ctx ) {
 			// draw the zero line

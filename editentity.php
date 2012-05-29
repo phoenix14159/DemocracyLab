@@ -25,7 +25,7 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 
 <?php if(!$entityid) {
 	if($type == 1) { ?>
-		<section id="value-section" class="clearfix">
+		<div id="value-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit an Existing Value</div>
 			<div style="clear: both"></div>
@@ -35,7 +35,7 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 				<p>Choose a value:</p>
 			<?php } ?>
 	<?php } else if($type == 2) { ?>
-		<section id="objective-section" class="clearfix">
+		<div id="objective-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit an Existing Objective</div>
 			<div style="clear: both"></div>
@@ -45,7 +45,7 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 				<p>Choose an objective:</p>
 			<?php } ?>
 	<?php } else if($type == 3) { ?>
-		<section id="policy-section" class="clearfix">
+		<div id="policy-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit an Existing Policy</div>
 			<div style="clear: both"></div>
@@ -84,19 +84,19 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_entities WHERE entity_id = {$entityid}");
 	$row = pg_fetch_object($result);
 	if($type == 1) { ?>
-		<section id="value-section" class="clearfix">
+		<div id="value-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
 			<p></p>
 	<?php } else if($type == 2) { ?>
-		<section id="objective-section" class="clearfix">
+		<div id="objective-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
 			<p></p>
 	<?php } else if($type == 3) { ?>
-		<section id="policy-section" class="clearfix">
+		<div id="policy-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title">Edit: <?= htmlspecialchars($row->title) ?></div>
 			<div style="clear: both"></div>
@@ -119,9 +119,9 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 }
 ?>
 <a href="<?= dl_facebook_url('entities.php',$type) ?>">Go back to the <?= dl_typestring($type,'ucp') ?> page</a>
-</section>
+</div>
 
-<section id="footer" class="clearfix">
-</section>
+<div id="footer" class="clearfix">
+</div>
 </body>
 </html>

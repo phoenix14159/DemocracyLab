@@ -58,15 +58,15 @@ skip_your_query:
 <header id="blank-header" class="clearfix">
 </header>
 
-<section id="issue-section" class="clearfix">
+<div id="issue-section" class="clearfix">
 	<div class="icon"></div>
 	<?php $result = pg_query($dbconn,"SELECT title FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
 	$row = pg_fetch_object($result); ?>
 	<div class="title"><?= $row->title ?></div>
-</section>
+</div>
 
 <?php if($type == 1) { ?>
-	<section id="value-section" class="clearfix">
+	<div id="value-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Values</div>
 		<div style="clear: both"></div>
@@ -80,9 +80,9 @@ skip_your_query:
 		the positive box, the value you feel second most strongly about next, etc. Drag the value you feel most
 		negatively about to the bottom of the negative box.
 		</p>
-	</section>	
+	</div>	
 <?php } else if($type == 2) { ?>
-	<section id="value-section" class="clearfix">
+	<div id="value-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Your Values</div>
 		<div style="clear: both"></div>
@@ -98,8 +98,8 @@ skip_your_query:
 			?>
 		</ol>
 		<?php } ?>
-	</section>	
-	<section id="objective-section" class="clearfix">
+	</div>	
+	<div id="objective-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Objectives</div>
 		<div style="clear: both"></div>
@@ -110,9 +110,9 @@ skip_your_query:
 		order them all &mdash; just move the ones you feel strongly about. Put the objective you feel most positively
 		about at the top of the positive box, the objective you feel second most strongly about next, etc. Drag
 		the objective you feel most negatively about to the bottom of the negative box.</p>
-	</section>	
+	</div>	
 <?php } else if($type == 3) { ?>
-	<section id="objective-section" class="clearfix">
+	<div id="objective-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Your Objectives</div>
 		<div style="clear: both"></div>
@@ -128,8 +128,8 @@ skip_your_query:
 			?>
 		</ol>
 		<?php } ?>
-	</section>	
-	<section id="policy-section" class="clearfix">
+	</div>	
+	<div id="policy-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title">Policies</div>
 		<div style="clear: both"></div>
@@ -139,15 +139,15 @@ skip_your_query:
 		just move the ones you feel strongly about. Put the policy you feel most positively about at the top of
 		the positive box, the policy you feel second most strongly about next, etc. Drag the policy you feel most
 		negatively about to the bottom of the negative box.</p>
-	</section>	
+	</div>	
 <?php } ?>
 
-<section id="description-section" class="clearfix">
+<div id="description-section" class="clearfix">
 	<div id="description-block" dl_id=0><span class="instructions">See a description by
 		hovering over one of the <?= dl_typestring($type,'lcp') ?>.</span></div>
-</section>
+</div>
 
-<section id="sorting-section" class="clearfix">
+<div id="sorting-section" class="clearfix">
 
 	<?= dl_facebook_form_fields() ?>
 	
@@ -249,9 +249,9 @@ $(function () {
 
 	});
 </script>
-</section>
+</div>
 
-<section id="adding-section" class="clearfix">
+<div id="adding-section" class="clearfix">
 <?php if($type == 1) { ?>
 	<a href="<?= dl_facebook_url('entities.php',2) ?>">Go to step 2 &ndash; Objectives</a><br>
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page and view my results</a><br>
@@ -273,10 +273,10 @@ $(function () {
 		&mdash;
 		<a style="color: #768BB7" href="<?= dl_facebook_url('deleteentity.php',$type) ?>">Delete an existing <?= dl_typestring($type,'lcs') ?></a>
 	<?php } ?>
-</section>
+</div>
 
-<section id="footer" class="clearfix">
-</section>
+<div id="footer" class="clearfix">
+</div>
 <?php democracylab_hover_javascript(); ?>
 </body>
 </html>

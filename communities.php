@@ -41,18 +41,18 @@ if(isset($_POST['S45'])) {
 <?php $result = pg_query($dbconn,"SELECT * FROM democracylab_issues"); 
 while($row = pg_fetch_object($result)) {
 	?>
-	<section id="issue-section" class="clearfix">
+	<div id="issue-section" class="clearfix">
 		<div class="icon"></div>
 		<div class="title"><input name="title-<?= $row->issue_id ?>" size=50 value="<?= $row->title ?>"></div>
 		<div class="clearfix"></div>
 		<p><textarea cols=50 rows=5 name="description-<?= $row->issue_id ?>"><?= $row->description ?></textarea></p>
-	</section>
+	</div>
 	<?php
 } ?>
-    <section id="footer" class="clearfix">
+    <div id="footer" class="clearfix">
 		<input type="Submit" name="S45" value="Make these changes">
 	<p><a href="<?= dl_facebook_url('index.php') ?>">back to main page</a></p>
-	</section>
+	</div>
 </form>
   </body>
 </html>

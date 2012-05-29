@@ -255,18 +255,18 @@ header h1 {
 }
 
 
-#entities-summary-section {
+#entities-summary {
   border-left: 1px solid #b3b3b3;
   border-right: 1px solid #b3b3b3;
   padding: 0px 10px 20px 14px;
   color: black;
 }
-#entities-summary-section .entity-list {
+#entities-summary .entity-list {
   float: left;
   width: 238px;
   text-align: center;
 }
-#entities-summary-section .description {
+#entities-summary .description {
   text-align: left;
   font-size: 90%;
   line-height: 130%;
@@ -291,6 +291,7 @@ header h1 {
 }
 .entity-name {
   display: block;
+  color: black;
   text-overflow: ellipsis;
   height: 16px;
   overflow: hidden;

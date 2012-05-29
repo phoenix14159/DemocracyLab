@@ -20,7 +20,7 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 	<?php $result = pg_query($dbconn,"SELECT * FROM democracylab_issues"); 
 	while($row = pg_fetch_object($result)) {
 		?>
-		<section id="issue-section" class="clearfix">
+		<div id="issue-section" class="clearfix">
 			<div class="icon"></div>
 			<div class="title"><?= $row->title ?></div>
 			<div class="clearfix"></div>
@@ -34,16 +34,16 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 				$democracylab_community_id = $tmpc;
 				$democracylab_issue_id = $tmpi;
 				?>">Choose "<?= $row->title ?>" as the issue to explore</a></p>
-		</section>
+		</div>
 		<?php
 	} ?>
 
-<section id="adding-section" class="clearfix">
+<div id="adding-section" class="clearfix">
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a>
-</section>
+</div>
 
-<section id="footer" class="clearfix">
-</section>
+<div id="footer" class="clearfix">
+</div>
 
   </body>
 </html>
