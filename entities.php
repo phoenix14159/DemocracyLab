@@ -51,8 +51,8 @@ skip_your_query:
 	<title><?php echo(idx($app_info, 'name')) ?> <?= dl_typestring($type,'ucp') ?></title>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 	<link href="stylesheets/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<script src="lib/jquery-1.7.1.min.js"></script>
-	<script src="lib/jquery-ui-1.8.16.min.js"></script>
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery-ui-1.8.16.min.js"></script>
 </head>
 <body>
 <header id="blank-header" class="clearfix">

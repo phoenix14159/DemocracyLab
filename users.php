@@ -14,7 +14,7 @@ if($democracylab_user_role == 0) {
 	<meta charset="utf-8">
 	<title><?php echo(idx($app_info, 'name')) ?></title>
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<script src="lib/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery-1.7.1.min.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>
