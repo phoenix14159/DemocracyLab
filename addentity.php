@@ -9,6 +9,7 @@ $type = intval($_REQUEST['type']);
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link href="images/favicon1.ico" rel="shortcut icon">
   <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<title><?php echo(idx($app_info, 'name')) ?> Add New <?= dl_typestring($type,'ucs') ?></title>
   <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>

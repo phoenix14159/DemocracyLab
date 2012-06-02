@@ -15,6 +15,7 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 <html lang="en">
 <head>
   <meta charset="utf-8">
+	<link href="images/favicon1.ico" rel="shortcut icon">
   <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<title><?php echo(idx($app_info, 'name')) ?> Delete Existing <?= dl_typestring($type,'ucs') ?></title>
   <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
