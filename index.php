@@ -90,7 +90,7 @@ function list_with_boxplots($items) {
 	<meta charset="utf-8">
 	<title><?php echo(idx($app_info, 'name')) ?></title>
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="lib/jquery-1.7.1.min.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 	<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
 </head>

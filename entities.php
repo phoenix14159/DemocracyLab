@@ -50,9 +50,9 @@ skip_your_query:
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<title><?php echo(idx($app_info, 'name')) ?> <?= dl_typestring($type,'ucp') ?></title>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
-	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<link href="stylesheets/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script src="lib/jquery-1.7.1.min.js"></script>
+	<script src="lib/jquery-ui-1.8.16.min.js"></script>
 </head>
 <body>
 <header id="blank-header" class="clearfix">
