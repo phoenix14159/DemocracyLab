@@ -174,7 +174,8 @@ header h1 {
   color: black;
   border: 2px solid #ccc;
   border-radius: 10px;
-  min-height: 6em;
+  height: 6em;
+  overflow: auto;
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-top: 0.2em;
