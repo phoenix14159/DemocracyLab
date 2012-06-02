@@ -77,8 +77,8 @@ skip_your_query:
 		by dragging a value icon
 		on the left to one of the boxes on the right. Order at least one, but there is no need to order them all &mdash;
 		just move the ones you feel strongly about. Put the value you feel most positively about at the top of
-		the positive box, the value you feel second most strongly about next, etc. Drag the value you feel most
-		negatively about to the bottom of the negative box.
+		the positive box, the value you feel second most strongly about next, etc. If there are any values
+		you feel negatively about, drag the most negative to the bottom of the negative box.
 		</p>
 	</div>	
 <?php } else if($type == 2) { ?>
