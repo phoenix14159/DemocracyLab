@@ -250,7 +250,7 @@ function create_a_histogram(elem,data) {
 	var count = node.attr("dl_count");
 	if( count > 0 ) {
 		// get the canvas size
-		var width = node.width() - 12;
+		var width = node.width();
 		var height = node.height();
 		// compute the coordinates
 		var max = 1;
@@ -262,7 +262,7 @@ function create_a_histogram(elem,data) {
 		var xoffset = 10;
 		var ybase = 1;
 		var yinc = (height - 2) / max;
-		var xinc = (width - xoffset - 2) / 16; // data.length;
+		var xinc = Math.floor((width - xoffset) / 13); // data.length;
         if (G_vmlCanvasManager != undefined) { // ie IE
                 G_vmlCanvasManager.initElement(elem);
         }
@@ -285,6 +285,16 @@ function create_a_histogram(elem,data) {
 						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
 					}
 				});
+			} else {
+				$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
+					if(ech > 0) {
+						ctx.fillStyle = "rgb(230,230,230)";
+						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
+					}
+				});
+				
 			}
 		} else {
 			//backup for no canvas
@@ -319,15 +329,15 @@ $(function () {
 		var count = node.attr("dl_count");
 		if( count > 0 ) {
 			// get the canvas size
-			var width = node.width() - 12;
+			var width = node.width();
 			var height = node.height();
 			var xoffset = 10;
-			var xinc = (width - xoffset - 2) / 16; // data.length
+			var xinc = Math.floor((width - xoffset) / 13); // data.length;
 			$(elemh).mousemove( function(event) {
 				var theid = $(elemh).attr('dl_id');
 				var therating = Math.floor((event.pageX - node.offset().left - xoffset) / xinc) - 5;
 				if( therating < -5 ) { therating = -5; }
-				if( therating > 10 ) { therating = 10; }
+				if( therating > 7 ) { therating = 7; }
 				var newdata = $(elemh).data('rating_' + therating);
 				if(newdata) {
 					$(".histogram").each( function (index,elem) {
