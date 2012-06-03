@@ -337,11 +337,14 @@ $(function () {
 			var xinc = Math.floor((width - xoffset) / 13); // data.length;
 			$(elemh).mousemove( function(event) {
 				var theid = $(elemh).attr('dl_id');
-				$('#entities-summary').attr('dl_histos',theid);
 				var therating = Math.floor((event.pageX - node.offset().left - xoffset) / xinc) - 5;
 				if( therating < -5 ) { therating = -5; }
 				if( therating > 7 ) { therating = 7; }
-				var newdata = $(elemh).data('rating_' + therating);
+				var wasid = $('#entities-summary').attr('dl_histos');
+				var newid = theid + ',' + therating;
+				if(newid == wasid) { return; /*no need to draw again*/ }
+				$('#entities-summary').attr('dl_histos',newid );
+				var newdata = $(elemh).data('rating_' + ((therating < 0) ? ('m' + (0-therating)) : therating));
 				if(newdata) {
 					$(".histogram").each( function (index,elem) {
 						var node = $(elem);
@@ -355,7 +358,6 @@ $(function () {
 					data['issue'] = <?= $democracylab_community_id ?>;
 					data['id'] = theid;
 					data['rating'] = therating;
-
 					$.ajax({
 						url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
 						context: document.body,
@@ -364,9 +366,9 @@ $(function () {
 						type: "POST",
 						global: false,
 						success: function (rtrndata) {
-							$(elemh).data('rating_' + therating,rtrndata);
+							$(elemh).data('rating_' + ((therating < 0) ? ('m' + (0-therating)) : therating),rtrndata);
 							var stillid = $('#entities-summary').attr('dl_histos');
-							if(stillid == theid) {
+							if(stillid == newid) {
 								$(".histogram").each( function (index,elem) {
 									var node = $(elem);
 									var id = node.attr("dl_id");
