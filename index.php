@@ -292,7 +292,7 @@ function create_a_histogram(elem,data) {
 					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
 					if(ech > 0) {
 						ctx.fillStyle = "rgb(230,230,230)";
-						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
+						ctx.fillRect( (idx * xinc) + xoffset + 1, height - yh - 1, xinc - 3, yh - 2);
 					}
 				});
 				
