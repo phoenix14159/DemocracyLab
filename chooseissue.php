@@ -10,7 +10,7 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 	<title><?php echo(idx($app_info, 'name')) ?></title>
 	<link href="images/favicon.ico" rel="shortcut icon">
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery-1.7.2.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>

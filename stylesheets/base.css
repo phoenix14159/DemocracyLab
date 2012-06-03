@@ -297,12 +297,18 @@ header h1 {
   height: 16px;
   overflow: hidden;
   white-space: nowrap;
+  left: 0;
 }
-.entity-list li.entity-with-boxplot {
-  margin-bottom: 20px;
+.entity-with-histogram .entity-name {
+  position: relative;
+  top: -18px;
 }
-.boxplot {
-  float: left; 
+.entity-list li.entity-with-histogram {
+  margin-top: 20px;
+}
+.histogram {
+  position: relative;
+  top: -20px;
   margin-top: 2px;
 }
 .values-list li {

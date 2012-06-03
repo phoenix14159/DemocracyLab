@@ -60,26 +60,17 @@ while($row = pg_fetch_array($result)) {
 			$a2[$row2[0]]->count = $row2[5];
 		}
 
-		$result4 = pg_query($dbconn, "SELECT entity_id, rating FROM democracylab_rankings WHERE entity_id IN ($ids) AND user_id = $democracylab_user_id");
-		while($row4 = pg_fetch_array($result4)) {
-			$a2[$row4[0]]->userval = $row4[1];
-		}
-
 		uasort($a2,'rating_cmp');
 		$rankings[$idx] = $a2;
 	}
 }
 
-function list_with_boxplots($items) {
+function list_with_histogram($items) {
 	foreach($items as $rec) {
-		?><li class="entity-with-boxplot hover-describe" dl_id="<?= $rec->id ?>"><div class="entity-name"><?= $rec->title ?></div>
-			<canvas class="boxplot" width="200" height="15"
-		        dl_count="<?= $rec->count ?>"
-		        dl_min="<?= $rec->min ?>"
-		        dl_max="<?= $rec->max ?>"
-		        dl_avg="<?= $rec->avg ?>"
-		        dl_std="<?= $rec->std ?>"
-		        dl_value="<?= $rec->userval ?>"></canvas></li><?php
+		?><li class="entity-with-histogram hover-describe" dl_id="<?= $rec->id ?>"><canvas class="histogram" width="200" height="15"
+			dl_id="<?= $rec->id ?>"
+	        dl_count="<?= $rec->count ?>"></canvas><div class="entity-name"><?= $rec->title ?></div>
+			</li><?php
 	}
 }
 
@@ -91,7 +82,7 @@ function list_with_boxplots($items) {
 	<title><?php echo(idx($app_info, 'name')) ?></title>
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<link href="images/favicon.ico" rel="shortcut icon">
-	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery-1.7.2.js"></script>
 	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 	<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
 </head>
@@ -175,7 +166,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		<?php
 		if($rankings['values']) {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 1 - Share Your Values</a><ol class="values-list"><?php
-			list_with_boxplots($rankings['values']); ?></ol><?php
+			list_with_histogram($rankings['values']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 1 - Share Your Values</a>
 			<p class="description">
@@ -192,7 +183,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		<?php
 		if($rankings['objectives']) {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a><ol class="objectives-list"><?php
-			list_with_boxplots($rankings['objectives']); ?></ol><?php
+			list_with_histogram($rankings['objectives']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a>
 			<p class="description">
@@ -210,7 +201,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 		<?php
 		if($rankings['policies']) {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 3 - Evaluate Policies</a><ol class="policies-list"><?php
-			list_with_boxplots($rankings['policies']); ?></ol><?php
+			list_with_histogram($rankings['policies']); ?></ol><?php
 		} else {
 			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 3 - Evaluate Policies</a>
 			<p class="description">
@@ -225,9 +216,6 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 	<div class="clearfix"></div>
     </div>
     <div id="footer" class="clearfix">
-<?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
-	<p style="text-align: center; color: #444;"><a style="font-size: 90%; font-style: italic;" target="_new" href="http://stattrek.com/statistics/charts/boxplot.aspx">How do I read box plot diagrams?</a><br><br></p>
-<?php } ?>	
 
 	<?php if($democracylab_issue_id == 2) { } else { ?>
 		<p style="color: #444;">* Oregon's overall state and local tax burden ranks 39th on a per person basis. However, the state
@@ -257,71 +245,46 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 	</div>
 <script>
 var G_vmlCanvasManager;
-function create_a_boxplot(elem) {
+function create_a_histogram(elem,data) {
 	var node = $(elem);
 	var count = node.attr("dl_count");
 	if( count > 0 ) {
-		var min = parseInt(node.attr("dl_min"));
-		var max = parseInt(node.attr("dl_max"));
-		var std = parseInt(node.attr("dl_std"));
-		var avg = parseInt(node.attr("dl_avg"));
-		var value = parseInt(node.attr("dl_value"));
 		// get the canvas size
 		var width = node.width() - 12;
 		var height = node.height();
 		// compute the coordinates
-		var midy = Math.floor(height / 2) - 1; // y-axis midpoint
-		var zerox = Math.floor((width / 15) * 5) + 10; // x-axis zero point
-		var minx = Math.floor((width / 15) * (min + 5)) + 10; // x-axis min point
-		var maxx = Math.floor((width / 15) * (max + 5)) + 10; // x-axis max point
-		var stdx1 = Math.floor((width / 15) * (avg - std + 5)) + 10; // x-axis lower stddev point
-		var stdx2 = Math.floor((width / 15) * (avg + std + 5)) + 10; // x-axis upper stddev point
-		var stdy1 = 3; // y-axis of stddev rect top
-		var stdy2 = height - 3; // y-axis of stddev rect bottom (actually, the height of the stddev rect)
-		// leave enough room to draw something
-		if( minx == maxx ) {
-			if( max == 10 ) minx = minx - 2;
-			else if( min == -5 ) maxx = maxx + 2;
-			else { minx = minx - 1; maxx = maxx + 1; }
+		var max = 1;
+		if(data && data.length > 0) {
+			$.each(data,function (idx,ech) {
+				if(ech > max) { max = ech; }
+			});
 		}
-		if( stdx1 > stdx2 - 4 ) {
-			if( (avg + std) >= 9 ) { stdx1 = stdx1 - 4; }
-			else if( (avg - std) <= -4 ) { stdx2 = stdx2 + 4; }
-			else { stdx1 = stdx1 - 3; stdx2 = stdx2 + 1; }
-		}
-		// draw the min-max line
+		var xoffset = 10;
+		var ybase = 1;
+		var yinc = (height - 2) / max;
+		var xinc = (width - xoffset - 2) / 16; // data.length;
         if (G_vmlCanvasManager != undefined) { // ie IE
                 G_vmlCanvasManager.initElement(elem);
         }
 		var ctx = elem.getContext("2d");
 		if( ctx ) {
-			// draw the zero line
-			ctx.fillStyle = "rgb(0,0,0)";
-			ctx.fillRect( zerox, 1, 1, height-2 );
+			ctx.clearRect(0, 0, width, height);
+		  
 			// draw the count of users
 			ctx.fillStyle = "rgb(150,150,150)";
 			if( !$.browser.msie ) {
 				ctx.fillText( count, 0, height - 4 );
 			}
-			// draw the min-max line
-			ctx.fillRect( minx, midy, maxx-minx, 3 );
-			// draw the std dev box
-			ctx.fillRect( stdx1, stdy1, stdx2-stdx1+1, stdy2-stdy1);
-			ctx.fillStyle = "rgb(230,230,230)";
-			ctx.fillRect( stdx1+2, stdy1+2, stdx2-stdx1-3, stdy2-stdy1-4);
-			if( value ) {
-				var vx = Math.floor((width / 15) * (value + 5)) + 10; // x-axis value point
-				if( value == 10 ) vx = vx - 2;
-				if( value == -5) vx = vx + 2;
-				ctx.fillStyle = "rgb(0,0,0)";
-				if( $.browser.msie ){
-					ctx.fillRect( vx-2, midy-3, 5, 9 );
-				} else {
-					ctx.beginPath();
-					ctx.arc(vx,midy+1,4,0,6.3,0);
-					ctx.closePath();
-					ctx.fill();
-				}
+			// draw each box
+			if(data && data.length > 0) {
+				$.each(data,function (idx,ech) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
+					if(ech > 0) {
+						ctx.fillStyle = "rgb(230,230,230)";
+						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
+					}
+				});
 			}
 		} else {
 			//backup for no canvas
@@ -329,12 +292,113 @@ function create_a_boxplot(elem) {
 	}
 }
 $(function () {
-	$(".boxplot").each( function (index,elem) {
-		create_a_boxplot(elem);
+	
+	var data = {};
+	data['community'] = <?= $democracylab_community_id ?>;
+	data['issue'] = <?= $democracylab_community_id ?>;
+	$.ajax({
+		url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
+		context: document.body,
+		dataType: 'json',
+		data: data,
+		type: "POST",
+		global: false,
+		success: function (rtrndata) {
+			$('#entities-summary').data('rating_X',rtrndata);
+			$(".histogram").each( function (index,elem) {
+				var node = $(elem);
+				var id = node.attr("dl_id");
+				var arr = rtrndata['' + id];
+				create_a_histogram(elem,arr);
+			});
+		}
 	});
-} );
+
+	$(".histogram").each( function (index,elemh) {
+		var node = $(elemh);
+		var count = node.attr("dl_count");
+		if( count > 0 ) {
+			// get the canvas size
+			var width = node.width() - 12;
+			var height = node.height();
+			var xoffset = 10;
+			var xinc = (width - xoffset - 2) / 16; // data.length
+			$(elemh).mousemove( function(event) {
+				var theid = $(elemh).attr('dl_id');
+				var therating = Math.floor((event.pageX - node.offset().left - xoffset) / xinc) - 5;
+				if( therating < -5 ) { therating = -5; }
+				if( therating > 10 ) { therating = 10; }
+				var newdata = $(elemh).data('rating_' + therating);
+				if(newdata) {
+					$(".histogram").each( function (index,elem) {
+						var node = $(elem);
+						var id = node.attr("dl_id");
+						var arr = newdata['' + id];
+						create_a_histogram(elem,arr);
+					});
+				} else {
+					var data = {};
+					data['community'] = <?= $democracylab_community_id ?>;
+					data['issue'] = <?= $democracylab_community_id ?>;
+					data['id'] = theid;
+					data['rating'] = therating;
+
+					$.ajax({
+						url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
+						context: document.body,
+						dataType: 'json',
+						data: data,
+						type: "POST",
+						global: false,
+						success: function (rtrndata) {
+							$(elemh).data('rating_' + therating,rtrndata);
+							$(".histogram").each( function (index,elem) {
+								var node = $(elem);
+								var id = node.attr("dl_id");
+								var arr = rtrndata['' + id];
+								create_a_histogram(elem,arr);
+							});
+						}
+					});
+				}
+			});
+			$(elemh).mouseleave( function(event) {
+				var newdata = $('#entities-summary').data('rating_X');
+				if(newdata) {
+					$(".histogram").each( function (index,elem) {
+						var node = $(elem);
+						var id = node.attr("dl_id");
+						var arr = newdata['' + id];
+						create_a_histogram(elem,arr);
+					});
+				} else {
+					var data = {};
+					data['community'] = <?= $democracylab_community_id ?>;
+					data['issue'] = <?= $democracylab_community_id ?>;
+					$.ajax({
+						url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
+						context: document.body,
+						dataType: 'json',
+						data: data,
+						type: "POST",
+						global: false,
+						success: function (rtrndata) {
+							$('#entities-summary').data('rating_X',rtrndata);
+							$(".histogram").each( function (index,elem) {
+								var node = $(elem);
+								var id = node.attr("dl_id");
+								var arr = rtrndata['' + id];
+								create_a_histogram(elem,arr);
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+});
 </script>
-<?php democracylab_hover_javascript(); ?>
+<?php /* democracylab_hover_javascript(); */ ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
