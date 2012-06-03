@@ -303,6 +303,7 @@ function create_a_histogram(elem,data) {
 }
 $(function () {
 	
+	$('#entities-summary').attr('dl_histos','X');
 	var data = {};
 	data['community'] = <?= $democracylab_community_id ?>;
 	data['issue'] = <?= $democracylab_community_id ?>;
@@ -335,6 +336,7 @@ $(function () {
 			var xinc = Math.floor((width - xoffset) / 13); // data.length;
 			$(elemh).mousemove( function(event) {
 				var theid = $(elemh).attr('dl_id');
+				$('#entities-summary').attr('dl_histos',theid);
 				var therating = Math.floor((event.pageX - node.offset().left - xoffset) / xinc) - 5;
 				if( therating < -5 ) { therating = -5; }
 				if( therating > 7 ) { therating = 7; }
@@ -362,17 +364,21 @@ $(function () {
 						global: false,
 						success: function (rtrndata) {
 							$(elemh).data('rating_' + therating,rtrndata);
-							$(".histogram").each( function (index,elem) {
-								var node = $(elem);
-								var id = node.attr("dl_id");
-								var arr = rtrndata['' + id];
-								create_a_histogram(elem,arr);
-							});
+							var stillid = $('#entities-summary').attr('dl_histos');
+							if(stillid == theid) {
+								$(".histogram").each( function (index,elem) {
+									var node = $(elem);
+									var id = node.attr("dl_id");
+									var arr = rtrndata['' + id];
+									create_a_histogram(elem,arr);
+								});
+							}
 						}
 					});
 				}
 			});
 			$(elemh).mouseleave( function(event) {
+				$('#entities-summary').attr('dl_histos','X');
 				var newdata = $('#entities-summary').data('rating_X');
 				if(newdata) {
 					$(".histogram").each( function (index,elem) {
@@ -408,7 +414,7 @@ $(function () {
 	});
 });
 </script>
-<?php /* democracylab_hover_javascript(); */ ?>
+<?php democracylab_hover_javascript(); ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
