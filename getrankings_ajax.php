@@ -25,11 +25,11 @@ while($row = pg_fetch_object($result)) {
 		$data[$row->entity_id] = array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 		//							   -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10
 		//                              0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
-		$rating = $row->rating + 5;
-		if($rating < 0) { $ranking = 0; }
-		if($rating > 15 ) { $ranking = 15; }
-		$data[$row->entity_id][$rating] += 1;
 	}
+	$rating = $row->rating + 5;
+	if($rating < 0) { $ranking = 0; }
+	if($rating > 15 ) { $ranking = 15; }
+	$data[$row->entity_id][$rating] += 1;
 }
 
 echo json_encode($data);
