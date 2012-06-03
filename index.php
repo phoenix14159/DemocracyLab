@@ -288,7 +288,8 @@ function create_a_histogram(elem,data) {
 			} else {
 				$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
 					ctx.fillStyle = "rgb(0,0,0)";
-					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
+					var yh = Math.ceil(ech * yinc + 1);
+					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
 					if(ech > 0) {
 						ctx.fillStyle = "rgb(230,230,230)";
 						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
