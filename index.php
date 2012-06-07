@@ -275,13 +275,21 @@ function create_a_histogram(elem,data) {
 			if( !$.browser.msie ) {
 				ctx.fillText( count, 0, height - 4 );
 			}
+			// draw the zero line
+			ctx.strokeStyle = 'rgb(120,120,120)';
+			ctx.lineWidth = 1;
+			ctx.moveTo( (5 * xinc) + xoffset,5);
+			ctx.lineTo( (5 * xinc) + xoffset,90);
+			ctx.stroke();
 			// draw each box
+			var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
+						  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
 			if(data && data.length > 0) {
 				$.each(data,function (idx,ech) {
 					ctx.fillStyle = "rgb(0,0,0)";
 					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
 					if(ech > 0) {
-						ctx.fillStyle = "rgb(230,230,230)";
+						ctx.fillStyle = colors[idx];
 						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
 					}
 				});
