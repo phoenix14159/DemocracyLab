@@ -245,7 +245,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 	</div>
 <script>
 var G_vmlCanvasManager;
-function create_a_histogram(elem,data) {
+function create_a_histogram(elem,data,show_compare) {
 	var node = $(elem);
 	var count = node.attr("dl_count");
 	if( count > 0 ) {
@@ -270,40 +270,48 @@ function create_a_histogram(elem,data) {
 		if( ctx ) {
 			ctx.clearRect(0, 0, width, height);
 		  
-			// draw the count of users
-			ctx.fillStyle = "rgb(150,150,150)";
-			if( !$.browser.msie ) {
-				ctx.fillText( count, 0, height - 4 );
-			}
-			// draw the zero line
-			ctx.strokeStyle = 'rgb(120,120,120)';
-			ctx.lineWidth = 1;
-			ctx.moveTo( (5 * xinc) + xoffset,5);
-			ctx.lineTo( (5 * xinc) + xoffset,90);
-			ctx.stroke();
-			// draw each box
-			var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
-						  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
-			if(data && data.length > 0) {
-				$.each(data,function (idx,ech) {
-					ctx.fillStyle = "rgb(0,0,0)";
-					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
-					if(ech > 0) {
-						ctx.fillStyle = colors[idx];
-						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
-					}
-				});
+			if(show_compare) {
+				ctx.fillStyle = "rgb(100,100,100)";
+				ctx.font = "10pt Arial";
+				if( !$.browser.msie ) {
+					ctx.fillText( '(showing others relative to hover)', 0, height - 4 );
+				}
 			} else {
-				$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
-					ctx.fillStyle = "rgb(0,0,0)";
-					var yh = Math.ceil(ech * yinc + 1);
-					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
-					if(ech > 0) {
-						ctx.fillStyle = "rgb(230,230,230)";
-						ctx.fillRect( (idx * xinc) + xoffset + 1, height - yh - 1, xinc - 3, yh - 2);
-					}
-				});
-				
+				// draw the count of users
+				ctx.font = "10px sans-serif";
+				ctx.fillStyle = "rgb(150,150,150)";
+				if( !$.browser.msie ) {
+					ctx.fillText( count, 0, height - 4 );
+				}
+				// draw the zero line
+				ctx.strokeStyle = 'rgb(120,120,120)';
+				ctx.lineWidth = 1;
+				ctx.moveTo( (5 * xinc) + xoffset,5);
+				ctx.lineTo( (5 * xinc) + xoffset,90);
+				ctx.stroke();
+				// draw each box
+				var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
+							  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
+				if(data && data.length > 0) {
+					$.each(data,function (idx,ech) {
+						ctx.fillStyle = "rgb(0,0,0)";
+						ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
+						if(ech > 0) {
+							ctx.fillStyle = colors[idx];
+							ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
+						}
+					});
+				} else {
+					$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
+						ctx.fillStyle = "rgb(0,0,0)";
+						var yh = Math.ceil(ech * yinc + 1);
+						ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
+						if(ech > 0) {
+							ctx.fillStyle = "rgb(230,230,230)";
+							ctx.fillRect( (idx * xinc) + xoffset + 1, height - yh - 1, xinc - 3, yh - 2);
+						}
+					});
+				}
 			}
 		} else {
 			//backup for no canvas
@@ -358,7 +366,7 @@ $(function () {
 						var node = $(elem);
 						var id = node.attr("dl_id");
 						var arr = newdata['' + id];
-						create_a_histogram(elem,arr);
+						create_a_histogram(elem,arr,theid == id);
 					});
 				} else {
 					var data = {};
@@ -381,7 +389,7 @@ $(function () {
 									var node = $(elem);
 									var id = node.attr("dl_id");
 									var arr = rtrndata['' + id];
-									create_a_histogram(elem,arr);
+									create_a_histogram(elem,arr,theid == id);
 								});
 							}
 						}
