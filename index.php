@@ -301,7 +301,7 @@ function create_a_histogram(elem,data,show_compare,show_rating) {
 				if(data[0] >= 0) {
 					ctx.fillStyle = "rgb(0,0,0)";
 					ctx.beginPath();
-					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height / 2, 3, 0, Math.PI*2, false); 
 					ctx.closePath();
 					ctx.fill();
 				}
@@ -311,10 +311,10 @@ function create_a_histogram(elem,data,show_compare,show_rating) {
 					var yh = Math.ceil(ech * yinc + 1);
 					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
 				});
-				if(data[0] >= 0) {
+				if(data && data[0] && data[0] >= 0) {
 					ctx.fillStyle = "rgb(0,0,0)";
 					ctx.beginPath();
-					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height / 2, 3, 0, Math.PI*2, false); 
 					ctx.closePath();
 					ctx.fill();
 				}
