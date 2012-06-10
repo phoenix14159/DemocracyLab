@@ -245,7 +245,10 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 	</div>
 <script>
 var G_vmlCanvasManager;
-function create_a_histogram(elem,data,show_compare) {
+everywhere_image = new Image();
+everywhere_image.src = 'images/icon-kiosk.png';
+
+function create_a_histogram(elem,data,show_compare,show_rating) {
 	var node = $(elem);
 	var count = node.attr("dl_count");
 	if( count > 0 ) {
@@ -270,59 +273,54 @@ function create_a_histogram(elem,data,show_compare) {
 		if( ctx ) {
 			ctx.clearRect(0, 0, width, height);
 		  
-			if(show_compare) {
-				ctx.fillStyle = "rgb(100,100,100)";
-				ctx.font = "10pt Arial";
-				if( !$.browser.msie ) {
-					ctx.fillText( '(showing others relative to hover)', 0, height - 4 );
+			// draw the count of users
+			ctx.font = "10px sans-serif";
+			ctx.fillStyle = "rgb(150,150,150)";
+			if( !$.browser.msie ) {
+				ctx.fillText( count, 0, height - 4 );
+			}
+			// draw the zero line
+			ctx.strokeStyle = 'rgb(120,120,120)';
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo( (5 * xinc) + xoffset,5);
+			ctx.lineTo( (5 * xinc) + xoffset,90);
+			ctx.stroke();
+			// draw each box
+			var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
+						  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
+			if(data && data[1] && data[1].length > 0) {
+				$.each(data[1],function (idx,ech) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
+					if(ech > 0) {
+						ctx.fillStyle = colors[idx];
+						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
+					}
+				});
+				if(data[0] >= 0) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					ctx.beginPath();
+					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+					ctx.closePath();
+					ctx.fill();
 				}
 			} else {
-				// draw the count of users
-				ctx.font = "10px sans-serif";
-				ctx.fillStyle = "rgb(150,150,150)";
-				if( !$.browser.msie ) {
-					ctx.fillText( count, 0, height - 4 );
+				$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					var yh = Math.ceil(ech * yinc + 1);
+					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
+				});
+				if(data[0] >= 0) {
+					ctx.fillStyle = "rgb(0,0,0)";
+					ctx.beginPath();
+					ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+					ctx.closePath();
+					ctx.fill();
 				}
-				// draw the zero line
-				ctx.strokeStyle = 'rgb(120,120,120)';
-				ctx.lineWidth = 1;
-				ctx.beginPath();
-				ctx.moveTo( (5 * xinc) + xoffset,5);
-				ctx.lineTo( (5 * xinc) + xoffset,90);
-				ctx.stroke();
-				// draw each box
-				var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
-							  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
-				if(data && data[1] && data[1].length > 0) {
-					$.each(data[1],function (idx,ech) {
-						ctx.fillStyle = "rgb(0,0,0)";
-						ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
-						if(ech > 0) {
-							ctx.fillStyle = colors[idx];
-							ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
-						}
-					});
-					if(data[0] >= 0) {
-						ctx.fillStyle = "rgb(0,0,0)";
-						ctx.beginPath();
-						ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
-						ctx.closePath();
-						ctx.fill();
-					}
-				} else {
-					$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
-						ctx.fillStyle = "rgb(0,0,0)";
-						var yh = Math.ceil(ech * yinc + 1);
-						ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
-					});
-					if(data[0] >= 0) {
-						ctx.fillStyle = "rgb(0,0,0)";
-						ctx.beginPath();
-						ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
-						ctx.closePath();
-						ctx.fill();
-					}
-				}
+			}
+			if(show_compare) {
+				ctx.drawImage(everywhere_image,(show_rating * xinc) + xoffset,0);
 			}
 		} else {
 			//backup for no canvas
@@ -377,7 +375,7 @@ $(function () {
 						var node = $(elem);
 						var id = node.attr("dl_id");
 						var arr = newdata['' + id];
-						create_a_histogram(elem,arr,theid == id);
+						create_a_histogram(elem,arr,theid == id,therating + 5);
 					});
 				} else {
 					var data = {};
@@ -400,7 +398,7 @@ $(function () {
 									var node = $(elem);
 									var id = node.attr("dl_id");
 									var arr = rtrndata['' + id];
-									create_a_histogram(elem,arr,theid == id);
+									create_a_histogram(elem,arr,theid == id,therating + 5);
 								});
 							}
 						}
