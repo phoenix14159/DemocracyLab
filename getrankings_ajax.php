@@ -25,7 +25,7 @@ if($filter_id) {
 }
 while($row = pg_fetch_object($result)) {
 	if(!isset($data[$row->entity_id])) {
-		$data[$row->entity_id] = array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    0,    0,   0 );
+		$data[$row->entity_id] = array( -1, array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    0,    0,   0 ));
 		//							   -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10
 		//                              0  1  2  3  4  5  6  7  8  9    10    11    12
 	}
@@ -36,7 +36,25 @@ while($row = pg_fetch_object($result)) {
 	$rating = $rating + 5;
 	if($rating < 0) { $ranking = 0; }
 	if($rating > 12 ) { $ranking = 12; }
-	$data[$row->entity_id][$rating] += 1;
+	$data[$row->entity_id][1][$rating] += 1;
+}
+
+$result = pg_query("SELECT * FROM democracylab_rankings 
+				WHERE user_id = {$democracylab_user_id}
+				  AND community_id = {$democracylab_community_id}
+			   	  AND issue_id = {$democracylab_issue_id}");
+while($row = pg_fetch_object($result)) {
+	if(!isset($data[$row->entity_id])) {
+		$data[$row->entity_id] = array( -1 );
+	}
+	$rating = $row->rating;
+	if($rating == 6) { $rating = 5;}
+	if($rating == 8) { $rating = 6;}
+	if($rating == 10) { $rating = 7;}
+	$rating = $rating + 5;
+	if($rating < 0) { $ranking = 0; }
+	if($rating > 12 ) { $ranking = 12; }
+	$data[$row->entity_id][0] = $rating;
 }
 
 echo json_encode($data);

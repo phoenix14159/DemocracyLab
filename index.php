@@ -254,8 +254,8 @@ function create_a_histogram(elem,data,show_compare) {
 		var height = node.height();
 		// compute the coordinates
 		var max = 1;
-		if(data && data.length > 0) {
-			$.each(data,function (idx,ech) {
+		if(data && data[1] && data[1].length > 0) {
+			$.each(data[1],function (idx,ech) {
 				if(ech > max) { max = ech; }
 			});
 		}
@@ -286,14 +286,15 @@ function create_a_histogram(elem,data,show_compare) {
 				// draw the zero line
 				ctx.strokeStyle = 'rgb(120,120,120)';
 				ctx.lineWidth = 1;
+				ctx.beginPath();
 				ctx.moveTo( (5 * xinc) + xoffset,5);
 				ctx.lineTo( (5 * xinc) + xoffset,90);
 				ctx.stroke();
 				// draw each box
 				var colors = ["rgb(255,170,170)","rgb(255,190,190)","rgb(255,210,210)","rgb(255,230,230)","rgb(255,250,250)",
 							  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
-				if(data && data.length > 0) {
-					$.each(data,function (idx,ech) {
+				if(data && data[1] && data[1].length > 0) {
+					$.each(data[1],function (idx,ech) {
 						ctx.fillStyle = "rgb(0,0,0)";
 						ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
 						if(ech > 0) {
@@ -301,16 +302,26 @@ function create_a_histogram(elem,data,show_compare) {
 							ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
 						}
 					});
+					if(data[0] >= 0) {
+						ctx.fillStyle = "rgb(0,0,0)";
+						ctx.beginPath();
+						ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+						ctx.closePath();
+						ctx.fill();
+					}
 				} else {
 					$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
 						ctx.fillStyle = "rgb(0,0,0)";
 						var yh = Math.ceil(ech * yinc + 1);
 						ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
-						if(ech > 0) {
-							ctx.fillStyle = "rgb(230,230,230)";
-							ctx.fillRect( (idx * xinc) + xoffset + 1, height - yh - 1, xinc - 3, yh - 2);
-						}
 					});
+					if(data[0] >= 0) {
+						ctx.fillStyle = "rgb(0,0,0)";
+						ctx.beginPath();
+						ctx.arc( (data[0] * xinc) + xoffset + (xoffset / 2) + 2, height - (yinc / 2), 3, 0, Math.PI*2, false); 
+						ctx.closePath();
+						ctx.fill();
+					}
 				}
 			}
 		} else {
