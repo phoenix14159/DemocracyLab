@@ -291,10 +291,18 @@ function create_a_histogram(elem,data,show_compare,show_rating) {
 						  "rgb(250,255,250)","rgb(240,255,240)","rgb(230,255,230)","rgb(220,255,220)","rgb(210,255,210)","rgb(200,255,200)","rgb(190,255,190)","rgb(180,255,180)"];
 			if(data && data[1] && data[1].length > 0) {
 				$.each(data[1],function (idx,ech) {
+					if(show_compare && show_rating == idx) {
+						ctx.fillStyle = 'rgb(255,255,0)';
+						ctx.fillRect( (idx * xinc) + xoffset - 2, 0, xinc + 3, height);
+					}
 					ctx.fillStyle = "rgb(0,0,0)";
 					ctx.fillRect( (idx * xinc) + xoffset, height, xinc - 1, -(ech * yinc + 1));
 					if(ech > 0) {
-						ctx.fillStyle = colors[idx];
+						if(show_compare && show_rating == idx) {
+							ctx.fillStyle = 'rgb(255,255,0)';
+						} else {
+							ctx.fillStyle = colors[idx];
+						}
 						ctx.fillRect( (idx * xinc) + xoffset + 1, height - 1, xinc - 3, -(ech * yinc + 1)+2);
 					}
 				});
@@ -307,6 +315,10 @@ function create_a_histogram(elem,data,show_compare,show_rating) {
 				}
 			} else {
 				$.each([0,0,0,0,0,0,0,0,0,0,0,0,0],function (idx,ech) {
+					if(show_compare && show_rating == idx) {
+						ctx.fillStyle = 'rgb(255,255,0)';
+						ctx.fillRect( (idx * xinc) + xoffset - 1, 0, xinc + 1, height);
+					}
 					ctx.fillStyle = "rgb(0,0,0)";
 					var yh = Math.ceil(ech * yinc + 1);
 					ctx.fillRect( (idx * xinc) + xoffset, height-yh, xinc - 1, yh);
@@ -319,9 +331,11 @@ function create_a_histogram(elem,data,show_compare,show_rating) {
 					ctx.fill();
 				}
 			}
+			/*
 			if(show_compare) {
 				ctx.drawImage(everywhere_image,(show_rating * xinc) + xoffset,0);
 			}
+			*/
 		} else {
 			//backup for no canvas
 		}
