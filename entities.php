@@ -265,9 +265,9 @@ $(function () {
 	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
 <?php } ?>
 	<?php
-	$result3 = pg_query($dbconn,"SELECT COUNT(1) FROM democracylab_entities WHERE user_id = $democracylab_user_id");
-	$count3 = pg_fetch_array($result3);
-	if($democracylab_user_role > 0 || $count3 > 0) { ?>
+	//$result3 = pg_query($dbconn,"SELECT COUNT(1) FROM democracylab_entities WHERE user_id = $democracylab_user_id");
+	//$count3 = pg_fetch_array($result3);
+	if($democracylab_user_role > 0) { ?>
 		<a href="<?= dl_facebook_url('addentity.php',$type) ?>">Add a new <?= dl_typestring($type,'ucs') ?></a>
 		&mdash;
 		<a style="color: #768BB7" href="<?= dl_facebook_url('editentity.php',$type) ?>">Edit an existing <?= dl_typestring($type,'lcs') ?></a>
