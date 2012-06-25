@@ -67,9 +67,8 @@ while($row = pg_fetch_array($result)) {
 
 function list_with_histogram($items) {
 	foreach($items as $rec) {
-		?><li class="entity-with-histogram hover-describe" dl_id="<?= $rec->id ?>"><canvas class="histogram" width="200" height="15"
-			dl_id="<?= $rec->id ?>"
-	        dl_count="<?= $rec->count ?>"></canvas><div class="entity-name"><?= $rec->title ?></div>
+		?><li class="entity-with-histogram hover-describe" dl_id="<?= $rec->id ?>"><div class="entity-name"><?= $rec->title ?></div>
+			<canvas class="histogram" width="200" height="15" dl_id="<?= $rec->id ?>" dl_count="<?= $rec->count ?>"></canvas>
 			</li><?php
 	}
 }

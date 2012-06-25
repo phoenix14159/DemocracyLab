@@ -301,14 +301,12 @@ header h1 {
 }
 .entity-with-histogram .entity-name {
   position: relative;
-  top: -18px;
 }
 .entity-list li.entity-with-histogram {
-  margin-top: 20px;
+  margin-bottom: 27px;
 }
 .histogram {
   position: relative;
-  top: -20px;
   margin-top: 2px;
 }
 .values-list li {
