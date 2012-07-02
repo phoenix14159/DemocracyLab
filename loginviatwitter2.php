@@ -1,5 +1,6 @@
 <?php
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
+require_once(DL_BASESCRIPT . '/lib/prelib.php');
 
 /**
  * Take the user when they return from Twitter. Get access tokens.
