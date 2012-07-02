@@ -3,11 +3,11 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 
 /* Start session and load library. */
 session_start();
-require_once(DL_BASESCRIPT . '/oauth/twitteroauth.php');
-require_once(DL_BASESCRIPT . '/lib/twitterconfig.php');
+require_once(DL_BASESCRIPT . '/oauth/linkedinoauth.php');
+require_once(DL_BASESCRIPT . '/lib/linkedinconfig.php');
 
 /* Build TwitterOAuth object with client credentials. */
-$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+$connection = new LinkedInOAuth(API_KEY, SECRET_KEY);
  
 /* Get temporary credentials. */
 $request_token = $connection->getRequestToken(OAUTH_CALLBACK);
@@ -25,5 +25,5 @@ switch ($connection->http_code) {
     break;
   default:
     /* Show notification if something went wrong. */
-    echo 'Could not connect to Twitter. Refresh the page or try again later.';
+    echo 'Could not connect to LinkedIn. Refresh the page or try again later.';
 }

@@ -182,6 +182,14 @@ function add_twitter_login() {
 }
 add_twitter_login();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_linkedin_login() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN linkedin_id BIGINT NOT NULL DEFAULT 0" );
+	record_migration(__FUNCTION__);
+}
+add_linkedin_login();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 

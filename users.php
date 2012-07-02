@@ -39,14 +39,22 @@ function change_admin(userid,node) {
 </script>
 <div id="issue-section" class="clearfix">
 	<table style="color: black;">
+		<tr style="border: thin solid black;">
+			<th style="padding: 5px;">name</th>
+			<th style="padding: 5px;">role</th>
+			<th style="padding: 5px;">facebook</th>
+			<th style="padding: 5px;">twitter</th>
+			<th style="padding: 5px;">linkedin</th>
+		</tr>
 	<?php
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users ORDER BY name");
 	while($row = pg_fetch_object($result)) {
 		?><tr style="border: thin solid black;">
 			<td style="padding: 5px;"><?= htmlspecialchars($row->name) ?></td>
 			<td style="padding: 5px; color: grey;"><select onchange="change_admin(<?= $row->user_id ?>,this);"><option value="admin" <?= $row->role == 1 ? 'selected' : '' ?>>admin</option><option value="user" <?= $row->role == 0 ? 'selected' : '' ?>>user</option></select></td>
-			<td style="padding: 5px; color: grey;"><?= $row->fb_id ?></td>
-			<td style="padding: 5px; color: grey;"><?= $row->twitter_id ?></td>
+			<td style="padding: 5px; color: grey;"><?= $row->fb_id ? $row->fb_id : '' ?></td>
+			<td style="padding: 5px; color: grey;"><?= $row->twitter_id ? $row->twitter_id : '' ?></td>
+			<td style="padding: 5px; color: grey;"><?= $row->linkedin_id ? $row->linkedin_id : '' ?></td>
 		</tr>
 <?php
 	}
