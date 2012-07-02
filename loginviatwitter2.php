@@ -32,20 +32,31 @@ unset($_SESSION['oauth_token_secret']);
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
 if (200 == $connection->http_code) {
-  /* The user has been verified and the access tokens can be saved for future use */
-  $_SESSION['status'] = 'verified';
-  echo "<pre>"; //MOREMORE
-echo "connection:\n";//MOREMORE
-print_r($connection); echo "\n"; //MOREMORE
-echo "_SESSION:\n";//MOREMORE
-print_r($_SESSION); echo "\n"; //MOREMORE
-$content = $connection->get('account/verify_credentials'); //MOREMORE
-echo "content:\n";//MOREMORE
-print_r($content);echo "\n"; //MOREMORE
-echo "</pre>"; //MOREMORE
-//MOREMORE looking for user_id and screen_name
-//MOREMORE  header('Location: ./summary.php');
+	/* The user has been verified and the access tokens can be saved for future use */
+	$content = $connection->get('account/verify_credentials');
+	
+	$uid = $content->id;
+	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE twitter_id = $uid");
+	$row = pg_fetch_object($result);
+	if($row) {
+		$democracylab_user_id = $row->user_id;
+		$democracylab_user_role = $row->role;
+	} else {
+		if($content->name) {
+			$rname = pg_escape_string($content->name);
+		} else {
+			$rname = pg_escape_string($content->screen_name);
+		}
+		$result = pg_query($dbconn, "INSERT INTO democracylab_users (twitter_id,name) VALUES ($uid,'$rname')");
+		$result = pg_query($dbconn, "SELECT LASTVAL()");
+		$row = pg_fetch_array($result);
+		$democracylab_user_id = $row[0];
+		$democracylab_user_role = 0;
+	}
+	$_SESSION['democracylab_user_id'] = $democracylab_user_id;
+	$_SESSION['democracylab_user_role'] = $democracylab_user_role;
+
+	header('Location: ./summary.php');
 } else {
-  /* Save HTTP status for error dialog on connnect page.*/
-  header('Location: ./cleartwittersessions.php');
+	header('Location: ./cleartwittersessions.php');
 }
