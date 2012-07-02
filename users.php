@@ -46,6 +46,7 @@ function change_admin(userid,node) {
 			<td style="padding: 5px;"><?= htmlspecialchars($row->name) ?></td>
 			<td style="padding: 5px; color: grey;"><select onchange="change_admin(<?= $row->user_id ?>,this);"><option value="admin" <?= $row->role == 1 ? 'selected' : '' ?>>admin</option><option value="user" <?= $row->role == 0 ? 'selected' : '' ?>>user</option></select></td>
 			<td style="padding: 5px; color: grey;"><?= $row->fb_id ?></td>
+			<td style="padding: 5px; color: grey;"><?= $row->twitter_id ?></td>
 		</tr>
 <?php
 	}

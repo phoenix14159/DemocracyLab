@@ -68,8 +68,7 @@ function ranking_conv($i) {
 function add_rating_column() {
 	global $dbconn;
 	if( !do_migration(__FUNCTION__) ) return;
-	pg_query($dbconn, "ALTER TABLE democracylab_rankings 
-		ADD COLUMN rating INT" );
+	pg_query($dbconn, "ALTER TABLE democracylab_rankings ADD COLUMN rating INT" );
 	$result1 = pg_query($dbconn, "SELECT DISTINCT user_id, type FROM democracylab_rankings");
 	while($row1 = pg_fetch_object($result1)) {
 		$positives = array();
@@ -121,10 +120,8 @@ add_rating_column();
 function add_user_permissions() {
 	global $dbconn;
 	if( !do_migration(__FUNCTION__) ) return;
-	pg_query($dbconn, "ALTER TABLE democracylab_users 
-		ADD COLUMN role INT NOT NULL DEFAULT 0" );
-	pg_query($dbconn, "ALTER TABLE democracylab_entities 
-		ADD COLUMN user_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN role INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities ADD COLUMN user_id INT NOT NULL DEFAULT 0" );
 	pg_query($dbconn, "UPDATE democracylab_users SET role = 1");
 	record_migration(__FUNCTION__);
 }
@@ -142,10 +139,8 @@ function add_communities_and_issues() {
 		community_id INT NOT NULL,
 		title TEXT NOT NULL,
 		description TEXT NOT NULL)" );
-	pg_query($dbconn, "ALTER TABLE democracylab_entities 
-		ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
-	pg_query($dbconn, "ALTER TABLE democracylab_entities 
-		ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_entities ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
 	pg_query($dbconn, "INSERT INTO democracylab_communities (title,description) VALUES ('DemocracyLab Demo','')");
 	pg_query($dbconn, "INSERT INTO democracylab_communities (title,description) VALUES ('University of Portland CST 491','')");
 	pg_query($dbconn, "INSERT INTO democracylab_issues (community_id,title,description) VALUES (1,'Oregon''s Budget','')");
@@ -177,6 +172,15 @@ function add_additional_indicies_1() {
 	record_migration(__FUNCTION__);
 }
 add_additional_indicies_1();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_twitter_login() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_users ALTER COLUMN fb_id SET DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN twitter_id BIGINT NOT NULL DEFAULT 0" );
+	record_migration(__FUNCTION__);
+}
+add_twitter_login();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );

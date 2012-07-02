@@ -36,6 +36,11 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
 <div id="issue-section" class="clearfix">
 	<div id="fb-root"></div>
     <script>
+	  $(document).ready(function () {
+		$('#twitter-login-button').click(function () {
+			window.location='loginviatwitter.php';
+		});
+	  });
       window.fbAsyncInit = function() {
         FB.init({
           appId      : <?= AppInfo::appID() ?>, // App ID
@@ -80,6 +85,7 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
     </script>
 	<div style="margin-left: 80px;">
     	<div id="facebook-login-button" class="fb-login-button">Login with Facebook</div>
+		<div id="twitter-login-button" style="background-image: url(images/sign-in-with-twitter-d.png); width: 151px; height: 24px; margin-top: 20px; cursor: pointer;"></div>
 	</div>
 </div>
 
