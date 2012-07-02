@@ -35,6 +35,7 @@ unset($_SESSION['oauth_token_secret']);
 if (200 == $connection->http_code) {
 	/* The user has been verified and the access tokens can be saved for future use */
 	$content = $connection->get('people/~:(id,first-name,last-name)');
+	echo "<pre>"; print_r($content); echo "</pre>"; exit; //MOREMORE
 	$uid = pg_escape_string($content->id);
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE linkedin_id = '$uid'");
 	$row = pg_fetch_object($result);
