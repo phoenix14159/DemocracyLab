@@ -12,29 +12,38 @@ session_start();
 require_once(DL_BASESCRIPT . '/oauth/linkedinoauth.php');
 require_once(DL_BASESCRIPT . '/lib/linkedinconfig.php');
 
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 /* If the oauth_token is old, redirect to the connect page. */
 if (isset($_REQUEST['oauth_token']) && $_SESSION['oauth_token'] !== $_REQUEST['oauth_token']) {
+	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
   $_SESSION['oauth_status'] = 'oldtoken';
   header('Location: ./cleartwittersessions.php');
 }
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
 /* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 $connection = new LinkedInOAuth(API_KEY, SECRET_KEY, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
 /* Request access tokens from twitter */
 $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
 /* Save the access tokens. Normally these would be saved in a database for future use. */
 $_SESSION['access_token'] = $access_token;
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
 /* Remove no longer needed request tokens */
 unset($_SESSION['oauth_token']);
 unset($_SESSION['oauth_token_secret']);
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
 if (200 == $connection->http_code) {
+	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 	/* The user has been verified and the access tokens can be saved for future use */
-	$content = $connection->get('people/~:(id,first-name,last-name)');
+	$content = $connection->get('people/~:(id,first-name,last-name)?format=json');
+	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 	echo "<pre>"; print_r($content); echo "</pre>"; exit; //MOREMORE
 	$uid = $content->id;
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE linkedin_id = $uid");
@@ -55,5 +64,7 @@ if (200 == $connection->http_code) {
 
 	header('Location: ./summary.php');
 } else {
+	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 	header('Location: ./cleartwittersessions.php');
 }
+error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
