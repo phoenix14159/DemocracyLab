@@ -42,7 +42,7 @@ error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 if (200 == $connection->http_code) {
 	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 	/* The user has been verified and the access tokens can be saved for future use */
-	$content = $connection->get('people/~:(id,first-name,last-name)?format=json');
+	$content = $connection->get('people/~:(id,first-name,last-name)');
 	error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 	echo "<pre>"; print_r($content); echo "</pre>"; exit; //MOREMORE
 	$uid = $content->id;

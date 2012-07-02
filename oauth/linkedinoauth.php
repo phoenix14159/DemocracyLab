@@ -17,7 +17,7 @@ class LinkedInOAuth {
   /* Verify SSL Cert. */
   public $ssl_verifypeer = FALSE;
   /* Respons format. */
-  public $format = 'json';
+  public $format = 'xml';
   /* Decode returned json data. */
   public $decode_json = TRUE;
   /* Contains the last HTTP headers returned. */
@@ -115,6 +115,10 @@ echo "<pre>"; print_r($this); print_r($response); echo "</pre>"; //MOREMORE
     if ($this->format === 'json' && $this->decode_json) {
       return json_decode($response);
     }
+    if ($this->format === 'xml' && $this->decode_json) {
+echo "<pre>"; print_r(simplexml_load_string($response)); echo "</pre>"; //MOREMORE
+      return simplexml_load_string($response);
+    }
     return $response;
   }
   
@@ -145,7 +149,8 @@ echo "<pre>"; print_r($this); print_r($response); echo "</pre>"; //MOREMORE
    */
   function oAuthRequest($url, $method, $parameters) {
     if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
-      $url = "{$this->host}{$url}.{$this->format}";
+//      $url = "{$this->host}{$url}.{$this->format}";
+      $url = "{$this->host}{$url}";
     }
     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
     $request->sign_request($this->sha1_method, $this->consumer, $this->token);
