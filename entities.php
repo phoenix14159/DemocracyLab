@@ -49,8 +49,7 @@ skip_your_query:
 	<meta charset="utf-8">
 	<link href="images/favicon.ico" rel="shortcut icon">
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<title><?php echo(idx($app_info, 'name')) ?> <?= dl_typestring($type,'ucp') ?></title>
-	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+	<title>DemocracyLab <?= dl_typestring($type,'ucp') ?></title>
 	<link href="stylesheets/jquery-ui.css" rel="stylesheet" type="text/css"/>
 	<script src="js/jquery-1.7.2.js"></script>
 	<script src="js/jquery-ui-1.8.16.min.js"></script>
@@ -255,14 +254,14 @@ $(function () {
 <div id="adding-section" class="clearfix">
 <?php if($type == 1) { ?>
 	<a href="<?= dl_facebook_url('entities.php',2) ?>">Go to step 2 &ndash; Objectives</a><br>
-	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page and view my results</a><br>
+	<a href="<?= dl_facebook_url('summary.php') ?>">Return to the overview page and view my results</a><br>
 <?php } else if($type == 2) { ?>
 	<a href="<?= dl_facebook_url('entities.php',3) ?>">Go to step 3 &ndash; Policies</a><br>
-	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page and view my results</a><br>
+	<a href="<?= dl_facebook_url('summary.php') ?>">Return to the overview page and view my results</a><br>
 <?php } else if($type == 3) { ?>
-	<a href="<?= dl_facebook_url('index.php') ?>">I'm finished! Return to the overview page and view my results</a><br>
+	<a href="<?= dl_facebook_url('summary.php') ?>">I'm finished! Return to the overview page and view my results</a><br>
 <?php } else { ?>
-	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a><br>
+	<a href="<?= dl_facebook_url('summary.php') ?>">Return to the overview page</a><br>
 <?php } ?>
 	<?php
 	//$result3 = pg_query($dbconn,"SELECT COUNT(1) FROM democracylab_entities WHERE user_id = $democracylab_user_id");
@@ -276,21 +275,6 @@ $(function () {
 	<?php } ?>
 </div>
 
-<div id="footer" class="clearfix">
-</div>
-<?php democracylab_hover_javascript(); ?>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-2879129-3']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
+<?php require_once('lib/footer.php'); ?>
 </body>
 </html>

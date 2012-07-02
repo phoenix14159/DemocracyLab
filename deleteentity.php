@@ -3,7 +3,7 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 if($democracylab_user_role == 0) {
-	header('Location: ' . dl_facebook_url('index.php') );
+	header('Location: ' . dl_facebook_url('summary.php') );
 	exit;
 }
 
@@ -15,10 +15,9 @@ $entityid = isset($_REQUEST['entityid']) ? intval($_REQUEST['entityid']) : 0;
 <html lang="en">
 <head>
   <meta charset="utf-8">
-	<link href="images/favicon.ico" rel="shortcut icon">
+  <link href="images/favicon.ico" rel="shortcut icon">
   <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
-	<title><?php echo(idx($app_info, 'name')) ?> Delete Existing <?= dl_typestring($type,'ucs') ?></title>
-  <?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
+  <title>DemocracyLab: Delete Existing <?= dl_typestring($type,'ucs') ?></title>
 </head>
 <body>
 <header class="clearfix">

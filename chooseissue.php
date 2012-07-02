@@ -7,11 +7,10 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo(idx($app_info, 'name')) ?></title>
+	<title>DemocracyLab: Choose Issue</title>
 	<link href="images/favicon.ico" rel="shortcut icon">
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<script src="js/jquery-1.7.2.js"></script>
-	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>
 	<header class="clearfix">
@@ -31,7 +30,7 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 				$tmpi = $democracylab_issue_id;
 				$democracylab_community_id = $row->community_id;
 				$democracylab_issue_id = $row->issue_id;
-				echo dl_facebook_url('index.php');
+				echo dl_facebook_url('summary.php');
 				$democracylab_community_id = $tmpc;
 				$democracylab_issue_id = $tmpi;
 				?>">Choose "<?= $row->title ?>" as the issue to explore</a></p>
@@ -40,7 +39,7 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 	} ?>
 
 <div id="adding-section" class="clearfix">
-	<a href="<?= dl_facebook_url('index.php') ?>">Return to the overview page</a>
+	<a href="<?= dl_facebook_url('summary.php') ?>">Return to the overview page</a>
 </div>
 
 <div id="footer" class="clearfix">

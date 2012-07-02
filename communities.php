@@ -3,7 +3,7 @@ define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SC
 require_once(DL_BASESCRIPT . '/lib/lib.php');
 
 if($democracylab_user_role == 0) {
-	header('Location: ' . dl_facebook_url('index.php') );
+	header('Location: ' . dl_facebook_url('summary.php') );
 	exit;
 }
 if(isset($_POST['S45'])) {
@@ -18,7 +18,7 @@ if(isset($_POST['S45'])) {
 		}
 	}
 	$sql = "UPDATE democracylab_issues SET ";
-	header("Location: " . dl_facebook_redirect_url('index.php') );
+	header("Location: " . dl_facebook_redirect_url('summary.php') );
 }
 
 ?>
@@ -26,11 +26,10 @@ if(isset($_POST['S45'])) {
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo(idx($app_info, 'name')) ?></title>
+	<title>DemocracyLab: Choose Community</title>
 	<link href="images/favicon.ico" rel="shortcut icon">
 	<link rel="stylesheet" href="stylesheets/screen.css" media="screen">
 	<script src="js/jquery-1.7.2.js"></script>
-	<?php echo('<meta property="fb:app_id" content="' . AppInfo::appID() . '" />'); ?>
 </head>
 <body>
 <header class="clearfix">
@@ -52,7 +51,7 @@ while($row = pg_fetch_object($result)) {
 } ?>
     <div id="footer" class="clearfix">
 		<input type="Submit" name="S45" value="Make these changes">
-	<p><a href="<?= dl_facebook_url('index.php') ?>">back to main page</a></p>
+	<p><a href="<?= dl_facebook_url('summary.php') ?>">back to main page</a></p>
 	</div>
 </form>
 <script type="text/javascript">

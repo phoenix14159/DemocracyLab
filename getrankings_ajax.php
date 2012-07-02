@@ -2,8 +2,9 @@
 define('DL_BASESCRIPT',substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],'/')));
 require_once(DL_BASESCRIPT . '/lib/lib.php');
 
-$filter_id = pg_escape_string($_REQUEST['id']);
-$filter_rating = pg_escape_string($_REQUEST['rating']);
+$filter_id = 0;
+if(isset($_REQUEST['id'])) { $filter_id = pg_escape_string($_REQUEST['id']); }
+if(isset($_REQUEST['rating'])) { $filter_rating = pg_escape_string($_REQUEST['rating']); }
 
 $data = array();
 if($filter_id) {
