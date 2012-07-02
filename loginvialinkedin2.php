@@ -37,6 +37,7 @@ if (200 == $connection->http_code) {
 	$content = $connection->get('people/~:(id,first-name,last-name)');
 	echo "<pre>"; print_r($content); echo "</pre>";  //MOREMORE
 	echo "<pre>"; print_r($content->id); echo "</pre>";  //MOREMORE
+	echo "<pre>"; print_r('' . $content->id); echo "</pre>";  //MOREMORE
 	$uid = pg_escape_string($content->id);
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE linkedin_id = '$uid'");
 	$row = pg_fetch_object($result);

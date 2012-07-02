@@ -192,10 +192,17 @@ function add_linkedin_login2() {
 	global $dbconn;
 	if( !do_migration(__FUNCTION__) ) return;
 	pg_query($dbconn, "ALTER TABLE democracylab_users DROP COLUMN linkedin_id" );
-	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN linkedin_id TEXT NOT NULL" );
 	record_migration(__FUNCTION__);
 }
 add_linkedin_login2();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_linkedin_login3() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN linkedin_id TEXT NOT NULL DEFAULT ''" );
+	record_migration(__FUNCTION__);
+}
+add_linkedin_login3();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
