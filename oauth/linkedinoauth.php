@@ -111,12 +111,10 @@ class LinkedInOAuth {
    */
   function get($url, $parameters = array()) {
     $response = $this->oAuthRequest($url, 'GET', $parameters);
-echo "<pre>"; print_r($this); print_r($response); echo "</pre>"; //MOREMORE
     if ($this->format === 'json' && $this->decode_json) {
       return json_decode($response);
     }
     if ($this->format === 'xml' && $this->decode_json) {
-echo "<pre>"; print_r(simplexml_load_string($response)); echo "</pre>"; //MOREMORE
       return simplexml_load_string($response);
     }
     return $response;

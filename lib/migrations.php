@@ -153,10 +153,8 @@ add_communities_and_issues();
 function add_communities_and_issues2() {
 	global $dbconn;
 	if( !do_migration(__FUNCTION__) ) return;
-	pg_query($dbconn, "ALTER TABLE democracylab_rankings
-		ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
-	pg_query($dbconn, "ALTER TABLE democracylab_rankings
-		ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_rankings ADD COLUMN community_id INT NOT NULL DEFAULT 0" );
+	pg_query($dbconn, "ALTER TABLE democracylab_rankings ADD COLUMN issue_id INT NOT NULL DEFAULT 0" );
 	pg_query($dbconn, "UPDATE democracylab_rankings SET community_id = 2, issue_id = 2");
 	record_migration(__FUNCTION__);
 }
@@ -189,6 +187,15 @@ function add_linkedin_login() {
 	record_migration(__FUNCTION__);
 }
 add_linkedin_login();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_linkedin_login2() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_users DROP COLUMN linkedin_id" );
+	pg_query($dbconn, "ALTER TABLE democracylab_users ADD COLUMN linkedin_id TEXT NOT NULL" );
+	record_migration(__FUNCTION__);
+}
+add_linkedin_login2();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
