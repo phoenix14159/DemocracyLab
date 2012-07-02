@@ -25,7 +25,7 @@ error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 $connection = new LinkedInOAuth(API_KEY, SECRET_KEY, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
 error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
-/* Request access tokens from twitter */
+/* Request access tokens from LinkedIn */
 $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
 error_log(__FILE__ . ' ' . __LINE__);//MOREMORE
 
