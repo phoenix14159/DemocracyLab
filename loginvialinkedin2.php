@@ -35,9 +35,6 @@ unset($_SESSION['oauth_token_secret']);
 if (200 == $connection->http_code) {
 	/* The user has been verified and the access tokens can be saved for future use */
 	$content = $connection->get('people/~:(id,first-name,last-name)');
-	echo "<pre>"; print_r($content); echo "</pre>";  //MOREMORE
-	echo "<pre>"; print_r($content->id); echo "</pre>";  //MOREMORE
-	echo "<pre>"; print_r('' . $content->id); echo "</pre>";  //MOREMORE
 	$uid = pg_escape_string($content->id);
 	$result = pg_query($dbconn, "SELECT * FROM democracylab_users WHERE linkedin_id = '$uid'");
 	$row = pg_fetch_object($result);
@@ -54,7 +51,6 @@ if (200 == $connection->http_code) {
 	}
 	$_SESSION['democracylab_user_id'] = $democracylab_user_id;
 	$_SESSION['democracylab_user_role'] = $democracylab_user_role;
-	echo "<pre>"; print_r($democracylab_user_id); echo "</pre>";  exit; //MOREMORE
 
 	header('Location: ./summary.php');
 } else {
