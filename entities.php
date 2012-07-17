@@ -276,5 +276,6 @@ $(function () {
 </div>
 
 <?php require_once('lib/footer.php'); ?>
+<?php democracylab_hover_javascript(); ?>
 </body>
 </html>
