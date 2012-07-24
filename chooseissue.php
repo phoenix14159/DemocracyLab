@@ -22,7 +22,15 @@ require_once(DL_BASESCRIPT . '/lib/lib.php');
 		?>
 		<div id="issue-section" class="clearfix">
 			<div class="icon"></div>
-			<div class="title"><?= $row->title ?></div>
+			<div class="title"><a href="<?php
+				$tmpc = $democracylab_community_id;
+				$tmpi = $democracylab_issue_id;
+				$democracylab_community_id = $row->community_id;
+				$democracylab_issue_id = $row->issue_id;
+				echo dl_facebook_url('summary.php');
+				$democracylab_community_id = $tmpc;
+				$democracylab_issue_id = $tmpi;
+				?>"><?= $row->title ?></a></div>
 			<div class="clearfix"></div>
 			<p><?= $row->description ?></p>
 			<p><a href="<?php

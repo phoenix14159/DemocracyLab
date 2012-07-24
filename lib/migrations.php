@@ -204,6 +204,18 @@ function add_linkedin_login3() {
 }
 add_linkedin_login3();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function add_issue_columns_1() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "ALTER TABLE democracylab_issues ADD COLUMN how_it_works TEXT NOT NULL DEFAULT ''" );
+	pg_query($dbconn, "ALTER TABLE democracylab_issues ADD COLUMN extra_footer_text TEXT NOT NULL DEFAULT ''" );
+	pg_query($dbconn, "UPDATE democracylab_issues SET how_it_works = '<p>A recent <a href=\"http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf\" target=\"_new\">research report</a> by Oregon''s Legislative Revenue Office included the following table and comments* comparing Oregon''s tax system to other states across the country:<style>table { border: thin solid #CCC;}th { font-weight: bold; text-align: left; padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}</style><center><table><tr><th>REVENUE CATEGORIES</th><th>\$ PER PERSON</th><th>RANK AMONG THE STATES</th></tr><tr><th>TOTAL TAXES</th><td>\$3,275</td><td>39th</td></tr><tr><th>PERSONAL INCOME TAX</th><td>\$1,356</td><td>5th</td></tr><tr><th>CORPORATE INCOME TAX</th><td>\$75</th><td>38th</td></tr><tr><th>PROPERTY TAX</th><td>\$1,166</th><td>28th</td></tr><tr><th>GENERAL SALES TAX</th><td>0</th><td>50th</td></tr><tr><th>SELECTIVE SALES TAXES</th><td>\$319</th><td>44th</td></tr><tr><th>OTHER TAXES</th><td>\$359</th><td>12th</td></tr></table></center></p>' WHERE issue_id = 1" );
+	pg_query($dbconn, "UPDATE democracylab_issues SET extra_footer_text = '<p style=\"color: #444;\">* Oregon''s overall state and local tax burden ranks 39th on a per person basis. However, the state	personal income tax burden is among the highest in the nation at \$1,356 per person. The ranking for	corporate income taxes is relatively low at #38, but this is prior to the imposition of higher corporate tax	rates and a new corporate minimum called for in Measure 67. Property taxes are near the middle of	the states, ranking # 28. The state tax burden on consumption (general sales plus selective sales) is	the lowest in the country. In addition to being one of five states without a general sales tax, Oregon	ranks 44th in selective sales tax collections per person. Selective sales taxes include gasoline taxes,	tobacco taxes, alcoholic beverage taxes, real estate transfer taxes and other excise taxes on specific	purchases. It also includes health provider taxes which have risen in Oregon and other states in recent	years. The other tax category includes severance taxes and estate taxes.<br><br>	</p>' WHERE issue_id = 1" );
+	pg_query($dbconn, "UPDATE democracylab_issues SET how_it_works = '<p>The aim of this tool is to identify issues, stimulate ideas, and create a dialogue around the UP Capital Improvement Fund (CIF), also known as the Major Project Fund. Please use this application to express and group the values, objectives, and policies related to the CIF. Thank you for input!</p>' WHERE issue_id = 2" );
+	record_migration(__FUNCTION__);
+}
+add_issue_columns_1();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 

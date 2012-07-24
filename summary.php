@@ -108,58 +108,18 @@ function list_with_histogram($items) {
 
 <div id="issue-section" class="clearfix">
 	<div class="icon"></div>
-	<?php $result = pg_query($dbconn,"SELECT title FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
-	$row = pg_fetch_object($result); ?>
-	<div class="title"><?= $row->title ?> <a href="<?= dl_facebook_url('chooseissue.php') ?>" style="font-size: 8pt;">(change issue)</a></div>
+	<?php $result = pg_query($dbconn,"SELECT * FROM democracylab_issues WHERE issue_id = $democracylab_issue_id"); 
+	$issuerow = pg_fetch_object($result); ?>
+	<div class="title"><?= $issuerow->title ?> <a href="<?= dl_facebook_url('chooseissue.php') ?>" style="font-size: 8pt;">(change issue)</a></div>
 </div>
 
+<div id="how-it-works-section" class="clearfix"><?= $issuerow->how_it_works ?></div>
 
-<?php 
-	if($democracylab_issue_id == 2) { 
-		if(!($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
-		<div id="how-it-works-section" class="clearfix">
-			<p>The aim of this tool is to identify issues, stimulate ideas, and create a
-			dialogue around the UP Capital Improvement Fund (CIF), also known as the
-			Major Project Fund. Please use this application to express and group the
-			values, objectives, and policies related to the CIF. Thank you for input!
-			</p>
-		</div>	
-	<?php } else { ?>
-		<div id="description-section" class="clearfix">
-			<div id="description-block" dl_id=0><span class="instructions">See a description by
-				hovering over a value, objective or policy.</span></div>
-		</div>
-	<?php } }
-	else { ?>
-	<div id="how-it-works-section" class="clearfix">
-		<p>
-		A recent <a href="http://www.leg.state.or.us/comm/lro/2012_publications_reports/Basic_Facts_2012.pdf" target="_new">research report</a> 
-		by Oregon's Legislative Revenue Office included the following table and
-		comments* comparing Oregon's tax system to other states across the country:
-<style>
-table { border: thin solid #CCC;}
-th { font-weight: bold; text-align: left; padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
-td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
-</style>
-<center><table>
-	<tr><th>REVENUE CATEGORIES</th><th>$ PER PERSON</th><th>RANK AMONG THE STATES</th></tr>
-	<tr><th>TOTAL TAXES</th><td>$3,275</td><td>39th</td></tr>
-	<tr><th>PERSONAL INCOME TAX</th><td>$1,356</td><td>5th</td></tr>
-	<tr><th>CORPORATE INCOME TAX</th><td>$75</th><td>38th</td></tr>
-	<tr><th>PROPERTY TAX</th><td>$1,166</th><td>28th</td></tr>
-	<tr><th>GENERAL SALES TAX</th><td>0</th><td>50th</td></tr>
-	<tr><th>SELECTIVE SALES TAXES</th><td>$319</th><td>44th</td></tr>
-	<tr><th>OTHER TAXES</th><td>$359</th><td>12th</td></tr>
-</table></center>
-		</p>
-	</div>	
-<?php	if(($rankings['values'] || $rankings['objectives'] || $rankings['policies'] )) {  ?>
-	<div id="description-section" class="clearfix">
-		<div id="description-block" dl_id=0><span class="instructions">See a description by
-			hovering over a value, objective or policy.</span></div>
-	</div>
-<?php } 
-} ?>
+<div id="description-section" class="clearfix">
+	<div id="description-block" dl_id=0><span class="instructions">See a description by
+		hovering over a value, objective or policy.</span></div>
+</div>
+
     <div id="entities-summary" class="clearfix">
 	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
@@ -217,23 +177,7 @@ td { padding-left: 10px; padding-right: 10px; border: thin solid #CCC;}
 <?php 
 $footer_include_description = true;
 $footer_include_admin = true;
-if($democracylab_issue_id == 2) { } else {
-	ob_start(); ?>
-	<p style="color: #444;">* Oregon's overall state and local tax burden ranks 39th on a per person basis. However, the state
-	personal income tax burden is among the highest in the nation at $1,356 per person. The ranking for
-	corporate income taxes is relatively low at #38, but this is prior to the imposition of higher corporate tax
-	rates and a new corporate minimum called for in Measure 67. Property taxes are near the middle of
-	the states, ranking # 28. The state tax burden on consumption (general sales plus selective sales) is
-	the lowest in the country. In addition to being one of five states without a general sales tax, Oregon
-	ranks 44th in selective sales tax collections per person. Selective sales taxes include gasoline taxes,
-	tobacco taxes, alcoholic beverage taxes, real estate transfer taxes and other excise taxes on specific
-	purchases. It also includes health provider taxes which have risen in Oregon and other states in recent
-	years. The other tax category includes severance taxes and estate taxes.<br><br>
-	</p>
-	<?php
-	$footer_extra_text = ob_get_contents();
-	ob_end_clean();
-}
+$footer_extra_text = $issuerow->extra_footer_text;
 require_once('lib/footer.php'); ?>
 <script>
 var G_vmlCanvasManager;
