@@ -15,7 +15,7 @@ if(!(isset($footer_nologout) && $footer_nologout)) {
 <?php if(isset($footer_include_admin) && $footer_include_admin) {
 	if($democracylab_user_role > 0) {
 		?><p style="text-align: center; color: black; border-top: thin dotted red; margin-top: 1em;">admin: <a href="<?= dl_facebook_url('users.php') ?>">users</a>,
-		<a href="<?= dl_facebook_url('communities.php') ?>">communities</a><?php
+		<a href="<?= dl_facebook_url('issues.php') ?>">issues</a><?php
 	}
 	?>
 	</div>
