@@ -50,7 +50,7 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
           channelUrl : '//democracylab.herokuapp.com/facebookchannel.php', // Channel File
           status     : true, // check login status
           cookie     : true, // enable cookies to allow the server to access the session
-          xfbml      : true  // parse XFBML
+          xfbml      : false // parse XFBML
         });
 		FB.Event.subscribe('auth.login', function(response) {
 		    var uid = response.authResponse.userID;
@@ -72,10 +72,28 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
 		  } else if (response.status === 'not_authorized') {
 		    // the user is logged in to Facebook, 
 		    // but has not authenticated your app
+			$('#facebook-login-button').click(function () {
+				FB.login(function(response) {
+					if (response.status == "connected") {
+					    var uid = response.authResponse.userID;
+					    var accessToken = response.authResponse.accessToken;
+						window.location = "loginviafacebook.php?uid=" + uid + "&token=" + accessToken;
+					}
+				});
+			});
 		  } else {
 		    // the user isn't logged in to Facebook.
+			$('#facebook-login-button').click(function () {
+				FB.login(function(response) {
+					if (response.status == "connected") {
+					    var uid = response.authResponse.userID;
+					    var accessToken = response.authResponse.accessToken;
+						window.location = "loginviafacebook.php?uid=" + uid + "&token=" + accessToken;
+					}
+				});
+			});
 		  }
-		 });
+		 }, true);
       };
       // Load the SDK Asynchronously
       (function(d){
@@ -87,7 +105,7 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
        }(document));
     </script>
 	<div style="margin-left: 80px;">
-    	<div id="facebook-login-button" class="fb-login-button">Login with Facebook</div>
+    	<div id="facebook-login-button" style="background-image: url(images/login-with-facebook.jpg); width: 152px; height: 22px; margin-top: 20px; cursor: pointer;"></div>
 		<div id="twitter-login-button" style="background-image: url(images/sign-in-with-twitter-d.png); width: 151px; height: 24px; margin-top: 20px; cursor: pointer;"></div>
 		<div id="linkedin-login-button" style="background-image: url(images/linkedin_login.png); width: 152px; height: 21px; margin-top: 20px; cursor: pointer;"></div>
 	</div>
