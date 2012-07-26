@@ -211,7 +211,7 @@ $(function () {
 			data['type'] = <?= $type ?>;
 			data['list'] = 'positive';
 			data['community'] = <?= $democracylab_community_id ?>;
-			data['issue'] = <?= $democracylab_community_id ?>;
+			data['issue'] = <?= $democracylab_issue_id ?>;
 			
 			$.ajax({
 				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',
@@ -235,7 +235,7 @@ $(function () {
 			data['type'] = <?= $type ?>;
 			data['list'] = 'negative';
 			data['community'] = <?= $democracylab_community_id ?>;
-			data['issue'] = <?= $democracylab_community_id ?>;
+			data['issue'] = <?= $democracylab_issue_id ?>;
 			
 			$.ajax({
 				url: '<?= dl_facebook_url('saveorder_ajax.php') ?>',

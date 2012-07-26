@@ -216,6 +216,14 @@ function add_issue_columns_1() {
 }
 add_issue_columns_1();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+function fix_bug_37() {
+	global $dbconn;
+	if( !do_migration(__FUNCTION__) ) return;
+	pg_query($dbconn, "UPDATE democracylab_rankings SET issue_id = 3 WHERE entity_id in (SELECT entity_id FROM democracylab_entities WHERE issue_id = 3)" );
+	record_migration(__FUNCTION__);
+}
+fix_bug_37();
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 pg_close( $dbconn );
 
