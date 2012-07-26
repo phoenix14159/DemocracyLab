@@ -282,7 +282,7 @@ $(function () {
 	$('#entities-summary').attr('dl_histos','X');
 	var data = {};
 	data['community'] = <?= $democracylab_community_id ?>;
-	data['issue'] = <?= $democracylab_community_id ?>;
+	data['issue'] = <?= $democracylab_issue_id ?>;
 	$.ajax({
 		url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
 		context: document.body,
@@ -330,7 +330,7 @@ $(function () {
 				} else {
 					var data = {};
 					data['community'] = <?= $democracylab_community_id ?>;
-					data['issue'] = <?= $democracylab_community_id ?>;
+					data['issue'] = <?= $democracylab_issue_id ?>;
 					data['id'] = theid;
 					data['rating'] = therating;
 					$.ajax({
@@ -368,7 +368,7 @@ $(function () {
 				} else {
 					var data = {};
 					data['community'] = <?= $democracylab_community_id ?>;
-					data['issue'] = <?= $democracylab_community_id ?>;
+					data['issue'] = <?= $democracylab_issue_id ?>;
 					$.ajax({
 						url: '<?= dl_facebook_url('getrankings_ajax.php') ?>',
 						context: document.body,
