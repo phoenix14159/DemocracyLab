@@ -33,7 +33,7 @@ require_once(DL_BASESCRIPT . '/AppInfo.php');
 	</div>
 </header>
 
-<div id="issue-section" class="clearfix">
+<div id="issue-section" class="clearfix" style="margin-top: -20px;">
 	<div id="fb-root"></div>
     <script>
 	  $(document).ready(function () {
