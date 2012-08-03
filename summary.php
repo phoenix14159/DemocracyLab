@@ -124,27 +124,32 @@ function list_with_histogram($items) {
 	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['values']) {
-			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 1 - Share Your Values</a><ol class="values-list"><?php
+			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 3 - Share Your Values</a><ol class="values-list"><?php
 			list_with_histogram($rankings['values']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 1 - Share Your Values</a>
-			<p class="description">
-				Values are the beliefs and principles that form the basis of our decisions. They are why we think about
-				the world the way we do.
-				</p>
+			if($rankings['policies']) {
+				?><a href="<?= dl_facebook_url('entities.php',1) ?>">Step 3 - Share Your Values</a>
 				<p class="description">
-				To participate, you'll rank the values you feel most strongly about.
-			</p><?php
+					Values are the beliefs and principles that form the basis of our decisions. They are why we think about
+					the world the way we do.
+					</p>
+					<p class="description">
+					To participate, you'll rank the values you feel most strongly about.
+				</p><?php
+			} else {
+				?><p class="description">
+				</p><?php
+			}
 		}
 		?>
 	</div>
 	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['objectives']) {
-			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a><ol class="objectives-list"><?php
+			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 1 - Prioritize Objectives</a><ol class="objectives-list"><?php
 			list_with_histogram($rankings['objectives']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 2 - Prioritize Objectives</a>
+			?><a href="<?= dl_facebook_url('entities.php',2) ?>">Step 1 - Prioritize Objectives</a>
 			<p class="description">
 				Objectives are statements of our goals relating to an issue. They are based on our values, and
 				are statements of what we hope to achieve. 
@@ -159,16 +164,18 @@ function list_with_histogram($items) {
 	<div class="entity-list" style="width: 238px; float: left;">
 		<?php
 		if($rankings['policies']) {
-			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 3 - Evaluate Policies</a><ol class="policies-list"><?php
+			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 2 - Evaluate Policies</a><ol class="policies-list"><?php
 			list_with_histogram($rankings['policies']); ?></ol><?php
 		} else {
-			?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 3 - Evaluate Policies</a>
-			<p class="description">
-				Policies are plans of action. They are detailed descriptions of how we can achieve our objectives. 
-			</p>
-			<p class="description">
-				To participate, you'll rank the <br>policies that you believe are best <br>for this issue.
-			</p><?php
+			if($rankings['objectives']) {
+				?><a href="<?= dl_facebook_url('entities.php',3) ?>">Step 2 - Evaluate Policies</a>
+				<p class="description">
+					Policies are plans of action. They are detailed descriptions of how we can achieve our objectives. 
+				</p>
+				<p class="description">
+					To participate, you'll rank the <br>policies that you believe are best <br>for this issue.
+				</p><?php				
+			}
 		}
 		?>
 	</div>
